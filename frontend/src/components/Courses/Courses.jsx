@@ -30,7 +30,8 @@ const Course = ({
   loading,
 }) => {
   return (
-    <VStack className="course" alignItems={['center', 'flex-start']}>
+    <div style={{marginBottom:'10vh'}}>
+      <VStack className="course" alignItems={['center', 'flex-start']}>
       <Image src={imageSrc} boxSize="60" objectFit={'contain'} />
       <Heading
         textAlign={['center', 'left']}
@@ -83,6 +84,7 @@ const Course = ({
         </Button>
       </Stack>
     </VStack>
+    </div>
   );
 };
 

@@ -16,6 +16,7 @@ const CoursePage = ({ user }) => {
 
   useEffect(() => {
     dispatch(getCourseLectures(params.id));
+    console.log('got course');
   }, [dispatch, params.id]);
 
   if (

@@ -19,7 +19,6 @@ import React, { useState } from 'react';
 import { useEffect } from 'react';
 import { RiDeleteBin7Fill } from 'react-icons/ri';
 import { useDispatch, useSelector } from 'react-redux';
-import cursor from '../../../assets/images/cursor.png';
 import Sidebar from '../Sidebar';
 import CourseModal from './CourseModal.js';
 import {
@@ -63,18 +62,18 @@ const AdminCourses = () => {
     await dispatch(deleteLecture(courseId, lectureId));
     dispatch(getCourseLectures(courseId));
   };
-
   const addLectureHandler = async (e, courseId, title, description, video) => {
     e.preventDefault();
     const myForm = new FormData();
-
+  
     myForm.append('title', title);
     myForm.append('description', description);
     myForm.append('file', video);
-
+  
     await dispatch(addLecture(courseId, myForm));
     dispatch(getCourseLectures(courseId));
   };
+  
 
   useEffect(() => {
     if (error) {
@@ -92,9 +91,7 @@ const AdminCourses = () => {
 
   return (
     <Grid
-      css={{
-        cursor: `url(${cursor}), default`,
-      }}
+      
       minH={'100vh'}
       templateColumns={['1fr', '5fr 1fr']}
     >
@@ -157,6 +154,14 @@ const AdminCourses = () => {
 function Row({ item, coureDetailsHandler, deleteButtonHandler, loading }) {
   return (
     <Tr>
+       <Button
+            onClick={() => coureDetailsHandler(item._id, item.title)}
+            variant={'outline'}
+            color="purple.500"
+            isLoading={loading}
+          >
+            View Lectures
+          </Button>
       <Td>#{item._id}</Td>
 
       <Td>
@@ -171,14 +176,7 @@ function Row({ item, coureDetailsHandler, deleteButtonHandler, loading }) {
 
       <Td isNumeric>
         <HStack justifyContent={'flex-end'}>
-          <Button
-            onClick={() => coureDetailsHandler(item._id, item.title)}
-            variant={'outline'}
-            color="purple.500"
-            isLoading={loading}
-          >
-            View Lectures
-          </Button>
+         
 
           <Button
             onClick={() => deleteButtonHandler(item._id)}

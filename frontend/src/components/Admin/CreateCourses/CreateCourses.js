@@ -12,7 +12,6 @@ import React from 'react';
 import { useEffect } from 'react';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import cursor from '../../../assets/images/cursor.png';
 import { createCourse } from '../../../redux/actions/admin';
 
 import toast from 'react-hot-toast';
@@ -87,9 +86,6 @@ const CreateCourse = () => {
 
   return (
     <Grid
-      css={{
-        cursor: `url(${cursor}), default`,
-      }}
       minH={'100vh'}
       templateColumns={['1fr', '5fr 1fr']}
     >

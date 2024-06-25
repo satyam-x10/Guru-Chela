@@ -8,7 +8,9 @@ import { Course } from "../Models/Course.js";
 import cloudinary from "cloudinary";
 import getDataUri from "../Utils/dataUri.js";
 import { Stats } from "../Models/Stats.js";
+import dotenv from "dotenv";
 
+dotenv.config();
 
 export const register = catchAsyncError(async (req, res, next) => {
 

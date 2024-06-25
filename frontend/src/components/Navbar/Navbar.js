@@ -50,7 +50,10 @@ const Navbar = ({isAuthenticated,  user}) => {
             <li>Home</li>
           </Link>
           <Link to = "/courses" className="link">
-            <li>Tickets</li>
+            <li>Courses</li>
+          </Link>
+          <Link to = "/doubts" className="link">
+            <li>Doubts</li>
           </Link>
 
           {mobile && isAuthenticated ? (

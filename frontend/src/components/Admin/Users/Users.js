@@ -15,7 +15,6 @@ import {
 } from '@chakra-ui/react';
 import React, { useEffect } from 'react';
 import { RiDeleteBin7Fill } from 'react-icons/ri';
-import cursor from '../../../assets/images/cursor.png';
 import Sidebar from '../Sidebar';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -53,9 +52,7 @@ const Users = () => {
 
   return (
     <Grid
-      css={{
-        cursor: `url(${cursor}), default`,
-      }}
+      
       minH={'100vh'}
       templateColumns={['1fr', '5fr 1fr']}
     >

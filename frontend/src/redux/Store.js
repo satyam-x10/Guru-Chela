@@ -22,4 +22,4 @@ export default store;
 
 // export const server= "https://Guru-Chela-backend-2e2b.onrender.com/api/v1";
 
-export const server= "http://localhost:5000/api/v1";
+export const server= "http://localhost:5000/api";

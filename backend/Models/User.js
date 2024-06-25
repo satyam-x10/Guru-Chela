@@ -3,7 +3,9 @@ import validator from "validator";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import crypto from "crypto";
+import dotenv from "dotenv";
 
+dotenv.config();
 const UserModel = new mongoose.Schema({
     name:{
         type: String,
@@ -70,8 +72,6 @@ const UserModel = new mongoose.Schema({
     resetPasswordToken : String,
     resetPasswordExpire: String,
 
-},{
-    collection:'Guru-Chela'
 });
 
 UserModel.pre("save", async function (next) {
@@ -83,8 +83,7 @@ UserModel.pre("save", async function (next) {
 
 UserModel.methods.getJWTToken = function () {
 
-    // const secret_key = process.env.JWT_SECRET_KEY;
-    const secret_key = 'JWT_SECRET_KEY';
+    const secret_key = process.env.JWT_SECRET_KEY;
     console.log(secret_key);
     
     return jwt.sign({ _id: this._id }, secret_key, {

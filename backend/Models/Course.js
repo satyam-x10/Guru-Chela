@@ -18,21 +18,21 @@ const CourseModel = new mongoose.Schema({
         {
             title:{
                 type: String,
-                required: true,
+                required: false,
             },
             description:{
                 type: String,
-                required: true,
+                required: false,
             },
 
             video: {
                 public_id: {
                     type: String,
-                    required : true,
+                    required : false,
                 },
                 url: {
                     type: String,
-                    required : true,
+                    required : false,
                 }
             }
             
@@ -74,8 +74,6 @@ const CourseModel = new mongoose.Schema({
     }
 
 
-},{
-    collection:'Guru-Chela'
 });
 
 export const Course = mongoose.model('Course', CourseModel);

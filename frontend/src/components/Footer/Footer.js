@@ -10,14 +10,15 @@ import { FaLinkedin} from 'react-icons/fa';
 import {TiSocialLinkedinCircular} from "react-icons/ti";
 const Footer = () => {
   return (
-    <Box padding={'4'} bg="blackAlpha.900" minH={'10vh'}>
+   <div >
+     <Box padding={'4'} bg="blackAlpha.900" minH={'10vh'} >
       <Stack direction={['column', 'row']}>
         <VStack alignItems={['center', 'flex-start']} width="full">
           <Heading children="All Rights Reserved" color={'white'} />
           <Heading
             fontFamily={'body'}
             size="sm"
-            children="@Priyanshu Malaviya"
+            children="@satyam kumar"
             color={'teal.400'}
           />
         </VStack>
@@ -40,6 +41,7 @@ const Footer = () => {
         </HStack>
       </Stack>
     </Box>
+   </div>
   );
 };
 

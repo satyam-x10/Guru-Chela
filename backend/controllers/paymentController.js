@@ -7,7 +7,9 @@ import crypto from "crypto";
 import { instance } from "../server.js";
 import Payment from "../Models/Payment.js";
 
+import dotenv from "dotenv";
 
+dotenv.config();
 export const createSubscription = catchAsyncError(async (req, res, next) => {
     const user = await User.findById(req.user._id);
 

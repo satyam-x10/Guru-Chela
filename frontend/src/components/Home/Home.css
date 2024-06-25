@@ -22,7 +22,8 @@
     padding-top: 40px;
 }
 .bgImage{
-    margin-right: 80px;
+    border-radius:30px;
+    scale:0.5;
 }
 
 .icon{

@@ -2,7 +2,9 @@ import { catchAsyncError } from "../Middlewares/catchAsyncError.js";
 import { Stats } from "../Models/Stats.js";
 import ErrorHandler from "../Utils/ErrorHandler.js";
 import { sendEmail } from "../Utils/SendEmail.js";
+import dotenv from "dotenv";
 
+dotenv.config();
 export const contact = catchAsyncError(async (req, res , next) => {
 
     const {name, email ,message} = req.body;

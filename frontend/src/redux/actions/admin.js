@@ -47,6 +47,7 @@ export const deleteCourse = id => async dispatch => {
 };
 
 export const addLecture = (id, formdata) => async dispatch => {
+  
   try {
     const config = {
       headers: {
@@ -55,12 +56,14 @@ export const addLecture = (id, formdata) => async dispatch => {
       withCredentials: true,
     };
     dispatch({ type: 'addLectureRequest' });
+    console.log('trying to make a lecture');
 
     const { data } = await axios.post(
       `${server}/course/${id}`,
       formdata,
       config
     );
+    console.log('made a lecture');
 
     dispatch({ type: 'addLectureSuccess', payload: data.message });
   } catch (error) {

@@ -5,7 +5,9 @@ import {config} from "dotenv";
 import cloudinary from "cloudinary";
 import Razorpay from "razorpay";
 import nodeCron  from 'node-cron';
+import dotenv from "dotenv";
 
+dotenv.config();
 
 config({
     path: "./config/config.env"
@@ -17,12 +19,10 @@ import { Stats } from "./Models/Stats.js";
 
 connectDB();
 cloudinary.v2.config({
-    // cloud_name: process.env.CLOUDINARY_NAME,
-    // api_key: process.env.CLOUDINARY_APIKEY,
-    // api_secret: process.env.CLOUDINARY_APISECRET,
-    cloud_name: 'duruozunc',
-    api_key: '714541189673447',
-    api_secret:'MVu6N77DgPZ5wm5SHT2Jko8AGnU',
+    cloud_name: process.env.CLOUDINARY_NAME,
+    api_key: process.env.CLOUDINARY_APIKEY,
+    api_secret: process.env.CLOUDINARY_APISECRET,
+    
 });
 
 export const instance = new Razorpay({

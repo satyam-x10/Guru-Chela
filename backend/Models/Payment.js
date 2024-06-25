@@ -19,8 +19,6 @@ const paymentModel = new mongoose.Schema({
         default: Date.now,
     },
 
-},{
-    collection:'Guru-Chela'
 });
 
 

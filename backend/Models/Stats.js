@@ -23,8 +23,6 @@ const StatsModel = new mongoose.Schema({
 
     
 
-},{
-    collection:'Guru-Chela'
 });
 
 
