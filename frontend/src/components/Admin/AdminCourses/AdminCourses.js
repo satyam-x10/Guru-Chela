@@ -35,7 +35,7 @@ import toast from 'react-hot-toast';
 const AdminCourses = () => {
 
 
-  
+
   const { courses, lectures } = useSelector(state => state.course);
 
   const { loading, error, message } = useSelector(state => state.admin);
@@ -65,15 +65,16 @@ const AdminCourses = () => {
   const addLectureHandler = async (e, courseId, title, description, video) => {
     e.preventDefault();
     const myForm = new FormData();
-  
+
     myForm.append('title', title);
     myForm.append('description', description);
     myForm.append('file', video);
-  
+
     await dispatch(addLecture(courseId, myForm));
+    
     dispatch(getCourseLectures(courseId));
   };
-  
+
 
   useEffect(() => {
     if (error) {
@@ -91,7 +92,7 @@ const AdminCourses = () => {
 
   return (
     <Grid
-      
+
       minH={'100vh'}
       templateColumns={['1fr', '5fr 1fr']}
     >
@@ -154,14 +155,14 @@ const AdminCourses = () => {
 function Row({ item, coureDetailsHandler, deleteButtonHandler, loading }) {
   return (
     <Tr>
-       <Button
-            onClick={() => coureDetailsHandler(item._id, item.title)}
-            variant={'outline'}
-            color="purple.500"
-            isLoading={loading}
-          >
-            View Lectures
-          </Button>
+      <Button
+        onClick={() => coureDetailsHandler(item._id, item.title)}
+        variant={'outline'}
+        color="purple.500"
+        isLoading={loading}
+      >
+        View Lectures
+      </Button>
       <Td>#{item._id}</Td>
 
       <Td>
@@ -176,7 +177,7 @@ function Row({ item, coureDetailsHandler, deleteButtonHandler, loading }) {
 
       <Td isNumeric>
         <HStack justifyContent={'flex-end'}>
-         
+
 
           <Button
             onClick={() => deleteButtonHandler(item._id)}

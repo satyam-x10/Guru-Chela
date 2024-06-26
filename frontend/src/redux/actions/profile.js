@@ -172,8 +172,9 @@ export const addToPlaylist = (id, courseTitle) => async dispatch => {
 };
 
 export const removeFromPlaylist = id => async dispatch => {
+  
   try {
-    console.log('remviong');
+    console.log('remviong ',id);
     dispatch({ type: 'removeFromPlaylistRequest' });
 
     const config = {

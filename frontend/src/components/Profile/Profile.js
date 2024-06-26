@@ -19,18 +19,18 @@ import {
   useDisclosure,
   VStack,
 } from '@chakra-ui/react';
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { removeFromPlaylist, updateProfilePicture } from '../../redux/actions/profile';
 import { cancelSubscription, myProfile } from '../../redux/actions/user';
 import { toast } from 'react-hot-toast';
-const Profile = ({user}) => {
+const Profile = ({ user }) => {
 
 
-  
+
   const dispatch = useDispatch();
   const { loading, message, error } = useSelector(state => state.profile);
-  
+
   const {
     loading: subscriptionLoading,
     message: subscriptionMessage,
@@ -56,7 +56,7 @@ const Profile = ({user}) => {
   const cancelSubscriptionHandler = () => {
     dispatch(cancelSubscription());
   };
- 
+
 
   useEffect(() => {
     if (error) {
@@ -78,7 +78,7 @@ const Profile = ({user}) => {
       toast.error(subscriptionError);
       dispatch({ type: 'clearError' });
     }
-    
+
   }, [dispatch, error, message, subscriptionError, subscriptionMessage]);
 
   const { isOpen, onClose, onOpen } = useDisclosure();
@@ -92,148 +92,152 @@ const Profile = ({user}) => {
     color: '#ECC94B',
     backgroundColor: 'white',
   };
-  console.log('user ',user);
+  console.log('user ', user);
 
   return (
     <>
-    <Container minH={"80vh"} maxW="container.sm" py="10">
+      <Container minH={"80vh"} maxW="container.sm" py="10">
 
-      <Heading m="4" textAlign={['center', 'left']}  >Profile</Heading>
-      <Stack direction={['column', 'row']} alignItems="center" justifyContent={['center', 'flex-start']} spacing={["8", "16"]} padding={"8"} >
+        <Heading m="4" textAlign={['center', 'left']}  >Profile</Heading>
+        <Stack direction={['column', 'row']} alignItems="center" justifyContent={['center', 'flex-start']} spacing={["8", "16"]} padding={"8"} >
 
-        <VStack spacing={"4"}>
-          <Avatar src={user.avatar.url} size='2xl' />
-          <Button onClick={onOpen}  colorScheme='teal' variant='solid'>Change Photo</Button>
-        </VStack>
+          <VStack spacing={"4"}>
+            <Avatar src={user.avatar.url} size='2xl' />
+            <Button onClick={onOpen} colorScheme='teal' variant='solid'>Change Photo</Button>
+          </VStack>
 
 
-        <VStack spacing={"4"} alignItems={['flex-start', 'flex-start']}>
-          <HStack spacing={"3"}>
-            <Text fontWeight={"bold"}>Name</Text>
-            <Text >{user.name}</Text>
-          </HStack>
-          <HStack spacing={"3"}>
-            <Text fontWeight={"bold"}>Email</Text>
-            <Text >{user.email}</Text>
-          </HStack>
-          <HStack spacing={"3"}>
-            <Text fontWeight={"bold"}>Created At</Text>
-            <Text >{user.createdAt.split("T")[0]}</Text>
-          </HStack>
-          
-          {user.role !== "admin" ? (
-            <>
-              <HStack spacing={"3"}>
-                <Text fontWeight={"bold"}>Subscription</Text>
-                { user.subscription &&  user.subscription.status === "active" ? (
-                  <>
+          <VStack spacing={"4"} alignItems={['flex-start', 'flex-start']}>
+            <HStack spacing={"3"}>
+              <Text fontWeight={"bold"}>Name</Text>
+              <Text >{user.name}</Text>
+            </HStack>
+            <HStack spacing={"3"}>
+              <Text fontWeight={"bold"}>Email</Text>
+              <Text >{user.email}</Text>
+            </HStack>
+            <HStack spacing={"3"}>
+              <Text fontWeight={"bold"}>Created At</Text>
+              <Text >{user.createdAt.split("T")[0]}</Text>
+            </HStack>
 
-                    <Button  colorScheme='teal' variant='ghost' onClick= {cancelSubscriptionHandler}>Cancel Subscription</Button>
-                  </>
-                ): (
-                
-                <>
-                  <Link to='/subscribe'>
-                    <Button  colorScheme='teal' variant='ghost'>Subscribe</Button>
-                  </Link>
-                </>)}
-                
-              </HStack>
-            </>
-          ) : (
-            <>
-            </>
-          )}
-          
-          <Stack direction={['column', 'row']} spacing={"3"} alignItems="center" px={["8", "0"]} justifyContent={['center', 'center']} my={"4"}>
+            {user.role !== "admin" ? (
+              <>
+                <HStack spacing={"3"}>
+                  <Text fontWeight={"bold"}>Subscription</Text>
+                  {user.subscription && user.subscription.status === "active" ? (
+                    <>
+
+                      <Button colorScheme='teal' variant='ghost' onClick={cancelSubscriptionHandler}>Cancel Subscription</Button>
+                    </>
+                  ) : (
+
+                    <>
+                      <Link to='/subscribe'>
+                        <Button colorScheme='teal' variant='ghost'>Subscribe</Button>
+                      </Link>
+                    </>)}
+
+                </HStack>
+              </>
+            ) : (
+              <>
+              </>
+            )}
+
+            <Stack direction={['column', 'row']} spacing={"3"} alignItems="center" px={["8", "0"]} justifyContent={['center', 'center']} my={"4"}>
               <Link to='/updateprofile'>
-                <Button  colorScheme='teal' variant='solid'>Update Profile</Button>
+                <Button colorScheme='teal' variant='solid'>Update Profile</Button>
               </Link>
 
               <Link to='/changepassword'>
-                <Button  colorScheme='teal' variant='solid'>Change Password</Button>
+                <Button colorScheme='teal' variant='solid'>Change Password</Button>
               </Link>
-          </Stack>
+            </Stack>
 
-        </VStack>
+          </VStack>
 
-      </Stack>
+        </Stack>
 
-      <ChangePhotoBox
-        changeImageSubmitHandler={changeImageSubmitHandler}
-        isOpen={isOpen}
-        onClose={onClose}
-        loading={loading}
-      />
-     
-    </Container>
-    <div>
-  <span style={{fontWeight:'bold',fontSize:'20px'}}>Ur Saved Playlists</span>
-  {user.playlist.map((playlist, index) => (
-    <div
-      key={index}
-      className="playlist-item"
-      onClick={() => window.location.href=`../courses/${playlist.course}`}
-      style={{
-        display: "flex",
-        alignItems: "center",
-        margin: "10px 0",
-        padding: "10px",
-        border: "1px solid #ccc",
-        borderRadius: "5px",
-        boxShadow: "0 2px 5px rgba(0, 0, 0, 0.1)",
-        cursor: "pointer"
-      }}
-    >
-      <img
-        style={{
-          height: "50px",
-          width: "50px",
-          objectFit: "cover",
-          borderRadius: "50%",
-          marginRight: "15px"
-        }}
-        src={playlist.poster}
-        alt={`${playlist.course} poster`}
-        className="playlist-image"
-      />
-      <div
-        className="playlist-info"
-        style={{ flexGrow: 1 }}
-      >
-        <h3
-          style={{
-            margin: 0,
-            fontSize: "18px",
-            color: "#333"
-          }}
-        >
-          {playlist.title}
-        </h3>
+        <ChangePhotoBox
+          changeImageSubmitHandler={changeImageSubmitHandler}
+          isOpen={isOpen}
+          onClose={onClose}
+          loading={loading}
+        />
+
+      </Container>
+      <div>
+        <span style={{ fontWeight: 'bold', fontSize: '20px' }}>Ur Saved Playlists</span>
+        {user.playlist.map((playlist, index) => (
+          <div>
+            <div
+              key={index}
+              className="playlist-item"
+              onClick={() => window.location.href = `../courses/${playlist.course}`}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                margin: "10px 0",
+                padding: "10px",
+                border: "1px solid #ccc",
+                borderRadius: "5px",
+                boxShadow: "0 2px 5px rgba(0, 0, 0, 0.1)",
+                cursor: "pointer"
+              }}
+            >
+              <img
+                style={{
+                  height: "50px",
+                  width: "50px",
+                  objectFit: "cover",
+                  borderRadius: "50%",
+                  marginRight: "15px"
+                }}
+                src={playlist.poster}
+                alt={`${playlist.course} poster`}
+                className="playlist-image"
+              />
+              <div
+                className="playlist-info"
+                style={{ flexGrow: 1 }}
+              >
+                <h3
+                  style={{
+                    margin: 0,
+                    fontSize: "18px",
+                    color: "#333"
+                  }}
+                >
+                  {playlist.title}
+                </h3>
+              </div>
+
+            </div>
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                console.log(playlist.course);
+                removeFromPlaylistHandler(playlist.course);
+              }}
+              style={{
+                padding: "5px 10px",
+                fontSize: "14px",
+                color: "#fff",
+                backgroundColor: "#ff4d4d",
+                border: "none",
+                borderRadius: "3px",
+                cursor: "pointer"
+              }}
+            >
+              Delete
+            </button>
+          </div>
+        ))}
       </div>
-      <button
-        onClick={(e) => {
-          e.stopPropagation();
-          removeFromPlaylist(playlist._id);
-        }}
-        style={{
-          padding: "5px 10px",
-          fontSize: "14px",
-          color: "#fff",
-          backgroundColor: "#ff4d4d",
-          border: "none",
-          borderRadius: "3px",
-          cursor: "pointer"
-        }}
-      >
-        Delete
-      </button>
-    </div>
-  ))}
-</div>
 
-    
-    
+
+
     </>
   )
 }

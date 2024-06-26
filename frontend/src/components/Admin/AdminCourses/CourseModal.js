@@ -104,8 +104,13 @@ import {
   
               <Box>
                 <form
-                  onSubmit={e =>
-                    addLectureHandler(e, id, title, description, video)
+                  onSubmit={async (e ) =>
+                   { await addLectureHandler(e, id, title, description, video);
+                    setTitle('');
+                    setDescription('');
+                    setVideo('');
+                    setVideoPrev('');
+                   }
                   }
                 >
                   <VStack spacing={'4'}>

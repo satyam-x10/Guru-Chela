@@ -60,12 +60,12 @@ export const createCourse = catchAsyncError(async (req, res, next) => {
 
 // Max video size 100mb
 export const createLectures = catchAsyncError(async (req, res, next) => {
-
-  console.log('making lecture');
-
-
+  
+  
   const { id } = req.params;
   const { title, description } = req.body;
+  
+  console.log('making lecture ',title,description);
 
   const course = await Course.findById(id);
 
