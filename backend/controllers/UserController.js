@@ -131,8 +131,6 @@ export const deleteMyProfile = catchAsyncError(async (req, res, next) => {
 export const changePassword = catchAsyncError(async (req, res, next) => {
     const { oldPassword, newPassword } = req.body;
 
-    // console.log(oldPassword, newPassword);
-
     if (!oldPassword || !newPassword) {
         return next(new ErrorHandler("Please Enter All the Fields", 401));
     }
@@ -160,9 +158,9 @@ export const changePassword = catchAsyncError(async (req, res, next) => {
 
 
 export const updateProfile = catchAsyncError(async (req, res, next) => {
-
-    const { name, email } = req.body;
-
+    const {name,email}= req.body
+    
+    console.log('updating profile',name,email);
     const user = await User.findById(req.user._id);
 
     if (email) user.email = email;
@@ -215,7 +213,7 @@ export const updateProfilePicture = catchAsyncError(async (req, res, next) => {
 export const forgetPassword = catchAsyncError(async (req, res, next) => {
 
     const { email } = req.body;
-    // console.log(email);
+    console.log('reset password for ',email);
     const user = await User.findOne({ email });
 
     // console.log(user);
@@ -225,15 +223,16 @@ export const forgetPassword = catchAsyncError(async (req, res, next) => {
     }
 
     const resetToken = await user.getResetToken();
-    // console.log(resetToken)
-
+    console.log('resetToken',resetToken)
+    
     await user.save();
-
-
+    
+    
     const url = `${process.env.FRONTEND_URL}/resetpassword/${resetToken}`;
-
+    
     const message = `Click on the Link to reset your password. ${url}. if you have not requested then please ignore.`
-
+    
+    console.log('message sending',message)
     await sendEmail(user.email, "Guru-Chela Reset Password", message);
 
 
@@ -283,14 +282,17 @@ export const resetPassword = catchAsyncError(async (req, res, next) => {
 
 
 export const addToPlaylist = catchAsyncError(async (req, res, next) => {
-
     const user = await User.findById(req.user._id);;
-
+    console.log('adding to plalyist',req.body);
+    
     const course = await Course.findById(req.body.id);
+    const title = req.body.courseTitle
+    
 
     if (!course) {
         return next(new ErrorHandler("Invalid Course Id", 401));
     }
+    console.log(' course found ');
 
     const itemExit = user.playlist.find((item) => {
         if (item.course.toString() === course._id.toString()) {
@@ -298,16 +300,19 @@ export const addToPlaylist = catchAsyncError(async (req, res, next) => {
         }
     })
 
+    console.log(' doesnt pre-exists ');
 
     if (itemExit) {
         return next(new ErrorHandler("Item Already Exist", 409));
     }
+    console.log(' pushing ');
 
     user.playlist.push({
         course: course._id,
+        title:title,
         poster: course.poster.url,
     });
-
+    console.log('saving user');
     await user.save();
 
 
@@ -320,7 +325,7 @@ export const addToPlaylist = catchAsyncError(async (req, res, next) => {
 });
 
 export const removeFromPlaylist = catchAsyncError(async (req, res, next) => {
-
+    console.log('deleting from backedn');
 
     const user = await User.findById(req.user._id);;
 

@@ -78,7 +78,7 @@ const Course = ({
           isLoading={loading}
           variant={'ghost'}
           colorScheme={'teal'}
-          onClick={() => addToPlaylistHandler(id)}
+          onClick={() => addToPlaylistHandler(id,title)}
         >
           Add to playlist
         </Button>
@@ -93,8 +93,8 @@ const Courses = () => {
   const [category, setCategory] = useState('');
   const dispatch = useDispatch();
 
-  const addToPlaylistHandler = async couseId => {
-    await dispatch(addToPlaylist(couseId));
+  const addToPlaylistHandler = async (courseId,courseTitle) => {
+    await dispatch(addToPlaylist(courseId,courseTitle));
     dispatch(myProfile());
   };
 

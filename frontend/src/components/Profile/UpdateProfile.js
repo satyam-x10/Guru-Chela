@@ -72,14 +72,15 @@ const navigate = useNavigate();
                         
                     </Box>
 
-                    <Box my={"4"} css = {btn}>
+                    
+                    
+
+                </form>
+                <Box my={"4"} css = {btn}>
                         <Link to="/profile">
                             <Button variant="link" color={"teal"}  className="forgot-password" style={{textDecoration: "none"}}>Go to Profile</Button>
                         </Link>
                     </Box>
-                    
-
-                </form>
             </VStack>
         </Container>
     </>

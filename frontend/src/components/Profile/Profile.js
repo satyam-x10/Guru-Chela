@@ -24,7 +24,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { removeFromPlaylist, updateProfilePicture } from '../../redux/actions/profile';
 import { cancelSubscription, myProfile } from '../../redux/actions/user';
 import { toast } from 'react-hot-toast';
-
 const Profile = ({user}) => {
 
 
@@ -93,6 +92,7 @@ const Profile = ({user}) => {
     color: '#ECC94B',
     backgroundColor: 'white',
   };
+  console.log('user ',user);
 
   return (
     <>
@@ -165,9 +165,73 @@ const Profile = ({user}) => {
         onClose={onClose}
         loading={loading}
       />
-
+     
     </Container>
-    
+    <div>
+  <span style={{fontWeight:'bold',fontSize:'20px'}}>Ur Saved Playlists</span>
+  {user.playlist.map((playlist, index) => (
+    <div
+      key={index}
+      className="playlist-item"
+      onClick={() => window.location.href=`../courses/${playlist.course}`}
+      style={{
+        display: "flex",
+        alignItems: "center",
+        margin: "10px 0",
+        padding: "10px",
+        border: "1px solid #ccc",
+        borderRadius: "5px",
+        boxShadow: "0 2px 5px rgba(0, 0, 0, 0.1)",
+        cursor: "pointer"
+      }}
+    >
+      <img
+        style={{
+          height: "50px",
+          width: "50px",
+          objectFit: "cover",
+          borderRadius: "50%",
+          marginRight: "15px"
+        }}
+        src={playlist.poster}
+        alt={`${playlist.course} poster`}
+        className="playlist-image"
+      />
+      <div
+        className="playlist-info"
+        style={{ flexGrow: 1 }}
+      >
+        <h3
+          style={{
+            margin: 0,
+            fontSize: "18px",
+            color: "#333"
+          }}
+        >
+          {playlist.title}
+        </h3>
+      </div>
+      <button
+        onClick={(e) => {
+          e.stopPropagation();
+          removeFromPlaylist(playlist._id);
+        }}
+        style={{
+          padding: "5px 10px",
+          fontSize: "14px",
+          color: "#fff",
+          backgroundColor: "#ff4d4d",
+          border: "none",
+          borderRadius: "3px",
+          cursor: "pointer"
+        }}
+      >
+        Delete
+      </button>
+    </div>
+  ))}
+</div>
+
     
     
     </>
