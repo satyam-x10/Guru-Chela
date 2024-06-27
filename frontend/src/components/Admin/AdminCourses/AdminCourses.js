@@ -75,6 +75,7 @@ const AdminCourses = () => {
     await dispatch(addLecture(courseId, myForm));
 
     dispatch(getCourseLectures(courseId));
+    // window.location.reload();
   };
 
 

@@ -55,8 +55,9 @@ const CreateCourse = (admin) => {
     };
   };
 
-  const submitHandler = e => {
+  const submitHandler = async (e) => {
     e.preventDefault();
+
     const myForm = new FormData();
     myForm.append('title', title);
     myForm.append('description', description);
@@ -64,12 +65,22 @@ const CreateCourse = (admin) => {
     myForm.append('createdBy', createdBy);
     myForm.append('file', image);
 
-    dispatch(createCourse(myForm));
+    // Assuming dispatch returns a promise or you can await it
+    await dispatch(createCourse(myForm));
 
+    // Clear form fields and set default values
+    // setTitle('');
+    // setDescription('');
+    // setCategory('');
+    // setCreatedBy('');
+    // setImage(''); // Assuming image is set to null after upload
+    // setImagePrev(''); // Assuming image is set to null after upload
 
+    // Update categories state if needed
     const newCategories = [...categories, category];
     setCategories(newCategories);
   };
+
 
   useEffect(() => {
     if (error) {
@@ -87,7 +98,8 @@ const CreateCourse = (admin) => {
     <Box
       minH={'100vh'}
       templateColumns={['1fr', '5fr 1fr']}
-    >      <Sidebar />
+    >      
+    <Sidebar />
 
       <Container py="16">
         <form onSubmit={submitHandler}>

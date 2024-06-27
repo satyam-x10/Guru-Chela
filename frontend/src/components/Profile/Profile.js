@@ -24,6 +24,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { removeFromPlaylist, updateProfilePicture } from '../../redux/actions/profile';
 import { cancelSubscription, myProfile } from '../../redux/actions/user';
 import { toast } from 'react-hot-toast';
+import { DeleteIcon, Icon } from '@chakra-ui/icons';
 const Profile = ({ user }) => {
 
 
@@ -169,8 +170,9 @@ const Profile = ({ user }) => {
       </Container>
       <div>
         <span style={{ fontWeight: 'bold', fontSize: '20px' }}>Ur Saved Playlists</span>
+        <div  style={{ display:"flex",gap:"5px",flexWrap:'wrap' }}>
+
         {user.playlist.map((playlist, index) => (
-          <div>
             <div
               key={index}
               className="playlist-item"
@@ -183,7 +185,9 @@ const Profile = ({ user }) => {
                 border: "1px solid #ccc",
                 borderRadius: "5px",
                 boxShadow: "0 2px 5px rgba(0, 0, 0, 0.1)",
-                cursor: "pointer"
+                cursor: "pointer",
+                maxWidth:"300px",
+                gap:"5px"
               }}
             >
               <img
@@ -206,15 +210,12 @@ const Profile = ({ user }) => {
                   style={{
                     margin: 0,
                     fontSize: "18px",
-                    color: "#333"
                   }}
                 >
                   {playlist.title}
                 </h3>
               </div>
-
-            </div>
-            <button
+              <button
               onClick={(e) => {
                 e.stopPropagation();
                 console.log(playlist.course);
@@ -230,10 +231,11 @@ const Profile = ({ user }) => {
                 cursor: "pointer"
               }}
             >
-              Delete
+              <DeleteIcon/>
             </button>
-          </div>
+            </div>
         ))}
+        </div>
       </div>
 
 

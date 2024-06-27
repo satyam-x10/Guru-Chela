@@ -219,7 +219,6 @@ const bgColor = {
       margin: "5px",
       padding:"0 5PX 0 0",
       maxWidth:'500px',
-      cursor:"pointer",
       boxShadow:"2px 2px #1a202c22"
     }}>
 

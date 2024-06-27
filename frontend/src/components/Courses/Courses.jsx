@@ -74,7 +74,7 @@ const Course = ({
           <Heading size="sm" fontFamily="sans-serif" mb="1" noOfLines={2}>
             {title}
           </Heading>
-          <Box fontSize="sm" mb="2" color="gray.600" noOfLines={3}>
+          <Box fontSize="sm" mb="2" color="#2c7a7b" noOfLines={3}>
             {description}
           </Box>
           <Box fontSize="sm" color="gray.600" mb="2">
