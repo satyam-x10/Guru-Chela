@@ -5,11 +5,10 @@ dotenv.config();
 
 mongoose.set('strictQuery', false); // Set this to true if you want strict mode
 
-export const connectDB = async() => {
-    const db = process.env.MONGO_URI;
-
+export const connectDB = async () => {
+    const MONGO_URI = process.env.MONGO_URI;
     try {
-        const { connection } = await mongoose.connect(db, {
+        const { connection } = await mongoose.connect(MONGO_URI, {
             useNewUrlParser: true,
             useUnifiedTopology: true,
         });

@@ -19,7 +19,6 @@ export const createCourse = formData => async dispatch => {
     );
 
     dispatch({ type: 'createCourseSuccess', payload: data.message });
-
   } catch (error) {
     dispatch({
       type: 'createCourseFail',

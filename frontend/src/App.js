@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Home from './components/Home/Home.js';
 import Navbar from './components/Navbar/Navbar.js';
@@ -26,7 +26,7 @@ import AdminCourses from './components/Admin/AdminCourses/AdminCourses.js';
 import Dashboard from './components/Admin/Dashboard/Dashboard.js';
 import { useDispatch, useSelector } from 'react-redux';
 import toast, { Toaster } from "react-hot-toast";
-import { myProfile } from './redux/actions/user.js';
+import { myProfile,adminProfile } from './redux/actions/user.js';
 import { ProtectedRoute } from "protected-route-react";
 import Loader from './components/Loader/Loader.js';
 import Footer from './components/Footer/Footer.js';
@@ -38,9 +38,9 @@ const App = () => {
   //   e.preventDefault();
   // })
 
-  const { isAuthenticated, user, error, message, loading } = useSelector(state => state.user);
-
+  const { isAuthenticated, user, error, message, loading,admin } = useSelector(state => state.user);
   const dispatch = useDispatch();
+
   useEffect(() => {
     if (error) {
       toast.error(error);
@@ -56,6 +56,7 @@ const App = () => {
   useEffect(() => {
     dispatch(myProfile());
   }, [dispatch]);
+  
 
   return (
     <BrowserRouter>
@@ -72,7 +73,7 @@ const App = () => {
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/login" element={<ProtectedRoute isAuthenticated={!isAuthenticated} redirect="/"><Login /></ProtectedRoute>} />
-              <Route path="/courses" element={<Courses />} />
+              <Route path="/courses" element={<ProtectedRoute isAuthenticated={isAuthenticated} redirect="/"><Courses admin={admin} /></ProtectedRoute>}/>
               <Route path="/courses/:id" element={<ProtectedRoute isAuthenticated={isAuthenticated}><CourseDetail user={user} /></ProtectedRoute>} />
               <Route path="/doubts" element={<Doubts />} />
               <Route path="/register" element={<ProtectedRoute isAuthenticated={!isAuthenticated} redirect="/"><Register /></ProtectedRoute>} />
@@ -96,7 +97,7 @@ const App = () => {
               {/* Admin Routes */}
               {/* <Route path="/admin/admincourses" element={<ProtectedRoute isAuthenticated={isAuthenticated} adminRoute={true} isAdmin={user && user.role === "admin"}><AdminCourses /></ProtectedRoute>} /> */}
               <Route path="/admin/admincourses" element={<AdminCourses />} />
-              <Route path="/admin/createcourses" element={<ProtectedRoute isAuthenticated={isAuthenticated} adminRoute={true} isAdmin={user && user.role === "admin"}><CreateCourses /></ProtectedRoute>} />
+              <Route path="/admin/createcourses" element={<ProtectedRoute isAuthenticated={isAuthenticated} adminRoute={true} isAdmin={user && user.role === "admin"}><CreateCourses admin={admin} /></ProtectedRoute>} />
               <Route path="/admin/dashboard" element={<ProtectedRoute isAuthenticated={isAuthenticated} adminRoute={true} isAdmin={user && user.role === "admin"}><Dashboard /></ProtectedRoute>} />
               <Route path="/admin/users" element={<ProtectedRoute isAuthenticated={isAuthenticated} adminRoute={true} isAdmin={user && user.role === "admin"}><Users /></ProtectedRoute>} />
 

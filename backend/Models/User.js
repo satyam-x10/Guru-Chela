@@ -28,7 +28,7 @@ const UserModel = new mongoose.Schema({
     },
     role:{
         type: String,
-        enum: ["admin", "user"],
+        enum: ["admin", "user","moderator"],
         default: "user",
     },
 
@@ -58,6 +58,14 @@ const UserModel = new mongoose.Schema({
         course: {
             type: mongoose.Schema.Types.ObjectId,
             ref: "Course",
+        },
+
+        poster: String,
+        title:String
+    }],
+    courseCategories : [{
+        category: {
+            type: String,            
         },
 
         poster: String,

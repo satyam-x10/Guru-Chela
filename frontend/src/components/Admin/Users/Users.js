@@ -51,12 +51,13 @@ const Users = () => {
   }, [dispatch, error, message]);
 
   return (
-    <Grid
+    <Box
       
       minH={'100vh'}
       templateColumns={['1fr', '5fr 1fr']}
     >
-      <Box p={['0', '16']} overflowX="auto">
+      <Sidebar />
+      <Box p={['0', '6']} >
         <Heading
           textTransform={'uppercase'}
           children="All Users"
@@ -64,13 +65,12 @@ const Users = () => {
           textAlign={['center', 'left']}
         />
 
-        <TableContainer w={['100vw', 'full']}>
-          <Table variant={'simple'} size="lg">
+        <TableContainer>
+          <Table variant={'simple'}>
             <TableCaption>All available users in the database</TableCaption>
 
             <Thead>
               <Tr>
-                <Th>Id</Th>
                 <Th>Name</Th>
                 <Th>Email</Th>
                 <Th>Role</Th>
@@ -95,8 +95,8 @@ const Users = () => {
         </TableContainer>
       </Box>
 
-      <Sidebar />
-    </Grid>
+      
+    </Box>
   );
 };
 
@@ -105,7 +105,6 @@ export default Users;
 function Row({ item, updateHandler, deleteButtonHandler, loading }) {
   return (
     <Tr>
-      <Td>#{item._id}</Td>
       <Td>{item.name}</Td>
       <Td>{item.email}</Td>
       <Td>{item.role}</Td>

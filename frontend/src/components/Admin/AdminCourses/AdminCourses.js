@@ -71,7 +71,7 @@ const AdminCourses = () => {
     myForm.append('file', video);
 
     await dispatch(addLecture(courseId, myForm));
-    
+
     dispatch(getCourseLectures(courseId));
   };
 
@@ -91,12 +91,10 @@ const AdminCourses = () => {
   }, [dispatch, error, message, onClose]);
 
   return (
-    <Grid
-
-      minH={'100vh'}
-      templateColumns={['1fr', '5fr 1fr']}
-    >
-      <Box p={['0', '8']} overflowX="auto">
+    
+      <div>
+        <Sidebar />
+        <Box p={['0', '8']} overflowX="auto">
         <Heading
           textTransform={'uppercase'}
           children="All Courses"
@@ -110,7 +108,6 @@ const AdminCourses = () => {
 
             <Thead>
               <Tr>
-                <Th>Id</Th>
                 <Th>Poster</Th>
                 <Th>Title</Th>
                 <Th>Category</Th>
@@ -147,23 +144,14 @@ const AdminCourses = () => {
         />
       </Box>
 
-      <Sidebar />
-    </Grid>
+      
+      </div>
   );
 };
 
 function Row({ item, coureDetailsHandler, deleteButtonHandler, loading }) {
   return (
     <Tr>
-      <Button
-        onClick={() => coureDetailsHandler(item._id, item.title)}
-        variant={'outline'}
-        color="purple.500"
-        isLoading={loading}
-      >
-        View Lectures
-      </Button>
-      <Td>#{item._id}</Td>
 
       <Td>
         <Image src={item.poster.url} />
@@ -175,9 +163,17 @@ function Row({ item, coureDetailsHandler, deleteButtonHandler, loading }) {
       <Td isNumeric>{item.views}</Td>
       <Td isNumeric>{item.numOfVideos}</Td>
 
+
       <Td isNumeric>
         <HStack justifyContent={'flex-end'}>
-
+          <Button
+            onClick={() => coureDetailsHandler(item._id, item.title)}
+            variant={'outline'}
+            color="purple.500"
+            isLoading={loading}
+          >
+            View Lectures
+          </Button>
 
           <Button
             onClick={() => deleteButtonHandler(item._id)}

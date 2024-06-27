@@ -96,13 +96,16 @@ export const logout = catchAsyncError(async (req, res, next) => {
 export const getMyProfile = catchAsyncError(async (req, res, next) => {
 
     const user = await User.findById(req.user._id);
+    const admin = await User.find({role:'admin'});
     // console.log(user);
 
     res.status(200).json({
         success: true,
         user,
+        admin
     });
 });
+
 
 export const deleteMyProfile = catchAsyncError(async (req, res, next) => {
     const user = await User.findById(req.user._id);
@@ -384,12 +387,19 @@ export const changeUserRole = catchAsyncError(async (req, res, next) => {
     let newRole = "";
 
     if (user.role === "user") {
-        user.role = "admin";
-        newRole = "admin";
+        user.role = "moderator";
+        newRole = "moderator";
     }
-    else {
+    else if (user.role === "moderator") {
         user.role = "user";
         newRole = "user";
+    }
+    else {
+        res.status(400).json({
+            success: false,
+            message: `No role change regarding with admin`
+    
+        })
     }
 
     await user.save();
@@ -433,13 +443,23 @@ export const deleteUser = catchAsyncError(async (req, res, next) => {
 
 User.watch().on("change", async () => {
 
-    const stats = await Stats.find({}).sort({ createdAt: "desc" }).limit(1);
+    // Retrieve the most recent Stats document
+    const stats = await Stats?.find({}).sort({ createdAt: "desc" }).limit(1);
 
-    const subscription = await User.find({ "subscription.status": "active" });
+    // Retrieve users with active subscriptions
+    const subscription = await User?.find({ "subscription.status": "active" });
 
-    stats[0].users = await User.countDocuments();
-    stats[0].subscription = subscription.length;
-    stats[0].createdAt = new Date(Date.now());
+    // If stats is not empty, update the properties of the first document
+    if (stats && stats.length > 0) {
+        stats[0].users = await User?.countDocuments();
+        stats[0].subscription = subscription.length;
+        stats[0].createdAt = new Date(Date.now());
 
-    await stats[0].save();
+        // Save the updated Stats document
+        await stats[0].save();
+    } else {
+        // Handle the case when stats is empty or undefined
+        console.error("No stats document found");
+    }
 });
+

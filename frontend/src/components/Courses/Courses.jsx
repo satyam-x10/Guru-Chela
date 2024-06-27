@@ -119,7 +119,7 @@ const Course = ({
   );
 };
 
-const Courses = () => {
+const Courses = admin => {
   const [keyword, setKeyword] = useState('');
   const [category, setCategory] = useState('');
   const dispatch = useDispatch();
@@ -130,21 +130,7 @@ const Courses = () => {
     dispatch(myProfile());
   };
 
-  const categories = [
-    'Web Development',
-    'Artificial Intelligence',
-    'Data Structure & Algorithm',
-    'App Development',
-    'Data Science',
-    'Game Development',
-    'Game Development',
-    'Game Development',
-    'Game Development',
-    'Game Development',
-    'Game Development',
-    'Game Development',
-    'Game Development',
-  ];
+  const [categories, setCategories] = useState(admin?.admin[0]?.courseCategories||[]);
 
   const { loading, courses, error, message } = useSelector(
     state => state.course
@@ -222,19 +208,19 @@ const Courses = () => {
           <DrawerContent>
             <DrawerHeader>Categories</DrawerHeader>
             <DrawerBody>
-              {categories.map((item, index) => (
-                <Button
-                  w="100%"
-                  margin="1"
-                  key={index}
-                  onClick={() => {
-                    setCategory(item);
-                    onClose();
-                  }}
-                >
-                  {item}
-                </Button>
-              ))}
+              {  categories.map((item, index) => (
+                  <Button
+                    w="100%"
+                    margin="1"
+                    key={index}
+                    onClick={() => {
+                      setCategory(item.category);
+                      onClose();
+                    }}
+                  >
+                    {item.category}
+                  </Button>
+                ))}
             </DrawerBody>
           </DrawerContent>
         </DrawerOverlay>

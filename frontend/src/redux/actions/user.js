@@ -66,7 +66,8 @@ export const myProfile = () => async dispatch => {
         
       );
 
-      dispatch({ type: 'loadUserSuccess', payload: data.user });
+      dispatch({ type: 'loadUserSuccess', payload: {user:data.user,admin:data.admin} });
+
     } catch (error) {
       dispatch({ type: 'loadUserFail', payload: error.response.data.message });
     }

@@ -11,8 +11,9 @@ const Dashboard = () => {
   return (
     
     <>
-    <Grid css={{cursor: `url(${cursor}) default`}} minH={"100vh"}  templateColumns={["1fr", "5fr 1fr"]}>
-
+    <Box css={{cursor: `url(${cursor}) default`}} minH={"100vh"}  templateColumns={["1fr", "5fr 1fr"]}>
+{/* Sidebar Here */}
+<Sidebar />
 
       <Box boxSizing='border-box'  px={["4", "0"]}>
         <Text textAlign="center" opacity={0.5} >{`Last Changes done on ${new Date().toString().split('G')[0]}`}</Text>
@@ -54,9 +55,8 @@ const Dashboard = () => {
         
       </Box>
 
-      {/* Sidebar Here */}
-      <Sidebar />
-    </Grid>
+      
+    </Box>
     </>
   )
 }

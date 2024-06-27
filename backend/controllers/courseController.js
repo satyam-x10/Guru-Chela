@@ -4,6 +4,7 @@ import getDataUri from "../Utils/dataUri.js";
 import ErrorHandler from "../Utils/ErrorHandler.js";
 import cloudinary from "cloudinary";
 import { Stats } from "../Models/Stats.js";
+import { User } from "../Models/User.js";
 
 export const getAllCourses = catchAsyncError(async (req, res, next) => {
   const keyword = req.query.keyword || "";
@@ -44,12 +45,28 @@ export const createCourse = catchAsyncError(async (req, res, next) => {
 
   const myCloud = await cloudinary.v2.uploader.upload(fileUri.content);
 
-  await Course.create({
+  // Create the course
+  const newCourse = await Course.create({
     title, description, category, createdBy, poster: {
       public_id: myCloud.public_id,
       url: myCloud.secure_url
     }
   });
+
+  // Find an admin user and update their courseCategories
+  const adminUser = await User.findOne({ role: "admin" });
+
+  if (adminUser) {
+    // Add the category to the admin's courseCategories
+    adminUser.courseCategories.push({
+      category: category,
+    });
+    
+    await adminUser.save();
+  } else {
+    // Handle case where no admin user is found
+    return next(new ErrorHandler("No admin user found", 404));
+  }
 
   res.status(201).json({
     success: true,

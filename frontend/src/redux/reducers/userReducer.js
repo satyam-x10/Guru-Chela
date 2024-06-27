@@ -60,8 +60,10 @@ export const userReducer = createReducer(
     loadUserSuccess: (state, action) => {
       state.loading = false;
       state.isAuthenticated = true;
-      state.user = action.payload;
+      state.user = action.payload.user;
+      state.admin = action.payload.admin;
     },
+    
 
     loadUserFail: (state, action) => {
       state.loading = false;

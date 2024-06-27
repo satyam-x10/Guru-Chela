@@ -73,7 +73,6 @@ const Navbar = ({isAuthenticated,  user}) => {
               ) : (
                 <>
                 
-                
                 </>
               )}
 
@@ -98,7 +97,7 @@ const Navbar = ({isAuthenticated,  user}) => {
             
             
 
-          {user && user.role === "admin" ? (
+          {user && (user.role === "admin") ? (
             <>
               <Link to ="/profile">
                 <Button colorScheme='teal' variant='solid' mx={"1"}>Profile</Button>

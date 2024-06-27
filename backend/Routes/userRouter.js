@@ -16,7 +16,7 @@ router.route("/login").post(login);
 router.route("/logout").get(logout);
 
 
-// Get My Profile
+// Get  Profiles
 router.route("/myProfile").get(isAuthenticated, getMyProfile);
 
 

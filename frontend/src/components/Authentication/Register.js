@@ -76,9 +76,8 @@ const Register = () => {
     }
 
   return (
-    <>
-        <Container h={"95vh"}>
-            
+    <div style={{display:'flex',padding:'10px',width:'100vw',alignItems:'center',justifyContent:'center'}}>
+        
             <VStack h={"full"} my={["30px"]} justifyContent="center">
                 <Heading   fontSize={"28"} textAlign={["center", "left"]}>Registration</Heading>
                 <Box my={4} display={"flex"}  justifyContent="center">
@@ -132,9 +131,8 @@ const Register = () => {
 
                 </form>
             </VStack>
-        </Container>
 
-    </>
+    </div>
   )
 }
 
