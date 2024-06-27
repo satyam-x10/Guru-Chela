@@ -1,6 +1,6 @@
-import React, {useState} from 'react'
-import { Container, VStack , Box, Input, Button, FormControl, FormLabel, Heading, Avatar} from '@chakra-ui/react';
-import {Link} from "react-router-dom";
+import React, { useState } from 'react'
+import { Container, VStack, Box, Input, Button, FormControl, FormLabel, Heading, Avatar, position } from '@chakra-ui/react';
+import { Link } from "react-router-dom";
 import "./auth.css";
 import { useDispatch } from 'react-redux';
 import { registerAction } from '../../redux/actions/user';
@@ -11,8 +11,8 @@ const fileUploadStyle = {
         marginLeft: "-5%",
         width: "110%",
         border: "none",
-        height : "100%",
-        color : "#319795",
+        height: "100%",
+        color: "#319795",
         backgroundColor: "white"
     }
 }
@@ -75,15 +75,15 @@ const Register = () => {
 
     }
 
-  return (
-    <div style={{display:'flex',padding:'10px',width:'100vw',alignItems:'center',justifyContent:'center'}}>
-        
-            <VStack h={"full"} my={["30px"]} justifyContent="center">
-                <Heading   fontSize={"28"} textAlign={["center", "left"]}>Registration</Heading>
-                <Box my={4} display={"flex"}  justifyContent="center">
-                    <Avatar size={"2xl"} src={imgPrev}/>
-                </Box>
-                <form style={{width: '100%'}} onSubmit={handleSubmit}>
+    return (
+        <div style={{ display: 'flex', padding: '10px', width: '100vw', alignItems: 'center', justifyContent: 'space-around' }}>
+            <Box my={4} display={{ base: 'none', sm: "block" }} justifyContent="center">
+                <Avatar size={{ base: "xl", sm: "3xl", md: "4xl" }} src={imgPrev} />
+            </Box>
+            <VStack justifyContent="center">
+                <Heading fontSize={"28"} textAlign={["center", "left"]}>Registration</Heading>
+
+                <form style={{ width: '100%' }} onSubmit={handleSubmit}>
                     <Box my={"4"}>
                         <FormControl isRequired>
                             <FormLabel htmlFor="name" >Name</FormLabel>
@@ -112,19 +112,22 @@ const Register = () => {
                     <Box my={"4"}>
                         <FormControl isRequired>
                             <FormLabel htmlFor="Choose Avatar" >Choose Avatar</FormLabel>
-                            <Input  id="avatar" css={fileUploadStyle} focusBorderColor='teal.400' accept='image/*'  onChange={imageHandler} type={"file"} />
+                            <Input id="avatar" css={fileUploadStyle} focusBorderColor='teal.400' accept='image/*' onChange={imageHandler} type={"file"} />
                         </FormControl>
                     </Box>
-                    
+                    <Box my={4} display={{ base: 'flex', sm: "none" }} justifyContent="center" alignItems="center">
+                        <Avatar size={{ base: "2xl" }} src={imgPrev} />
+                    </Box>
+
                     <Box my={"4"}>
-                        
+
                         <Button type="submit" colorScheme='teal' variant='solid' >Register</Button>
-                        
+
                     </Box>
                     <Box my={"4"}>
                         <span>Existing User? {' '}</span>
                         <Link to="/login">
-                            <Button variant="link" color={"teal"} className="registerTxt" style={{textDecoration: "none"}}>Login</Button>
+                            <Button variant="link" color={"teal"} className="registerTxt" style={{ textDecoration: "none" }}>Login</Button>
                         </Link>
                         {" "}here
                     </Box>
@@ -132,8 +135,8 @@ const Register = () => {
                 </form>
             </VStack>
 
-    </div>
-  )
+        </div>
+    )
 }
 
 export default Register;

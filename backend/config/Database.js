@@ -8,7 +8,7 @@ mongoose.set('strictQuery', false); // Set this to true if you want strict mode
 export const connectDB = async () => {
     const MONGO_URI = process.env.MONGO_URI;
     try {
-        const { connection } = await mongoose.connect(MONGO_URI, {
+        const { connection } = await mongoose.connect(`${MONGO_URI}/Guru_Chela`, {
             useNewUrlParser: true,
             useUnifiedTopology: true,
         });

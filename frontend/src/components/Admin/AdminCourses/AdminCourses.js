@@ -46,12 +46,14 @@ const AdminCourses = () => {
 
   const [courseId, setCourseId] = useState('');
   const [courseTitle, setCourseTitle] = useState('');
+  const [coursePoster, setCoursePoster] = useState('');
 
-  const coureDetailsHandler = (courseId, title) => {
+  const coureDetailsHandler = (courseId, title,posterURL) => {
     dispatch(getCourseLectures(courseId));
     onOpen();
     setCourseId(courseId);
     setCourseTitle(title);
+    setCoursePoster(posterURL);
   };
   const deleteButtonHandler = courseId => {
     console.log(courseId);
@@ -137,6 +139,7 @@ const AdminCourses = () => {
           onClose={onClose}
           id={courseId}
           courseTitle={courseTitle}
+          coursePoster={coursePoster}
           deleteButtonHandler={deleteLectureButtonHandler}
           addLectureHandler={addLectureHandler}
           lectures={lectures}
@@ -167,7 +170,7 @@ function Row({ item, coureDetailsHandler, deleteButtonHandler, loading }) {
       <Td isNumeric>
         <HStack justifyContent={'flex-end'}>
           <Button
-            onClick={() => coureDetailsHandler(item._id, item.title)}
+            onClick={() => coureDetailsHandler(item._id, item.title,item.poster.url)}
             variant={'outline'}
             color="purple.500"
             isLoading={loading}
