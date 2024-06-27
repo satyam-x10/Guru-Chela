@@ -14,13 +14,8 @@ const Footer = () => {
      <Box padding={'4'} bg="blackAlpha.900" minH={'10vh'} >
       <Stack direction={['column', 'row']}>
         <VStack alignItems={['center', 'flex-start']} width="full">
-          <Heading children="All Rights Reserved" color={'white'} />
-          <Heading
-            fontFamily={'body'}
-            size="sm"
-            children="@satyam kumar"
-            color={'teal.400'}
-          />
+          <Heading children="No Rights Reserved" color={'white'} />
+          
         </VStack>
 
         <HStack
@@ -29,13 +24,13 @@ const Footer = () => {
           color={'white'}
           fontSize="50"
         >
-          <a href="https://www.linkedin.com/in/priyanshumalaviya/" target={'blank'}>
+          <a href="https://www.linkedin.com/in/satyamx10/" target={'blank'}>
             <TiSocialLinkedinCircular />
           </a>
-          <a href="https://www.instagram.com/priyanshu_malaviya228/" target={'blank'}>
+          <a href="https://www.instagram.com/satyamx_10/" target={'blank'}>
             <TiSocialInstagramCircular />
           </a>
-          <a href="https://github.com/Priyanshu9898" target={'blank'}>
+          <a href="https://github.com/satyam-x10" target={'blank'}>
             <DiGithub />
           </a>
         </HStack>

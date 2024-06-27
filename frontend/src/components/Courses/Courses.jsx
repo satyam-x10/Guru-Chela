@@ -1,14 +1,30 @@
 import {
+  Box,
   Button,
   Container,
+  Drawer,
+  DrawerBody,
+  DrawerContent,
+  DrawerHeader,
+  DrawerOverlay,
   Heading,
   HStack,
+  IconButton,
   Image,
   Input,
   Stack,
   Text,
   VStack,
+  useDisclosure,
+  SimpleGrid,
+  useBreakpointValue,
 } from '@chakra-ui/react';
+import {
+  CloseIcon,
+  LinkIcon,
+  PlusSquareIcon,
+  ViewIcon,
+} from '@chakra-ui/icons';
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
@@ -16,7 +32,6 @@ import { getAllCourses } from '../../redux/actions/course';
 import toast from 'react-hot-toast';
 import { addToPlaylist } from '../../redux/actions/profile';
 import { myProfile } from '../../redux/actions/user';
-
 
 const Course = ({
   views,
@@ -30,61 +45,77 @@ const Course = ({
   loading,
 }) => {
   return (
-    <div style={{marginBottom:'10vh'}}>
-      <VStack className="course" alignItems={['center', 'flex-start']}>
-      <Image src={imageSrc} boxSize="60" objectFit={'contain'} />
-      <Heading
-        textAlign={['center', 'left']}
-        maxW="200px"
-        size={'sm'}
-        fontFamily={'sans-serif'}
-        noOfLines={3}
-        children={title}
-      />
-      <Text noOfLines={2} children={description} />
-
-      <HStack>
-        <Text
-          fontWeight={'bold'}
-          textTransform="uppercase"
-          children={'Creator'}
+    <Box
+      display="flex"
+      flexDirection="column"
+      border="solid 2px white"
+      alignItems="center"
+      boxShadow="md"
+      borderRadius="lg"
+      overflow="hidden"
+      margin={['10px']}
+      maxWidth="100%"
+      padding="10px"
+    >
+      {/* Image */}
+      <div style={{ display: 'flex', flexDirection: 'row' }}>
+        <Image
+          src={imageSrc}
+          alt={title}
+          boxSize={['100px', '120px', '140px']} /* Responsive image size */
+          objectFit="cover"
+          borderRadius={[
+            '10px 0 0 10px',
+            '10px',
+          ]} /* Rounded corners on left side */
         />
-
-        <Text
-          fontFamily={'body'}
-          textTransform="uppercase"
-          children={creator}
-        />
-      </HStack>
-
-      <Heading
-        textAlign={'center'}
-        size="xs"
-        children={`Lectures - ${lectureCount}`}
-        textTransform="uppercase"
-      />
-
-      <Heading
-        size="xs"
-        children={`Views - ${views}`}
-        textTransform="uppercase"
-      />
-
-      <Stack direction={['column', 'row']} alignItems="center">
-        <Link to={`/courses/${id}`}>
-          <Button colorScheme={'teal'}>Watch Now</Button>
+        {/* Details */}
+        <Box flex="1" p="4">
+          <Heading size="sm" fontFamily="sans-serif" mb="1" noOfLines={2}>
+            {title}
+          </Heading>
+          <Box fontSize="sm" mb="2" color="gray.600" noOfLines={3}>
+            {description}
+          </Box>
+          <Box fontSize="sm" color="gray.600" mb="2">
+            Creator: {creator}
+            <br></br>
+            Lectures: {lectureCount}
+            <br></br>
+            Views: {views}
+          </Box>
+        </Box>
+      </div>
+      {/* Buttons */}
+      <Box mt="auto">
+        <Link to={`/courses/${id}`} textDecoration="none">
+          <Button colorScheme="teal" mr="2">
+            Watch Now
+          </Button>
         </Link>
-        <Button
-          isLoading={loading}
-          variant={'ghost'}
-          colorScheme={'teal'}
-          onClick={() => addToPlaylistHandler(id,title)}
-        >
-          Add to playlist
-        </Button>
-      </Stack>
-    </VStack>
-    </div>
+        {useBreakpointValue({
+          base: (
+            <Button
+              colorScheme="teal"
+              variant="ghost"
+              onClick={() => addToPlaylistHandler(id, title)}
+            >
+              <PlusSquareIcon />
+            </Button>
+          ),
+          md: (
+            <Button
+              isLoading={loading}
+              variant="ghost"
+              colorScheme="teal"
+              onClick={() => addToPlaylistHandler(id, title)}
+            >
+              Add to Playlist
+            </Button>
+          ),
+        })}
+      </Box>
+    </Box>
   );
 };
 
@@ -92,26 +123,32 @@ const Courses = () => {
   const [keyword, setKeyword] = useState('');
   const [category, setCategory] = useState('');
   const dispatch = useDispatch();
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const addToPlaylistHandler = async (courseId,courseTitle) => {
-    await dispatch(addToPlaylist(courseId,courseTitle));
+  const addToPlaylistHandler = async (courseId, courseTitle) => {
+    await dispatch(addToPlaylist(courseId, courseTitle));
     dispatch(myProfile());
   };
 
   const categories = [
-    'Web development',
-    'Artificial Intelliegence',
+    'Web Development',
+    'Artificial Intelligence',
     'Data Structure & Algorithm',
     'App Development',
     'Data Science',
     'Game Development',
+    'Game Development',
+    'Game Development',
+    'Game Development',
+    'Game Development',
+    'Game Development',
+    'Game Development',
+    'Game Development',
   ];
 
-  const { loading, courses , error, message} = useSelector(
+  const { loading, courses, error, message } = useSelector(
     state => state.course
   );
-
-  console.log(courses);
 
   useEffect(() => {
     dispatch(getAllCourses(category, keyword));
@@ -127,10 +164,11 @@ const Courses = () => {
     }
   }, [category, keyword, dispatch, error, message]);
 
-
   return (
     <Container minH={'95vh'} maxW="container.lg" paddingY={'8'}>
-      <Heading children="All Courses" m={'8'} />
+      <Heading fontSize="2xl" mb="4">
+        All Courses from Your Gurukul
+      </Heading>
 
       <Input
         value={keyword}
@@ -138,23 +176,69 @@ const Courses = () => {
         placeholder="Search a course..."
         type={'text'}
         focusBorderColor="teal.500"
+        mb="4"
       />
 
-      <HStack
-        overflowX={'auto'}
-        paddingY="8"
-        css={{
-          '&::-webkit-scrollbar': {
-            display: 'none',
-          },
-        }}
-      >
-        {categories.map((item, index) => (
-          <Button key={index} onClick={() => setCategory(item)} minW={'60'}>
-            <Text children={item} />
-          </Button>
-        ))}
-      </HStack>
+      <div>
+        <div
+          onClick={onOpen}
+          style={{
+            display: 'inline-block',
+            background: '#2c7a7b',
+            padding: '5px',
+            borderRadius: '5px',
+            color: 'white',
+            marginBottom: '10px',
+          }}
+        >
+          <span>Sort by category</span>
+          <IconButton
+            icon={<LinkIcon />}
+            color={'black'}
+            aria-label="Open menu"
+            margin={[1]}
+          />
+        </div>
+      </div>
+      {category && (
+        <span
+          style={{
+            border: 'solid 2px black',
+            padding: '5px',
+            borderRadius: '10px',
+          }}
+        >
+          {category}
+          <CloseIcon
+            onClick={() => {
+              setCategory('');
+            }}
+            style={{ margin: '5px', cursor: 'pointer' }}
+          />
+        </span>
+      )}
+      <Drawer placement="left" onClose={onClose} isOpen={isOpen}>
+        <DrawerOverlay>
+          <DrawerContent>
+            <DrawerHeader>Categories</DrawerHeader>
+            <DrawerBody>
+              {categories.map((item, index) => (
+                <Button
+                  w="100%"
+                  margin="1"
+                  key={index}
+                  onClick={() => {
+                    setCategory(item);
+                    onClose();
+                  }}
+                >
+                  {item}
+                </Button>
+              ))}
+            </DrawerBody>
+          </DrawerContent>
+        </DrawerOverlay>
+      </Drawer>
 
       <Stack
         direction={['column', 'row']}
@@ -162,28 +246,29 @@ const Courses = () => {
         justifyContent={['flex-start', 'space-evenly']}
         alignItems={['center', 'flex-start']}
       >
-
-         
-        {courses.length > 0 ? (
-          courses.map(item => (
-            <Course
-              key={item._id}
-              title={item.title}
-              description={item.description}
-              views={item.views}
-              imageSrc={item.poster.url}
-              id={item._id}
-              creator={item.createdBy}
-              lectureCount={item.numOfVideos}
-              addToPlaylistHandler={addToPlaylistHandler}
-              loading={loading}
-            />
-          ))
-        ) : ( 
-          <Heading mt="4" children="Courses Not Found" />
-         )} 
+        <SimpleGrid columns={{ sm: 1, md: 2, lg: 3 }}>
+          {courses.length > 0 ? (
+            courses.map(item => (
+              <Course
+                key={item._id}
+                title={item.title}
+                description={item.description}
+                views={item.views}
+                imageSrc={item.poster.url}
+                id={item._id}
+                creator={item.createdBy}
+                lectureCount={item.numOfVideos}
+                addToPlaylistHandler={addToPlaylistHandler}
+                loading={loading}
+              />
+            ))
+          ) : (
+            <Heading mt="4" gridColumn="1 / -1">
+              Courses Not Found
+            </Heading>
+          )}
+        </SimpleGrid>
       </Stack>
- 
     </Container>
   );
 };

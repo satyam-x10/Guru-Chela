@@ -1,9 +1,9 @@
 import React, {useState} from 'react';
 import {Link} from "react-router-dom";
 import "./Navbar.css";
-import {Box, Button} from "@chakra-ui/react";
+import {Box, Button, Heading, Image} from "@chakra-ui/react";
 import {ColorModeSwitcher} from "../../ColorModeSwitcher";
-
+import logo from '../../assets/images/guru.png'
 import {GiHamburgerMenu} from "react-icons/gi";
 import { useDispatch } from 'react-redux';
 import { logoutProfile } from '../../redux/actions/user';
@@ -36,11 +36,12 @@ const Navbar = ({isAuthenticated,  user}) => {
 
       {/* Logo section */}
       <div className="logo-main">
-        <Link to="/" className="header">
-          <h1>
-           <span> Guru-Chela </span>
-          </h1>
-        </Link>
+      <Link to="/" className="header" style={{display:'flex',alignItems:'center',justifyContent:'center',flexWrap:'wrap',gap:'4px'}} >
+            <Image src={logo} alt='logo' objectFit='cover' boxSize='50px'  // Hides the image on mobile (base) and shows it on md and larger screens
+ />
+
+            <Heading display={{ base: 'none',sm:'block'}} children='Guru-Chela'/>
+          </Link>
       </div>
 
       {/* List Section */}
