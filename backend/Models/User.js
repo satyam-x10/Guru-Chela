@@ -4,7 +4,6 @@ import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import crypto from "crypto";
 import dotenv from "dotenv";
-import { title } from "process";
 
 dotenv.config();
 const UserModel = new mongoose.Schema({

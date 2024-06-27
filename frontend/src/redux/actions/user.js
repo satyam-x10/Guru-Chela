@@ -5,7 +5,7 @@ export const loginAction = (email, password) => async dispatch => {
     try {
       dispatch({ type: 'loginRequest' });
 
-      console.log('trying to login with ',email, password);
+      console.log('trying to login with ');
         
       const config = {
         headers: {

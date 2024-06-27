@@ -44,7 +44,7 @@ const CoursePage = ({ user }) => {
 
             <Heading
               m="4"
-              children={`#${lectureNumber + 1} ${
+              children={`${lectureNumber + 1}. ${
                 lectures[lectureNumber].title
               }`}
             />
@@ -64,10 +64,11 @@ const CoursePage = ({ user }) => {
                   textAlign: 'center',
                   margin: 0,
                   borderBottom: '1px solid rgba(0,0,0,0.2)',
+                  backgroundColor:index===lectureNumber?'#319795':'#07f5f175'
                 }}
               >
-                <Text noOfLines={1}>
-                  #{index + 1} {element.title}
+                <Text noOfLines={1} fontWeight="bold">
+                  {index + 1} {element.title}
                 </Text>
               </button>
             ))}

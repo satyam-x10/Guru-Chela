@@ -59,8 +59,8 @@ export const register = catchAsyncError(async (req, res, next) => {
 
 export const login = catchAsyncError(async (req, res, next) => {
     const { email, password } = req.body;
-
     console.log('baclend loggin with ', email, password);
+
 
     if (!email || !password)
         return next(new ErrorHandler("Please enter all field", 400));
@@ -158,7 +158,7 @@ export const changePassword = catchAsyncError(async (req, res, next) => {
 
 
 export const updateProfile = catchAsyncError(async (req, res, next) => {
-    const {name,email}= req.body
+    const {name,email}= req.body;
     
     console.log('updating profile',name,email);
     const user = await User.findById(req.user._id);
