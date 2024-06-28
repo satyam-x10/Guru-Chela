@@ -10,6 +10,30 @@ export const getAllCourses = catchAsyncError(async (req, res, next) => {
   const keyword = req.query.keyword || "";
   const category = req.query.category || "";
 
+  let pageNo = parseInt(req.query.page, 10) || 1;
+  const pageSize = 10;
+
+  console.log(req.query, 'was called');
+
+  const totalCourses = await Course.countDocuments({
+    title: {
+      $regex: keyword,
+      $options: "i",
+    },
+    category: {
+      $regex: category,
+      $options: "i",
+    },
+  });
+
+  let skip = (pageNo - 1) * pageSize;
+
+  // If the skip value is more than the total number of courses, reset pageNo to 1
+  if (skip >= totalCourses) {
+    pageNo = 1;
+    skip = 0;
+  }
+
   const courses = await Course.find({
     title: {
       $regex: keyword,
@@ -19,13 +43,16 @@ export const getAllCourses = catchAsyncError(async (req, res, next) => {
       $regex: category,
       $options: "i",
     },
-  }).select("-lectures");
-
-  // console.log(courses);
+  })
+    .select("-lectures")
+    .skip(skip)
+    .limit(pageSize);
 
   res.status(200).json({
     success: true,
     courses,
+    currentPage: pageNo,
+    totalPages: Math.ceil(totalCourses / pageSize),
   });
 });
 
@@ -101,14 +128,14 @@ export const createLectures = catchAsyncError(async (req, res, next) => {
     resource_type: "video",
   });
 
-  course.lectures.push({
-    title,
-    description,
-    video: {
-      public_id: mycloud.public_id,
-      url: mycloud.secure_url,
-    },
-  });
+    course.lectures.push({
+      title,
+      description,
+      video: {
+        public_id: mycloud.public_id,
+        url: mycloud.secure_url,
+      },
+    });
 
   course.numOfVideos = course.lectures.length;
   console.log('dsdsd');

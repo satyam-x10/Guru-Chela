@@ -28,7 +28,7 @@ import {
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { getAllCourses } from '../../redux/actions/course';
+import {  getCourses } from '../../redux/actions/course';
 import toast from 'react-hot-toast';
 import { addToPlaylist } from '../../redux/actions/profile';
 import { myProfile } from '../../redux/actions/user';
@@ -121,6 +121,7 @@ const Course = ({
 
 const Courses = admin => {
   const [keyword, setKeyword] = useState('');
+  const [pageNO, setPageNO] = useState(1);
   const [category, setCategory] = useState('');
   const dispatch = useDispatch();
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -132,12 +133,13 @@ const Courses = admin => {
 
   const [categories, setCategories] = useState(admin?.admin[0]?.courseCategories||[]);
 
-  const { loading, courses, error, message } = useSelector(
+  const { loading, courses,currentPage, totalPages, error, message } = useSelector(
     state => state.course
   );
 
   useEffect(() => {
-    dispatch(getAllCourses(category, keyword));
+
+    dispatch(getCourses(category, keyword,pageNO));
 
     if (error) {
       toast.error(error);
@@ -148,8 +150,9 @@ const Courses = admin => {
       toast.success(message);
       dispatch({ type: 'clearMessage' });
     }
-  }, [category, keyword, dispatch, error, message]);
-
+  }, [category, keyword, dispatch, error, message,pageNO]);
+  
+  console.log(currentPage,totalPages);
   return (
     <Container minH={'95vh'} maxW="container.lg" paddingY={'8'}>
       <Heading fontSize="2xl" mb="4">
@@ -255,6 +258,18 @@ const Courses = admin => {
           )}
         </SimpleGrid>
       </Stack>
+      <Box mt="8" display="flex" justifyContent="center">
+        {Array.from({ length:totalPages }, (_, i) => i + 1).map(page => (
+          <Button
+            key={page}
+            onClick={() => setPageNO(page)}
+            mx="2"
+            colorScheme={page === currentPage ? 'teal' : 'gray'}
+          >
+            {page}
+          </Button>
+        ))}
+      </Box>
     </Container>
   );
 };

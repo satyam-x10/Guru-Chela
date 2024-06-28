@@ -1,9 +1,10 @@
 import { server } from '../Store.js';
 import axios from 'axios';
 
-export const getAllCourses =
-  (category = '', keyword = '') =>
-  async dispatch => {
+export const getCourses =
+  (category = '', keyword = '',pageNO=1) =>
+    async dispatch => {
+    console.log('calling for ',pageNO);
     try {
       dispatch({ type: 'allCoursesRequest' });
 
@@ -11,10 +12,11 @@ export const getAllCourses =
         withCredentials: true,
       }
       const { data } = await axios.get(
-        `${server}/courses?keyword=${keyword}&category=${category}`, config
+        `${server}/courses?keyword=${keyword}&category=${category}&page=${pageNO}`, config
       );
+      console.log('daadada',data);
     
-      dispatch({ type: 'allCoursesSuccess', payload: data.courses });
+      dispatch({ type: 'allCoursesSuccess', payload: data });
 
 
     } catch (error) {
@@ -24,6 +26,8 @@ export const getAllCourses =
       });
     }
   };
+
+
 
 export const getCourseLectures = id => async dispatch => {
   try {
@@ -46,5 +50,3 @@ export const getCourseLectures = id => async dispatch => {
     });
   }
 };
-
-

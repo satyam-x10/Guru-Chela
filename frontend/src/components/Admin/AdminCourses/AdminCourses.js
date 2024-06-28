@@ -22,7 +22,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Sidebar from '../Sidebar';
 import CourseModal from './CourseModal.js';
 import {
-  getAllCourses,
+  getCourses,
   getCourseLectures,
 } from '../../../redux/actions/course';
 import {
@@ -90,7 +90,7 @@ const AdminCourses = () => {
       dispatch({ type: 'clearMessage' });
     }
 
-    dispatch(getAllCourses());
+    dispatch(getCourses());
   }, [dispatch, error, message, onClose]);
 
   return (
