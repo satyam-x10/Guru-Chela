@@ -10,7 +10,7 @@ import { FaLinkedin} from 'react-icons/fa';
 import {TiSocialLinkedinCircular} from "react-icons/ti";
 const Footer = () => {
   return (
-   <div >
+   <div style={{position:'relative',bottom:'0',width:"100vw"}} >
      <Box padding={'4'} bg="blackAlpha.900" minH={'10vh'} >
       <Stack direction={['column', 'row']}>
         <VStack alignItems={['center', 'flex-start']} width="full">

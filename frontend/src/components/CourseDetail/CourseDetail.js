@@ -85,7 +85,7 @@ const CoursePage = ({ user }) => {
                     borderWidth={1}
                     borderRadius="md"
                     onClick={() => {setLectureNumber(index);
-                      window.open(`/lecture/${lecture._id}`, '_blank');
+                      window.open(`/lecture/${course._id}/${lecture._id}`, '_blank');
                     }}
                     cursor="pointer"
                     bg={index === lectureNumber ? 'teal.500' : 'gray.200'}
