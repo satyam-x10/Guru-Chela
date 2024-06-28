@@ -1,4 +1,14 @@
-import { Box, Grid, GridItem, Heading, Image, Text, VStack, Button, Flex } from '@chakra-ui/react';
+import {
+  Box,
+  Grid,
+  GridItem,
+  Heading,
+  Image,
+  Text,
+  VStack,
+  Button,
+  Flex,
+} from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Navigate, useParams } from 'react-router-dom';
@@ -7,16 +17,18 @@ import Loader from '../Loader/Loader';
 
 const CoursePage = ({ user }) => {
   const [lectureNumber, setLectureNumber] = useState(0);
-
-  const { course, loading } = useSelector(state => state.course);
+  const [pageNo, setPageNo] = useState(1);
+  const { course, loading, currentPage, maxPage } = useSelector(
+    state => state.course
+  );
   const lectures = course?.lectures;
 
   const dispatch = useDispatch();
   const params = useParams();
 
   useEffect(() => {
-    dispatch(getCourseLectures(params.id));
-  }, [dispatch, params.id]);
+    dispatch(getCourseLectures(params.id, pageNo));
+  }, [dispatch, params.id, pageNo]);
 
   if (
     user.role !== 'admin' &&
@@ -34,76 +46,85 @@ const CoursePage = ({ user }) => {
   }
 
   return (
-    <Grid
-      templateColumns={{ base: '1fr',sm:'1fr', md: '1fr 3fr 1fr' }}
-      gap={4}
-      minH="90vh"
-      p={4}
-    >
-      <GridItem>
+    <div>
+      <Grid
+        templateColumns={{ base: '1fr', md: '1fr 2fr' }}
+        gap={4}
+        minH="90vh"
+        p={4}
+      >
+        <GridItem>
         <Box>
-          <Heading as="h2" size="sm" mb={2}>{course.title}</Heading>
-          <Text mb={2}>{course.description}</Text>
-          <Text><strong>Category:</strong> {course.category}</Text>
-          <Text><strong>Created by:</strong> {course.createdBy}</Text>
-          <Text><strong>Created at:</strong> {new Date(course.createdAt).toLocaleDateString()}</Text>
-        </Box>
-      </GridItem>
+  <Image src={course.poster.url} alt={`${course.title} poster`} mb={4} borderRadius="md" />
+  <Heading as="h2" size="sm" mb={2}>
+    {course.title}
+  </Heading>
+  <Text mb={2}>{course.description}</Text>
+  <Text>
+    <strong>Category:</strong> {course.category}
+  </Text>
+  <Text>
+    <strong>Created by:</strong> {course.createdBy}
+  </Text>
+  <Text>
+    <strong>Created at:</strong> {new Date(course.createdAt).toLocaleDateString()}
+  </Text>
+</Box>
 
-      <GridItem>
-        {lectures && lectures.length > 0 ? (
-          <Box mb={4} >
-            <Box style={{display:"flex",justifyContent:"space-between",alignItems:"center"}} mb={4}>
-              <Image
-                height="150px"
-                src={course.poster.url}
-                alt={`${course.title} poster`}
-                margin="0 10px"
-              />
-              <video
-                controls
-                controlsList="nodownload noremoteplayback"
-                disablePictureInPicture
-                disableRemotePlayback
-                src={lectures[lectureNumber].video.url}
-                style={{ height:"150px" }} // Ensure width is 50%
-              ></video>
-            </Box>
+        </GridItem>
 
-            <Heading as="h3" size="md" mt={4}>
-              {lectureNumber + 1}. {lectures[lectureNumber].title}
-            </Heading>
-            <Heading as="h4" size="sm" mt={2}>Description</Heading>
-            <Text>{lectures[lectureNumber].description}</Text>
-          </Box>
-        ) : (
-          <Heading as="h3" size="lg">No Lectures</Heading>
-        )}
-      </GridItem>
-
-      <GridItem overflowY="auto">
-        <VStack spacing={2}>
+        <GridItem>
           {lectures && lectures.length > 0 ? (
-            lectures.map((lecture, index) => (
-              <Button
-                key={lecture._id}
-                width="100%"
-                onClick={() => setLectureNumber(index)}
-                bg={index === lectureNumber ? 'teal.500' : 'gray.200'}
-                color={index === lectureNumber ? 'white' : 'black'}
-                _hover={{ bg: 'teal.400', color: 'white' }}
-                textAlign="left"
-                justifyContent="flex-start"
-              >
-                {index + 1}. {lecture.title}
-              </Button>
-            ))
+            <Box mb={4}>
+              
+              <Flex wrap="wrap" justify="flex-start" gap={4}>
+                {lectures.map((lecture, index) => (
+                  <Box
+                    key={lecture._id}
+                    width={{ base: '44%', sm: '30%', lg: '22%' }}
+                    p={4}
+                    borderWidth={1}
+                    borderRadius="md"
+                    onClick={() => setLectureNumber(index)}
+                    cursor="pointer"
+                    bg={index === lectureNumber ? 'teal.500' : 'gray.200'}
+                    color={index === lectureNumber ? 'white' : 'black'}
+                    _hover={{ bg: 'teal.400', color: 'white' }}
+                  >
+                    <Image
+                      src={lecture.poster?.url || course.poster.url}
+                      alt={`${lecture.title} poster`}
+                      mb={2}
+                      borderRadius="md"
+                    />
+                    <Heading as="h4" size="sm" mb={2}>
+                      {index + 1}. {lecture.title}
+                    </Heading>
+                  </Box>
+                ))}
+              </Flex>
+            </Box>
           ) : (
-            <Heading as="h3" size="lg">No Lectures</Heading>
+            <Heading as="h3" size="lg">
+              No Lectures
+            </Heading>
           )}
-        </VStack>
-      </GridItem>
-    </Grid>
+        </GridItem>
+      </Grid>
+      <Box my="8" display="flex" justifyContent="center">
+        {Array.from({ length: maxPage }, (_, i) => i + 1).map(page => (
+          <Button
+            key={page}
+            onClick={() => setPageNo(page)}
+            m="2"
+            colorScheme={page === currentPage ? 'teal' : 'gray'}
+            whiteSpace="nowrap"
+          >
+            {page}
+          </Button>
+        ))}
+      </Box>
+    </div>
   );
 };
 

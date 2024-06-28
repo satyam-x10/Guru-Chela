@@ -23,6 +23,8 @@ export const courseReduce = createReducer(
     getCourseSuccess: (state, action) => {
       state.loading = false;
       state.course = action.payload.course;
+      state.currentPage = action.payload.currentPage;
+      state.maxPage = action.payload.maxPage;
     },
     getCourseFail: (state, action) => {
       state.loading = false;

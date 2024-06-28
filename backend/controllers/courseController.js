@@ -149,23 +149,34 @@ export const createLectures = catchAsyncError(async (req, res, next) => {
 
 
 export const getAllLectures = catchAsyncError(async (req, res, next) => {
+  
+  const lecturesPerPage = 10;
+  const page = parseInt(req.query.pageNo) || 1; // Get the page number from the query string, default to 1
+  const skip = (page - 1) * lecturesPerPage;
 
   const course = await Course.findById(req.params.id);
-
   if (!course) {
     return next(new ErrorHandler("Course Does Not exist", 404));
   }
 
+  const totalLectures = course.lectures.length;
+  const maxPage = Math.ceil(totalLectures / lecturesPerPage);
+  const lectures = course.lectures.slice(skip, skip + lecturesPerPage);
+
   course.views += 1;
-
   await course.save();
-
 
   res.status(200).json({
     success: true,
-    course: course,
+    course: {
+      ...course.toObject(),
+      lectures: lectures
+    },
+    currentPage: page,
+    maxPage: maxPage
   });
 });
+
 
 
 export const deleteLecture = catchAsyncError(async (req, res, next) => {
