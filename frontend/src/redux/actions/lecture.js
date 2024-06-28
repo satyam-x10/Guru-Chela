@@ -8,7 +8,6 @@ export const getLecture = async (courseId, lectureId) => {
       withCredentials: true,
     };
     const { data } = await axios.get(`${server}/lecture/${courseId}/${lectureId}`, config);
-    console.log('received lecture', data);
     return data;
   } catch (error) {
     console.error('Error fetching lecture:', error);
