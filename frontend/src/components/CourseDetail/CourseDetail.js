@@ -22,7 +22,6 @@ const CoursePage = ({ user }) => {
     state => state.course
   );
   const lectures = course?.lectures;
-
   const dispatch = useDispatch();
   const params = useParams();
 
@@ -85,7 +84,9 @@ const CoursePage = ({ user }) => {
                     p={4}
                     borderWidth={1}
                     borderRadius="md"
-                    onClick={() => setLectureNumber(index)}
+                    onClick={() => {setLectureNumber(index);
+                      window.open(`/lecture/${lecture._id}`, '_blank');
+                    }}
                     cursor="pointer"
                     bg={index === lectureNumber ? 'teal.500' : 'gray.200'}
                     color={index === lectureNumber ? 'white' : 'black'}

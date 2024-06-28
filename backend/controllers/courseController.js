@@ -148,7 +148,7 @@ export const createLectures = catchAsyncError(async (req, res, next) => {
 });
 
 
-export const getAllLectures = catchAsyncError(async (req, res, next) => {
+export const getLectures = catchAsyncError(async (req, res, next) => {
   
   const lecturesPerPage = 10;
   const page = parseInt(req.query.pageNo) || 1; // Get the page number from the query string, default to 1
@@ -161,7 +161,10 @@ export const getAllLectures = catchAsyncError(async (req, res, next) => {
 
   const totalLectures = course.lectures.length;
   const maxPage = Math.ceil(totalLectures / lecturesPerPage);
-  const lectures = course.lectures.slice(skip, skip + lecturesPerPage);
+  const lectures = course.lectures.slice(skip, skip + lecturesPerPage).map(lecture => ({
+    _id: lecture._id,
+    title: lecture.title
+  }));
 
   course.views += 1;
   await course.save();
@@ -176,7 +179,6 @@ export const getAllLectures = catchAsyncError(async (req, res, next) => {
     maxPage: maxPage
   });
 });
-
 
 
 export const deleteLecture = catchAsyncError(async (req, res, next) => {

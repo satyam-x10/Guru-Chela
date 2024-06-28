@@ -4,6 +4,7 @@ import Home from './components/Home/Home.js';
 import Navbar from './components/Navbar/Navbar.js';
 import Login from './components/Authentication/Login.js';
 import Courses from './components/Courses/Courses.jsx';
+import Lecture from './components/lecture/lecture.jsx';
 import Doubts from './components/Doubts/Doubts.jsx'
 import Register from './components/Authentication/Register.js';
 import ForgotPassword from './components/Authentication/ForgotPassword.js';
@@ -75,6 +76,7 @@ const App = () => {
               <Route path="/login" element={<ProtectedRoute isAuthenticated={!isAuthenticated} redirect="/"><Login /></ProtectedRoute>} />
               <Route path="/courses" element={<ProtectedRoute isAuthenticated={isAuthenticated} redirect="."><Courses admin={admin} /></ProtectedRoute>}/>
               <Route path="/courses/:id" element={<ProtectedRoute isAuthenticated={isAuthenticated} redirect="."><CourseDetail user={user} /></ProtectedRoute>} />
+              <Route path="/lecture/:id" element={<ProtectedRoute isAuthenticated={isAuthenticated} redirect="."><Lecture/></ProtectedRoute>} />
               <Route path="/doubts" element={<Doubts />} />
               <Route path="/register" element={<ProtectedRoute isAuthenticated={!isAuthenticated} redirect="/"><Register /></ProtectedRoute>} />
               <Route path="/forgotPassword" element={<ForgotPassword />} />
