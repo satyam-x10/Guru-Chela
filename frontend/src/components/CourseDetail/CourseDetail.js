@@ -1,82 +1,108 @@
-import { Box, Grid, Heading, Text, VStack } from '@chakra-ui/react';
+import { Box, Grid, GridItem, Heading, Image, Text, VStack, Button, Flex } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Navigate, useParams } from 'react-router-dom';
 import { getCourseLectures } from '../../redux/actions/course';
 import Loader from '../Loader/Loader';
 
-
 const CoursePage = ({ user }) => {
   const [lectureNumber, setLectureNumber] = useState(0);
 
-  const { lectures, loading } = useSelector(state => state.course);
+  const { course, loading } = useSelector(state => state.course);
+  const lectures = course?.lectures;
 
   const dispatch = useDispatch();
   const params = useParams();
 
   useEffect(() => {
     dispatch(getCourseLectures(params.id));
-    console.log('got course');
   }, [dispatch, params.id]);
 
   if (
     user.role !== 'admin' &&
-    (user.subscription === undefined || user.subscription.status !== 'active')
+    (!user.subscription || user.subscription.status !== 'active')
   ) {
     return <Navigate to={'/subscribe'} />;
   }
 
-  return loading ? (
-    <Loader />
-  ) : (
-    <Grid minH={'90vh'} templateColumns={['1fr', '3fr 1fr']}>
-      {lectures && lectures.length > 0 ? (
-        <>
-          <Box>
-            <video
-              width={'100%'}
-              controls
-              controlsList="nodownload noremoteplayback"
-              disablePictureInPicture
-              disableRemotePlayback
-              src={lectures[lectureNumber].video.url}
-            ></video>
+  if (loading) {
+    return <Loader />;
+  }
 
-            <Heading
-              m="4"
-              children={`${lectureNumber + 1}. ${
-                lectures[lectureNumber].title
-              }`}
-            />
+  if (!course) {
+    return <Heading>No Course Found</Heading>;
+  }
 
-            <Heading m="4" children="Description" />
-            <Text m="4" children={lectures[lectureNumber].description} />
+  return (
+    <Grid
+      templateColumns={{ base: '1fr',sm:'1fr', md: '1fr 3fr 1fr' }}
+      gap={4}
+      minH="90vh"
+      p={4}
+    >
+      <GridItem>
+        <Box>
+          <Heading as="h2" size="sm" mb={2}>{course.title}</Heading>
+          <Text mb={2}>{course.description}</Text>
+          <Text><strong>Category:</strong> {course.category}</Text>
+          <Text><strong>Created by:</strong> {course.createdBy}</Text>
+          <Text><strong>Created at:</strong> {new Date(course.createdAt).toLocaleDateString()}</Text>
+        </Box>
+      </GridItem>
+
+      <GridItem>
+        {lectures && lectures.length > 0 ? (
+          <Box mb={4} >
+            <Box style={{display:"flex",justifyContent:"space-between",alignItems:"center"}} mb={4}>
+              <Image
+                height="150px"
+                src={course.poster.url}
+                alt={`${course.title} poster`}
+                margin="0 10px"
+              />
+              <video
+                controls
+                controlsList="nodownload noremoteplayback"
+                disablePictureInPicture
+                disableRemotePlayback
+                src={lectures[lectureNumber].video.url}
+                style={{ height:"150px" }} // Ensure width is 50%
+              ></video>
+            </Box>
+
+            <Heading as="h3" size="md" mt={4}>
+              {lectureNumber + 1}. {lectures[lectureNumber].title}
+            </Heading>
+            <Heading as="h4" size="sm" mt={2}>Description</Heading>
+            <Text>{lectures[lectureNumber].description}</Text>
           </Box>
+        ) : (
+          <Heading as="h3" size="lg">No Lectures</Heading>
+        )}
+      </GridItem>
 
-          <VStack>
-            {lectures.map((element, index) => (
-              <button
+      <GridItem overflowY="auto">
+        <VStack spacing={2}>
+          {lectures && lectures.length > 0 ? (
+            lectures.map((lecture, index) => (
+              <Button
+                key={lecture._id}
+                width="100%"
                 onClick={() => setLectureNumber(index)}
-                key={element._id}
-                style={{
-                  width: '100%',
-                  padding: '1rem',
-                  textAlign: 'center',
-                  margin: 0,
-                  borderBottom: '1px solid rgba(0,0,0,0.2)',
-                  backgroundColor:index===lectureNumber?'#319795':'#07f5f175'
-                }}
+                bg={index === lectureNumber ? 'teal.500' : 'gray.200'}
+                color={index === lectureNumber ? 'white' : 'black'}
+                _hover={{ bg: 'teal.400', color: 'white' }}
+                textAlign="left"
+                justifyContent="flex-start"
               >
-                <Text noOfLines={1} fontWeight="bold">
-                  {index + 1} {element.title}
-                </Text>
-              </button>
-            ))}
-          </VStack>
-        </>
-      ) : (
-        <Heading children="No Lectures" />
-      )}
+                {index + 1}. {lecture.title}
+              </Button>
+            ))
+          ) : (
+            <Heading as="h3" size="lg">No Lectures</Heading>
+          )}
+        </VStack>
+      </GridItem>
     </Grid>
   );
 };

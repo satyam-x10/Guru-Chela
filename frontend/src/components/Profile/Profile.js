@@ -121,6 +121,10 @@ const Profile = ({ user }) => {
               <Text fontWeight={"bold"}>Created At</Text>
               <Text >{user.createdAt.split("T")[0]}</Text>
             </HStack>
+            <HStack spacing={"3"}>
+              <Text fontWeight={"bold"}>Role</Text>
+              <Text >{user.role}</Text>
+            </HStack>
 
             {user.role !== "admin" ? (
               <>
@@ -169,10 +173,11 @@ const Profile = ({ user }) => {
 
       </Container>
       <div>
-        <span style={{ fontWeight: 'bold', fontSize: '20px' }}>Ur Saved Playlists</span>
+        <span style={{ fontWeight: 'bold', fontSize: '20px',margin:"2px 10px" }}>Ur Saved Playlists</span>
         <div  style={{ display:"flex",gap:"5px",flexWrap:'wrap' }}>
 
-        {user.playlist.map((playlist, index) => (
+        {user.playlist.length ?
+        (user.playlist.map((playlist, index) => (
             <div
               key={index}
               className="playlist-item"
@@ -234,7 +239,11 @@ const Profile = ({ user }) => {
               <DeleteIcon/>
             </button>
             </div>
-        ))}
+        ))):(
+          <span style={{padding:"10px", margin:"10px",color:"red"}}>
+          Your playlist is empty
+          </span>
+        )}
         </div>
       </div>
 

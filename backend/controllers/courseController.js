@@ -57,10 +57,16 @@ export const createCourse = catchAsyncError(async (req, res, next) => {
   const adminUser = await User.findOne({ role: "admin" });
 
   if (adminUser) {
-    // Add the category to the admin's courseCategories
-    adminUser.courseCategories.push({
-      category: category,
-    });
+    const categoryExists = adminUser.courseCategories.some(
+      (cat) => cat.category === category
+    );
+    
+    // Only push the category if it does not already exist
+    if (!categoryExists) {
+      adminUser.courseCategories.push({
+        category: category,
+      });
+    }
     
     await adminUser.save();
   } else {
@@ -130,7 +136,7 @@ export const getAllLectures = catchAsyncError(async (req, res, next) => {
 
   res.status(200).json({
     success: true,
-    lectures: course.lectures,
+    course: course,
   });
 });
 

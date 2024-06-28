@@ -37,10 +37,8 @@ export const getCourseLectures = id => async dispatch => {
     const { data } = await axios.get(`${server}/course/${id}`,
         config
     );
-
-    console.log(data);
-
-    dispatch({ type: 'getCourseSuccess', payload: data.lectures });
+    console.log('receiced',data);
+    dispatch({ type: 'getCourseSuccess', payload: data });
   } catch (error) {
     dispatch({
       type: 'getCourseFail',

@@ -20,7 +20,7 @@ export const courseReduce = createReducer(
     },
     getCourseSuccess: (state, action) => {
       state.loading = false;
-      state.lectures = action.payload;
+      state.course = action.payload.course;
     },
     getCourseFail: (state, action) => {
       state.loading = false;

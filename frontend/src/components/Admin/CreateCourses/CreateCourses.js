@@ -67,7 +67,7 @@ const CreateCourse = (admin) => {
 
     // Assuming dispatch returns a promise or you can await it
     await dispatch(createCourse(myForm));
-
+    window.location.reload()
     // Clear form fields and set default values
     // setTitle('');
     // setDescription('');
@@ -77,8 +77,11 @@ const CreateCourse = (admin) => {
     // setImagePrev(''); // Assuming image is set to null after upload
 
     // Update categories state if needed
-    const newCategories = [...categories, category];
-    setCategories(newCategories);
+    // if (!categories.includes(category)) {
+    //   const newCategories = [...categories, category];
+    //   setCategories(newCategories);
+    // }
+    
   };
 
 
