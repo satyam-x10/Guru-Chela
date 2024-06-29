@@ -71,7 +71,7 @@ export const login = catchAsyncError(async (req, res, next) => {
 
     const isMatch = await user.comparePassword(password);
 
-    console.log('is match ',isMatch);
+    console.log('is match ', isMatch);
     if (!isMatch) {
         return next(new ErrorHandler("Incorrect Email or Password", 401));
     }
@@ -96,7 +96,7 @@ export const logout = catchAsyncError(async (req, res, next) => {
 export const getMyProfile = catchAsyncError(async (req, res, next) => {
 
     const user = await User.findById(req.user._id);
-    const admin = await User.find({role:'admin'});
+    const admin = await User.find({ role: 'admin' });
     // console.log(user);
 
     res.status(200).json({
@@ -161,9 +161,9 @@ export const changePassword = catchAsyncError(async (req, res, next) => {
 
 
 export const updateProfile = catchAsyncError(async (req, res, next) => {
-    const {name,email}= req.body;
-    
-    console.log('updating profile',name,email);
+    const { name, email } = req.body;
+
+    console.log('updating profile', name, email);
     const user = await User.findById(req.user._id);
 
     if (email) user.email = email;
@@ -189,7 +189,7 @@ export const updateProfilePicture = catchAsyncError(async (req, res, next) => {
 
     const fileUri = getDataUri(file);
 
-    console.log('avatar-id',req.user.avatar.public_id);
+    console.log('avatar-id', req.user.avatar.public_id);
 
     await cloudinary.v2.uploader.destroy(req.user.avatar.public_id);
 
@@ -216,7 +216,7 @@ export const updateProfilePicture = catchAsyncError(async (req, res, next) => {
 export const forgetPassword = catchAsyncError(async (req, res, next) => {
 
     const { email } = req.body;
-    console.log('reset password for ',email);
+    console.log('reset password for ', email);
     const user = await User.findOne({ email });
 
     // console.log(user);
@@ -226,16 +226,16 @@ export const forgetPassword = catchAsyncError(async (req, res, next) => {
     }
 
     const resetToken = await user.getResetToken();
-    console.log('resetToken',resetToken)
-    
+    console.log('resetToken', resetToken)
+
     await user.save();
-    
-    
+
+
     const url = `${process.env.FRONTEND_URL}/resetpassword/${resetToken}`;
-    
+
     const message = `Click on the Link to reset your password. ${url}. if you have not requested then please ignore.`
-    
-    console.log('message sending',message)
+
+    console.log('message sending', message)
     await sendEmail(user.email, "Guru-Chela Reset Password", message);
 
 
@@ -286,11 +286,11 @@ export const resetPassword = catchAsyncError(async (req, res, next) => {
 
 export const addToPlaylist = catchAsyncError(async (req, res, next) => {
     const user = await User.findById(req.user._id);;
-    console.log('adding to plalyist',req.body);
-    
+    console.log('adding to plalyist', req.body);
+
     const course = await Course.findById(req.body.id);
     const title = req.body.courseTitle
-    
+
 
     if (!course) {
         return next(new ErrorHandler("Invalid Course Id", 401));
@@ -312,7 +312,7 @@ export const addToPlaylist = catchAsyncError(async (req, res, next) => {
 
     user.playlist.push({
         course: course._id,
-        title:title,
+        title: title,
         poster: course.poster.url,
     });
     console.log('saving user');
@@ -328,12 +328,12 @@ export const addToPlaylist = catchAsyncError(async (req, res, next) => {
 });
 
 export const removeFromPlaylist = catchAsyncError(async (req, res, next) => {
-    
+
     console.log('deleting playlist from backedn ');
     const user = await User.findById(req.user._id);;
-    
+
     const course = await Course.findById(req.query.id);
-    
+
     if (!course) {
         return next(new ErrorHandler("Invalid Course Id", 401));
     }
@@ -356,22 +356,32 @@ export const removeFromPlaylist = catchAsyncError(async (req, res, next) => {
     })
 
 });
+export const getUsers = async (req, res, next) => {
+    try {
+        let query = {};
 
+        // Check and add search criteria
+        if (req.query.searchUserName) {
+            query.name = { $regex: req.query.searchUserName, $options: 'i' };
+        }
+        if (req.query.searchRole) {
+            query.role = { $regex: req.query.searchRole, $options: 'i' };
+        }
 
-export const getAllUsers = catchAsyncError(async (req, res, next) => {
+        const users = await User.find(query);
 
+        res.status(200).json({
+            success: true,
+            users
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: error.message
+        });
+    }
+};
 
-    const users = await User.find({});
-
-
-
-    res.status(200).json({
-        success: true,
-        users
-
-    })
-
-});
 
 
 export const changeUserRole = catchAsyncError(async (req, res, next) => {
@@ -398,7 +408,7 @@ export const changeUserRole = catchAsyncError(async (req, res, next) => {
         res.status(400).json({
             success: false,
             message: `No role change regarding with admin`
-    
+
         })
     }
 

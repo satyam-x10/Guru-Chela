@@ -95,14 +95,26 @@ export const deleteLecture = (courseId, lectureId) => async dispatch => {
   }
 };
 
-export const getAllUsers = () => async dispatch => {
+export const getAllUsers = (searchUserName, searchRole) => async dispatch => {
   try {
     const config = {
       withCredentials: true,
     };
     dispatch({ type: 'getAllUsersRequest' });
 
-    const { data } = await axios.get(`${server}/admin/users`, config);
+    let url = `${server}/admin/users`;
+    // Append query params if search criteria are provided
+    if (searchUserName || searchRole) {
+      url += '?';
+      if (searchUserName) {
+        url += `searchUserName=${searchUserName}&`;
+      }
+      if (searchRole) {
+        url += `searchRole=${searchRole}`;
+      }
+    }
+
+    const { data } = await axios.get(url, config);
 
     dispatch({ type: 'getAllUsersSuccess', payload: data.users });
   } catch (error) {

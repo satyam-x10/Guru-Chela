@@ -1,6 +1,6 @@
 import express from 'express';
 
-import { login, register, logout, getMyProfile, changePassword, updateProfile,deleteMyProfile, updateProfilePicture, forgetPassword, resetPassword,removeFromPlaylist,  addToPlaylist, getAllUsers, changeUserRole, deleteUser } from '../controllers/UserController.js';
+import { login, register, logout, getMyProfile, changePassword, updateProfile,deleteMyProfile, updateProfilePicture, forgetPassword, resetPassword,removeFromPlaylist,  addToPlaylist, getUsers, changeUserRole, deleteUser } from '../controllers/UserController.js';
 import { authorizedAdmin, isAuthenticated } from '../Middlewares/isAuthenticated.js';
 import singleUpload from '../Middlewares/multer.js';
 
@@ -47,7 +47,7 @@ router.route("/addtoplaylist").post(isAuthenticated, addToPlaylist);
 router.route("/removefromplaylist").delete(isAuthenticated, removeFromPlaylist);
 
 // Admin Routes
-router.route("/admin/users").get(isAuthenticated, authorizedAdmin, getAllUsers);
+router.route("/admin/users").get(isAuthenticated, authorizedAdmin, getUsers);
 
 router.route("/admin/users/:id").put(isAuthenticated, authorizedAdmin, changeUserRole).delete(isAuthenticated, authorizedAdmin, deleteUser);
 
