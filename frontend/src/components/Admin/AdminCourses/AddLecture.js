@@ -30,7 +30,7 @@ import { addLecture, deleteLecture } from '../../../redux/actions/admin';
 import { getAdminCourse, getCourseLectures, getCourses } from '../../../redux/actions/course';
 import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
-const AdminCourse = () => {
+const AddLecture = () => {
   const dispatch = useDispatch()
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -38,6 +38,7 @@ const AdminCourse = () => {
   const [videoPrev, setVideoPrev] = useState('');
   const id = useParams().id
   console.log(id);
+  
   const [CourseData, setCourseData] = useState();
 
   useEffect(() => {
@@ -196,7 +197,7 @@ const AdminCourse = () => {
   );
 };
 
-export default AdminCourse;
+export default AddLecture;
 
 function VideoCard({
   title, courseId, lectureId

@@ -32,7 +32,7 @@ import { ProtectedRoute } from "protected-route-react";
 import Loader from './components/Loader/Loader.js';
 import Footer from './components/Footer/Footer.js';
 import History from './components/History/history.jsx';
-import AdminCourse from './components/Admin/AdminCourses/AdminCourse.js';
+import AddLecture from './components/Admin/AdminCourses/AddLecture.js';
 
 
 const App = () => {
@@ -103,7 +103,7 @@ const App = () => {
               {/* <Route path="/admin/admincourses" element={<ProtectedRoute isAuthenticated={isAuthenticated} adminRoute={true} isAdmin={user && user.role === "admin"}><AdminCourses /></ProtectedRoute>} /> */}
               <Route path="/admin/admincourses" element={<AdminCourses />} />
               <Route path="/admin/createcourses" element={<CreateCourses admin={admin} />} />
-              <Route path="/admin/course/:id" element={<AdminCourse />} />
+              <Route path="/admin/addLecture/:id" element={<AddLecture />} />
               <Route path="/admin/dashboard" element={<Dashboard />} />
               <Route path="/admin/users" element={<Users />} />
               {/* <Route path="/admin/admincourses" element={<ProtectedRoute isAuthenticated={isAuthenticated} adminRoute={true} isAdmin={user && user.role === "admin"}><AdminCourses /></ProtectedRoute>} />

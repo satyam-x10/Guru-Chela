@@ -190,6 +190,7 @@ export const getAdminCourse = catchAsyncError(async (req, res, next) => {
   const lectures = course.lectures.slice(-10).map(lecture => ({
     _id: lecture._id,
     title: lecture.title,
+    
   }));
 
 
