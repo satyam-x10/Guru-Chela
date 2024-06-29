@@ -57,18 +57,18 @@ const Users = () => {
 
   return (
     <Box
-
       minH={'100vh'}
       templateColumns={['1fr', '5fr 1fr']}
     >
       <Sidebar />
+      <Box p={"10px"}>
       <Input
         value={SearcUserName}
         onChange={e => SetSearcUser(e.target.value)}
         placeholder="Search User by  name"
         type={'text'}
         focusBorderColor="teal.500"
-        mb="4"
+        my="4"
       />
       <Input
         value={SearchRole}
@@ -76,13 +76,13 @@ const Users = () => {
         placeholder="Search User by  role"
         type={'text'}
         focusBorderColor="teal.500"
-        mb="4"
+        my="4"
       />
+      </Box>
       <Box p={['0', '6']} >
         <Heading
           textTransform={'uppercase'}
           children="All Users"
-          my="16"
           textAlign={['center', 'left']}
         />
 

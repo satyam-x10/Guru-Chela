@@ -37,10 +37,6 @@ import AddLecture from './components/Admin/AdminCourses/AddLecture.js';
 
 const App = () => {
 
-  // window.addEventListener("contextmenu", (e) => {
-  //   e.preventDefault();
-  // })
-
   const { isAuthenticated, user, error, message, loading,admin } = useSelector(state => state.user);
   const dispatch = useDispatch();
 
