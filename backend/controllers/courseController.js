@@ -179,6 +179,28 @@ export const getLectures = catchAsyncError(async (req, res, next) => {
     maxPage: maxPage
   });
 });
+export const getAdminCourse = catchAsyncError(async (req, res, next) => {
+  console.log('getting admin course');
+
+  const course = await Course.findById(req.params.id);
+  if (!course) {
+    return next(new ErrorHandler("Course Does Not exist", 404));
+  }
+
+  const lectures = course.lectures.slice(-10).map(lecture => ({
+    _id: lecture._id,
+    title: lecture.title,
+  }));
+
+
+  res.status(200).json({
+    success: true,
+    course: {
+      poster:course.poster,
+      lectures: lectures
+    }
+  });
+});
 
 
 export const deleteLecture = catchAsyncError(async (req, res, next) => {

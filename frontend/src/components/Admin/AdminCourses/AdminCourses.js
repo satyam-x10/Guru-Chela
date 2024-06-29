@@ -20,7 +20,7 @@ import { useEffect } from 'react';
 import { RiDeleteBin7Fill } from 'react-icons/ri';
 import { useDispatch, useSelector } from 'react-redux';
 import Sidebar from '../Sidebar';
-import CourseModal from './CourseModal.js';
+import CourseModal from './AdminCourse.js';
 import {
   getCourses,
   getCourseLectures,
@@ -42,41 +42,13 @@ const AdminCourses = () => {
 
   const dispatch = useDispatch();
 
-  const { isOpen, onClose, onOpen } = useDisclosure();
 
-  const [courseId, setCourseId] = useState('');
-  const [courseTitle, setCourseTitle] = useState('');
-  const [coursePoster, setCoursePoster] = useState('');
 
-  const coureDetailsHandler = (courseId, title,posterURL) => {
-    dispatch(getCourseLectures(courseId));
-    onOpen();
-    setCourseId(courseId);
-    setCourseTitle(title);
-    setCoursePoster(posterURL);
-  };
   const deleteButtonHandler = courseId => {
     console.log(courseId);
     dispatch(deleteCourse(courseId));
   };
 
-  const deleteLectureButtonHandler = async (courseId, lectureId) => {
-    await dispatch(deleteLecture(courseId, lectureId));
-    dispatch(getCourseLectures(courseId));
-  };
-  const addLectureHandler = async (e, courseId, title, description, video) => {
-    e.preventDefault();
-    const myForm = new FormData();
-
-    myForm.append('title', title);
-    myForm.append('description', description);
-    myForm.append('file', video);
-
-    await dispatch(addLecture(courseId, myForm));
-
-    dispatch(getCourseLectures(courseId));
-    // window.location.reload();
-  };
 
 
   useEffect(() => {
@@ -91,13 +63,13 @@ const AdminCourses = () => {
     }
 
     dispatch(getCourses());
-  }, [dispatch, error, message, onClose]);
+  }, [dispatch, error, message]);
 
   return (
-    
-      <div>
-        <Sidebar />
-        <Box p={['0', '8']} overflowX="auto">
+
+    <div>
+      <Sidebar />
+      <Box p={['0', '8']} overflowX="auto">
         <Heading
           textTransform={'uppercase'}
           children="All Courses"
@@ -124,7 +96,6 @@ const AdminCourses = () => {
             <Tbody>
               {courses.map(item => (
                 <Row
-                  coureDetailsHandler={coureDetailsHandler}
                   deleteButtonHandler={deleteButtonHandler}
                   key={item._id}
                   item={item}
@@ -134,26 +105,13 @@ const AdminCourses = () => {
             </Tbody>
           </Table>
         </TableContainer>
-
-        <CourseModal
-          isOpen={isOpen}
-          onClose={onClose}
-          id={courseId}
-          courseTitle={courseTitle}
-          coursePoster={coursePoster}
-          deleteButtonHandler={deleteLectureButtonHandler}
-          addLectureHandler={addLectureHandler}
-          lectures={lectures}
-          loading={loading}
-        />
       </Box>
 
-      
-      </div>
+    </div>
   );
 };
 
-function Row({ item, coureDetailsHandler, deleteButtonHandler, loading }) {
+function Row({ item, deleteButtonHandler, loading }) {
   return (
     <Tr>
 
@@ -171,7 +129,7 @@ function Row({ item, coureDetailsHandler, deleteButtonHandler, loading }) {
       <Td isNumeric>
         <HStack justifyContent={'flex-end'}>
           <Button
-            onClick={() => coureDetailsHandler(item._id, item.title,item.poster.url)}
+            onClick={() => window.location.href = `./course/${item._id}`}
             variant={'outline'}
             color="purple.500"
             isLoading={loading}

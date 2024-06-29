@@ -31,6 +31,8 @@ import { myProfile,adminProfile } from './redux/actions/user.js';
 import { ProtectedRoute } from "protected-route-react";
 import Loader from './components/Loader/Loader.js';
 import Footer from './components/Footer/Footer.js';
+import History from './components/History/history.jsx';
+import AdminCourse from './components/Admin/AdminCourses/AdminCourse.js';
 
 
 const App = () => {
@@ -76,6 +78,7 @@ const App = () => {
               <Route path="/login" element={<ProtectedRoute isAuthenticated={!isAuthenticated} redirect="/"><Login /></ProtectedRoute>} />
               <Route path="/courses" element={<ProtectedRoute isAuthenticated={isAuthenticated} redirect="."><Courses admin={admin} /></ProtectedRoute>}/>
               <Route path="/courses/:id" element={<ProtectedRoute isAuthenticated={isAuthenticated} redirect="."><CourseDetail user={user} /></ProtectedRoute>} />
+              {/* <Route path="/history/" element={<ProtectedRoute isAuthenticated={isAuthenticated} redirect="."><Lecture /></ProtectedRoute>} /> */}
               <Route path="/lecture/:courseId/:lectureId" element={<ProtectedRoute isAuthenticated={isAuthenticated} redirect="."><Lecture/></ProtectedRoute>} />
               <Route path="/doubts" element={<Doubts />} />
               <Route path="/register" element={<ProtectedRoute isAuthenticated={!isAuthenticated} redirect="/"><Register /></ProtectedRoute>} />
@@ -99,9 +102,14 @@ const App = () => {
               {/* Admin Routes */}
               {/* <Route path="/admin/admincourses" element={<ProtectedRoute isAuthenticated={isAuthenticated} adminRoute={true} isAdmin={user && user.role === "admin"}><AdminCourses /></ProtectedRoute>} /> */}
               <Route path="/admin/admincourses" element={<AdminCourses />} />
-              <Route path="/admin/createcourses" element={<ProtectedRoute isAuthenticated={isAuthenticated} adminRoute={true} isAdmin={user && user.role === "admin"}redirect="."><CreateCourses admin={admin} /></ProtectedRoute>} />
+              <Route path="/admin/createcourses" element={<CreateCourses admin={admin} />} />
+              <Route path="/admin/course/:id" element={<AdminCourse />} />
+              <Route path="/admin/dashboard" element={<Dashboard />} />
+              <Route path="/admin/users" element={<Users />} />
+              {/* <Route path="/admin/admincourses" element={<ProtectedRoute isAuthenticated={isAuthenticated} adminRoute={true} isAdmin={user && user.role === "admin"}><AdminCourses /></ProtectedRoute>} />
+              <Route path="/admin/createcourses" element={<ProtectedRoute isAuthenticated={isAuthenticated} adminRoute={true} isAdmin={user && user.role === "admin"}><CreateCourses admin={admin} /></ProtectedRoute>} />
               <Route path="/admin/dashboard" element={<ProtectedRoute isAuthenticated={isAuthenticated} adminRoute={true} isAdmin={user && user.role === "admin"}><Dashboard /></ProtectedRoute>} />
-              <Route path="/admin/users" element={<ProtectedRoute isAuthenticated={isAuthenticated} adminRoute={true} isAdmin={user && user.role === "admin"}><Users /></ProtectedRoute>} />
+              <Route path="/admin/users" element={<ProtectedRoute isAuthenticated={isAuthenticated} adminRoute={true} isAdmin={user && user.role === "admin"}><Users /></ProtectedRoute>} /> */}
 
             </Routes>
             <Footer />

@@ -74,6 +74,7 @@ export const addLecture = (id, formdata) => async dispatch => {
 };
 
 export const deleteLecture = (courseId, lectureId) => async dispatch => {
+  console.log('deleting lectrue ');
   try {
     const config = {
       withCredentials: true,

@@ -37,7 +37,6 @@ export const getCourseLectures = (id, pageNo) => async dispatch => {
       withCredentials: true,
     }
 
-
     const { data } = await axios.get(`${server}/course/${id}?pageNo=${pageNo}`,
 
       config
@@ -49,5 +48,28 @@ export const getCourseLectures = (id, pageNo) => async dispatch => {
       type: 'getCourseFail',
       payload: error.response.data.message,
     });
+  }
+};
+
+export const getAdminCourse = async (id) => {
+  console.log('trying admin course');
+  try {
+    const config = {
+      withCredentials: true,
+    };
+
+    const { data } = await axios.get(`${server}/admin/course/${id}`, config);
+    console.log('received admin course', data);
+
+    return data;
+  } catch (error) {
+    console.error('Error fetching admin course:', error);
+
+    return {
+      status: 'failed to get admin course',
+      error: error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message,
+    };
   }
 };
