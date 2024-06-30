@@ -31,7 +31,7 @@ export const getLecture = catchAsyncError(async (req, res, next) => {
   // Determine the previous and next lectures
   const previousLecture = lectureIndex > 0 ? { id: course.lectures[lectureIndex - 1]._id, title: course.lectures[lectureIndex - 1].title } : null;
   const nextLecture = lectureIndex < course.lectures.length - 1 ? { id: course.lectures[lectureIndex + 1]._id, title: course.lectures[lectureIndex + 1].title } : null;
-  
+
   // Return the found lecture and titles of previous and next lectures
   res.status(200).json({
     success: true,
@@ -43,12 +43,11 @@ export const getLecture = catchAsyncError(async (req, res, next) => {
 
 // Max video size 100mb
 export const createLectures = catchAsyncError(async (req, res, next) => {
-  
-  
+
   const { id } = req.params;
   const { title, description } = req.body;
-  
-  console.log('making lecture ',title,description);
+
+  console.log('making lecture ', title, description);
 
   const course = await Course.findById(id);
 
@@ -57,21 +56,33 @@ export const createLectures = catchAsyncError(async (req, res, next) => {
   const file = req.file;
   const fileUri = getDataUri(file);
 
+  // Upload video to Cloudinary with eager transformations for generating a thumbnail
   const mycloud = await cloudinary.v2.uploader.upload(fileUri.content, {
     resource_type: "video",
+    eager: [
+      { 
+        format: 'jpg', 
+        transformation: [{ width: 300, height: 200, crop: 'pad' }],
+        eager_async: true, 
+        eager_notification_url: "https://mysite.com/notify_endpoint", 
+      }
+    ],
   });
 
-    course.lectures.push({
-      title,
-      description,
-      video: {
-        public_id: mycloud.public_id,
-        url: mycloud.secure_url,
-      },
-    });
+  // Get the URL of the generated thumbnail
+  const thumbnailUrl = mycloud.eager[0].secure_url;
+
+  course.lectures.push({
+    title,
+    description,
+    thumbnail: thumbnailUrl, // Use the generated thumbnail URL
+    video: {
+      public_id: mycloud.public_id,
+      url: mycloud.secure_url,
+    },
+  });
 
   course.numOfVideos = course.lectures.length;
-  console.log('dsdsd');
   await course.save();
 
   res.status(200).json({
@@ -79,6 +90,7 @@ export const createLectures = catchAsyncError(async (req, res, next) => {
     message: "Lecture added in Course",
   });
 });
+
 
 
 export const deleteLecture = catchAsyncError(async (req, res, next) => {
@@ -109,7 +121,7 @@ export const deleteLecture = catchAsyncError(async (req, res, next) => {
 });
 
 export const getCourseLectures = catchAsyncError(async (req, res, next) => {
-  
+
   const lecturesPerPage = 10;
   const page = parseInt(req.query.pageNo) || 1; // Get the page number from the query string, default to 1
   const skip = (page - 1) * lecturesPerPage;
@@ -123,7 +135,8 @@ export const getCourseLectures = catchAsyncError(async (req, res, next) => {
   const maxPage = Math.ceil(totalLectures / lecturesPerPage);
   const lectures = course.lectures.slice(skip, skip + lecturesPerPage).map(lecture => ({
     _id: lecture._id,
-    title: lecture.title
+    title: lecture.title,
+    thumbnail:lecture.thumbnail
   }));
 
   course.views += 1;

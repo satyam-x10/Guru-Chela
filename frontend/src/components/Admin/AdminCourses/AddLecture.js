@@ -31,11 +31,13 @@ import { getAdminCourse, getCourseLectures, getCourses } from '../../../redux/ac
 import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 const AddLecture = () => {
+
   const dispatch = useDispatch()
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [video, setVideo] = useState('');
   const [videoPrev, setVideoPrev] = useState('');
+
   const id = useParams().id
   console.log(id);
   
@@ -181,10 +183,12 @@ const AddLecture = () => {
         <Heading children={'Recent Lectures from this Course'} size="lg" />
         <><Button colorScheme="purple" margin="10px" onClick={() => { window.open(`/courses/${id}`) }} >See All from this course</Button></>
         <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} gap={4}>
-          {CourseData?.lectures.slice().reverse().map((item, i) => (
+          {CourseData?.lectures.reverse().map((item, i) => (
             <VideoCard
               key={i}
               title={item.title}
+              thumbnail={item.thumbnail}
+
               courseId={id}
               lectureId={item._id}
             />
@@ -200,7 +204,7 @@ const AddLecture = () => {
 export default AddLecture;
 
 function VideoCard({
-  title, courseId, lectureId
+  title,thumbnail, courseId, lectureId
 }) {
   const { colorMode } = useColorMode();
 
@@ -228,6 +232,7 @@ function VideoCard({
 
       {/* Left side content */}
       <div style={{ display: 'flex', flex: 1, flexFlow: 'column', flexDirection: "column", justifyContent: "space-around", height: "100%" }}>
+        <Image src={thumbnail}></Image>
         <Heading
           size={'sm'}
           children={`${title}`}

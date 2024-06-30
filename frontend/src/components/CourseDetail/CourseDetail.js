@@ -95,7 +95,7 @@ const CoursePage = ({ user }) => {
                     _hover={{ bg: 'teal.400', color: 'white' }}
                   >
                     <Image
-                      src={lecture.poster?.url || course.poster.url}
+                      src={lecture.thumbnail || course.poster.url}
                       alt={`${lecture.title} poster`}
                       mb={2}
                       onClick={() => {setLectureNumber(index);

@@ -24,7 +24,10 @@ const CourseModel = new mongoose.Schema({
                 type: String,
                 required: false,
             },
-
+            thumbnail: {
+                type: String,
+                required: false,
+            },
             video: {
                 public_id: {
                     type: String,

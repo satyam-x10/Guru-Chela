@@ -56,7 +56,7 @@ const Lecture = () => {
             <video
               controls
               style={{ width: '100%', height: 'auto' }}
-              src={lectureData.lecture.video.url}
+              src={lectureData.lecture.video.url||lectureData.lecture.thumbnail}
             />
             <HStack justify="space-between" spacing={4} m={4}>
               {lectureData.previousLecture && (

@@ -3,7 +3,7 @@ import { Course } from "../Models/Course.js"
 import getDataUri from "../Utils/dataUri.js";
 import ErrorHandler from "../Utils/ErrorHandler.js";
 import cloudinary from "cloudinary";
-import { Stats } from "../Models/Stats.js";
+
 import { User } from "../Models/User.js";
 
 export const getCourses = catchAsyncError(async (req, res, next) => {
@@ -120,7 +120,8 @@ export const getAdminCourse = catchAsyncError(async (req, res, next) => {
   const lectures = course.lectures.slice(-10).map(lecture => ({
     _id: lecture._id,
     title: lecture.title,
-    
+    thumbnail:lecture.thumbnail
+
   }));
 
 
