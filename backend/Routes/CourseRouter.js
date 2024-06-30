@@ -12,7 +12,7 @@ router.route("/courses").get(getCourses);
 router.route("/createCourse").post(isAuthenticated, authorizedAdmin, singleUpload, createCourse);
 
 // Add Lectures, Delete Course, Get Course Details - Only Admin
-router.route("/admin/course/:id").get(isAuthenticated, authorizedSubscriber, getAdminCourse);
+router.route("/admin/course/:id").get(isAuthenticated,authorizedAdmin,  getAdminCourse);
 router.route("/course/:id").delete(isAuthenticated,  authorizedAdmin, singleUpload, deleteCourse);
 
 

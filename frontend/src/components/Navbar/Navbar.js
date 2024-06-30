@@ -42,7 +42,7 @@ const Navbar = ({ isAuthenticated, user }) => {
 
             {isAuthenticated && (
               <>
-                <ul style={{ display: "flex", width: "100%", fontWeight: "bold", fontSize: "20px", gap: "10px", margin: "0 40px 0 0 " }}>
+                <ul style={{ display: "flex", width: "100%", fontWeight: "bold", fontSize: "20px", gap: "25px", margin: "0 40px 0 0 " }}>
                   <NavLink style={{}} to="/" isActive={location.pathname === '/'}>
                     Home
                   </NavLink>

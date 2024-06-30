@@ -10,6 +10,7 @@ router.route("/lecture/:courseId/:lectureId").get(isAuthenticated, authorizedSub
 
 router.route("/course/:id").get(isAuthenticated, authorizedSubscriber, getCourseLectures);
 router.route("/course/:id").post(isAuthenticated, authorizedAdmin, singleUpload, createLectures);
+
 // Delete Lecture
 router.route("/lecture").delete(isAuthenticated, authorizedAdmin, deleteLecture);
 export default router;
