@@ -9,7 +9,8 @@ export const connectDB = async () => {
   const MONGO_URI = process.env.MONGO_URI;
   try {
     const { connection } = await mongoose.connect(
-      `${MONGO_URI}/Guru_Chela`,
+      `${MONGO_URI}`,
+      // `${MONGO_URI}/Guru_Chela`,
       {},
     );
 

@@ -1,6 +1,7 @@
 import express from "express";
 import course from "./Routes/CourseRouter.js";
 import lecture from "./Routes/lectureRouter.js";
+import doubt from "./Routes/DoubtRouter.js";
 import ErrorMiddleware from "./Middlewares/Error.js";
 import { config } from "dotenv";
 import users from "./Routes/userRouter.js";
@@ -38,6 +39,7 @@ app.use(
 
 app.use("/api", course);
 app.use("/api", lecture);
+app.use("/api", doubt);
 app.use("/api", users);
 app.use("/api", payment);
 app.use("/api", others);
