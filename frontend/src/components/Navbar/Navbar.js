@@ -1,34 +1,20 @@
-import React, { useState, useEffect } from 'react';
-import { Link, useLocation } from "react-router-dom";
-import "./Navbar.css";
-import { Box, Button, Heading, Image, Text } from "@chakra-ui/react";
-import { ColorModeSwitcher } from "../../ColorModeSwitcher";
-import logo from '../../assets/images/guru.png'
-import { GiHamburgerMenu } from "react-icons/gi";
+import React, { useState } from 'react';
+import { Link, NavLink, useLocation } from 'react-router-dom';
+import { Box, Flex, Text, Image, Spacer, IconButton, Drawer, DrawerBody, DrawerFooter, DrawerHeader, DrawerOverlay, DrawerContent, useDisclosure, VStack, useColorModeValue, useColorMode } from '@chakra-ui/react';
+import { GiHamburgerMenu, GiOutbackHat } from 'react-icons/gi';
 import { useDispatch } from 'react-redux';
 import { logoutProfile } from '../../redux/actions/user';
+import { ColorModeSwitcher } from "../../ColorModeSwitcher";
+import logo from '../../assets/images/guru.png';
+import { FaMoon, FaSignInAlt, FaSignOutAlt, FaSun } from 'react-icons/fa';
 
 const Navbar = ({ isAuthenticated, user }) => {
-  const [mobile, setMobile] = useState(false); // State to track mobile view
-  const location = useLocation()
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    const handleResize = () => {
-      // Update mobile state based on window width
-      setMobile(window.innerWidth <= 768); // Adjust the breakpoint as needed
-    };
-
-    // Set initial mobile state on component mount
-    handleResize();
-
-    // Add event listener for window resize
-    window.addEventListener('resize', handleResize);
-
-    // Cleanup event listener on component unmount
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
-
+  const location = useLocation();
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const SwitchIcon = useColorModeValue(FaMoon, FaSun);
+  const { toggleColorMode } = useColorMode();
+  const text = useColorModeValue('dark', 'light');
   const logoutHandler = (e) => {
     e.preventDefault();
     console.log("Logging out..");
@@ -36,79 +22,112 @@ const Navbar = ({ isAuthenticated, user }) => {
   };
 
   return (
-    <>
-      <nav className="navbar">
-        {/* Logo section */}
-        <div className="logo-main">
-          <Link to="/" className="header" style={{display:"flex",gap:"10px",justifyContent:"center",alignItems:"center"}}>
-            <Image src={logo} alt='logo' boxSize='50px' />
-            <Text>GuruChela</Text>
-          </Link>
-        </div>
+    <Box
+      px={{ base: 4, md: 8 }}
+      py={4}
+      borderBottom="4px"
+      borderColor="teal.500"
+    >
+      <Flex align="center" justify="space-between" maxW="7xl" mx="auto">
 
-        {/* List Section */}
-        <div className="list-sec">
-          <ul className={mobile ? "list-mobile" : "list"}>
-            
-            <Link to="/" className={`link ${location.pathname === '/' ? 'active' : ''}`}>
-              <li>Home</li>
-            </Link>
-            <Link to="/courses" className={`link ${location.pathname === '/courses' ? 'active' : ''}`}>
-              <li>Courses</li>
-            </Link>
-            <Link to="/doubts" className={`link ${location.pathname === '/doubts' ? 'active' : ''}`}>
-              <li>Doubts</li>
-            </Link>
-            
-            {mobile && isAuthenticated && (
+        <Link to="/" style={{ display: 'flex', alignItems: 'center' }}>
+          <Image src={logo} alt="logo" boxSize="50px" />
+          <Text ml={2} fontWeight="bold" fontSize="xl" display={{ base: "none", lg: "flex" }} >
+            GuruChela
+          </Text>
+        </Link>
+        <div style={{ display: "flex", flexDirection: "row" }}>
+
+          <Flex align="center" display={{ base: 'none', md: 'flex' }}>
+
+            {isAuthenticated && (
               <>
-                <Link to="/profile" className="link">
-                  <li>Profile</li>
-                </Link>
-                {user.role === "admin" && (
-                  <Link to="/admin/dashboard" className="link">
-                    <li>Dashboard</li>
-                  </Link>
-                )}
+                <ul style={{ display: "flex", width: "100%", fontWeight: "bold", fontSize: "20px", gap: "10px", margin: "0 40px 0 0 " }}>
+                  <NavLink style={{}} to="/" isActive={location.pathname === '/'}>
+                    Home
+                  </NavLink>
+                  <NavLink to="/courses" isActive={location.pathname === '/courses'}>
+                    Courses
+                  </NavLink>
+                  <NavLink to="/doubts" isActive={location.pathname === '/doubts'}>
+                    Doubts
+                  </NavLink>
+                  <NavLink to="/profile" isActive={location.pathname === '/profile'}>
+                    Profile
+                  </NavLink>
+                  {user.role === 'admin' && (
+                    <NavLink to="/admin/dashboard" isActive={location.pathname === '/admin/dashboard'}>
+                      Dashboard
+                    </NavLink>
+                  )}
+
+                </ul>
+                <Box p={2} cursor="pointer" borderRadius={6} bg="teal" mx={2} onClick={logoutHandler}>Logout</Box>
+
               </>
             )}
             {!isAuthenticated && (
-              <Link className="mobile-btn link" to="/login">
-                <li>Login</li>
-              </Link>
+              <NavLink to="/login" isActive={location.pathname === '/login'}>
+                <Box p={2} cursor="pointer" borderRadius={6} bg="teal" mx={2} >Login</Box>
+              </NavLink>
             )}
-          </ul>
-        </div>
+          </Flex>
 
-        {/* Login/Signup Here */}
-        <div className="section3">
-          {isAuthenticated ? (
-            <>
-              <Link to="/profile">
-                <Button colorScheme='teal' variant='solid' mx={"1"}>Profile</Button>
-              </Link>
-              {user.role === "admin" ? (
-                <Link to="/admin/dashboard">
-                  <Button colorScheme='teal' variant='solid' mx={"4"}>Dashboard</Button>
-                </Link>
-              ) : null}
-              <Button colorScheme='teal' variant='solid' onClick={logoutHandler}>Logout</Button>
-            </>
-          ) : (
-            <Link to="/login">
-              <Button colorScheme='teal' variant='solid'>Login/Signup</Button>
-            </Link>
-          )}
-          <ColorModeSwitcher />
-        </div>
+          <Flex align="center" >
+            <Box p={2} cursor="pointer" borderRadius={6} bg="teal" onClick={toggleColorMode} > <SwitchIcon size={30} /> </Box>
+            <Box p={2} cursor="pointer" borderRadius={6} bg="teal" mx={2} display={{ base: 'flex', md: "none" }} onClick={onOpen}><GiHamburgerMenu size={30} /></Box>
 
-        <div className="hamburger">
-        <ColorModeSwitcher />
-          <GiHamburgerMenu onClick={() => setMobile(!mobile)} style={{ marginTop: "7px" }} />
+          </Flex>
         </div>
-      </nav>
-    </>
-  )
-}
+      </Flex>
+
+      <Drawer placement="right" onClose={onClose} isOpen={isOpen}>
+        <DrawerOverlay />
+        <DrawerContent>
+          <DrawerHeader display="flex" justifyContent="space-between">
+            <span>GuruChela</span>
+            <GiHamburgerMenu size={30} onClick={onClose} />
+          </DrawerHeader>
+
+          <DrawerBody style={{ fontWeight: "bold", fontSize: "20px" }}>
+            <VStack align="start">
+
+              {isAuthenticated && (
+                <>
+                  <NavLink to="/" isActive={location.pathname === '/'} onClick={onClose}>
+                    Home
+                  </NavLink>
+                  <NavLink to="/courses" isActive={location.pathname === '/courses'} onClick={onClose}>
+                    Courses
+                  </NavLink>
+                  <NavLink to="/doubts" isActive={location.pathname === '/doubts'} onClick={onClose}>
+                    Doubts
+                  </NavLink>
+                  <NavLink to="/profile" isActive={location.pathname === '/profile'} onClick={onClose}>
+                    Profile
+                  </NavLink>
+                  {user.role === 'admin' && (
+                    <NavLink to="/admin/dashboard" isActive={location.pathname === '/admin/dashboard'} onClick={onClose}>
+                      Dashboard
+                    </NavLink>
+                  )}
+                  <Text cursor="pointer" onClick={(e) => { logoutHandler(e); onClose(); }} >
+                    Logout
+                  </Text>
+                </>
+              )}
+              {!isAuthenticated && (
+                <NavLink to="/login" isActive={location.pathname === '/login'} onClick={onClose}>
+                  Login/Signup
+                </NavLink>
+              )}
+            </VStack>
+          </DrawerBody>
+        </DrawerContent>
+      </Drawer>
+    </Box>
+  );
+};
+
 
 export default Navbar;
