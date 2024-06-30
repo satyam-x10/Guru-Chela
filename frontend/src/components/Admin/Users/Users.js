@@ -56,49 +56,71 @@ const Users = () => {
   }, [dispatch, error, message, SearcUserName, SearchRole]);
 
   return (
-    <Box
-      minH={'100vh'}
-      templateColumns={['1fr', '5fr 1fr']}
-    >
+    <Box minH={'100vh'} templateColumns={['1fr', '5fr 1fr']}>
       <Sidebar />
-      <Box p={"10px"}>
-      <Input
-        value={SearcUserName}
-        onChange={e => SetSearcUser(e.target.value)}
-        placeholder="Search User by  name"
-        type={'text'}
-        focusBorderColor="teal.500"
-        my="4"
-      />
-      <Input
-        value={SearchRole}
-        onChange={e => SetSearchRole(e.target.value)}
-        placeholder="Search User by  role"
-        type={'text'}
-        focusBorderColor="teal.500"
-        my="4"
-      />
+      <Box p={'10px'}>
+        <Input
+          value={SearcUserName}
+          onChange={e => SetSearcUser(e.target.value)}
+          placeholder="Search User by  name"
+          type={'text'}
+          focusBorderColor="teal.500"
+          my="4"
+        />
+        <Input
+          value={SearchRole}
+          onChange={e => SetSearchRole(e.target.value)}
+          placeholder="Search User by  role"
+          type={'text'}
+          focusBorderColor="teal.500"
+          my="4"
+        />
       </Box>
-      <Box p={['0', '6']} >
+      <Box p={['0', '6']}>
         <Heading
           textTransform={'uppercase'}
           children="All Users"
           textAlign={['center', 'left']}
         />
 
-
         <Box>
-          <Text fontSize="xl" mb={4}>All available users in the database</Text>
+          <Text fontSize="xl" mb={4}>
+            All available users in the database
+          </Text>
 
           {users && (
             <Grid
-              templateColumns={{ base: '1fr', md: 'repeat(2, 1fr)',lg:'repeat(3, 1fr)' }}
+              templateColumns={{
+                base: '1fr',
+                md: 'repeat(2, 1fr)',
+                lg: 'repeat(3, 1fr)',
+              }}
               gap={6}
             >
               {users.map(item => (
-                <Flex flexShrink={1} key={item._id} alignItems="center" borderWidth="1px" borderRadius="lg" p={4} mb={4}>
-                  <Box mr={{ base: 2, md: 4 }} mb={{ base: 4, md: 0 }} flexShrink={0}>
-                    <img src={item.avatar.url} alt={item.name} style={{ borderRadius: '50%', width: '64px', height: '64px' }} />
+                <Flex
+                  flexShrink={1}
+                  key={item._id}
+                  alignItems="center"
+                  borderWidth="1px"
+                  borderRadius="lg"
+                  p={4}
+                  mb={4}
+                >
+                  <Box
+                    mr={{ base: 2, md: 4 }}
+                    mb={{ base: 4, md: 0 }}
+                    flexShrink={0}
+                  >
+                    <img
+                      src={item.avatar.url}
+                      alt={item.name}
+                      style={{
+                        borderRadius: '50%',
+                        width: '64px',
+                        height: '64px',
+                      }}
+                    />
                   </Box>
 
                   <Box flex="1">
@@ -108,20 +130,41 @@ const Users = () => {
                     <Text>{item.subscription.status}</Text>
                   </Box>
 
-                  <Box >
-                    <Text p={1} borderRadius={"10px"} fontWeight="bold" color="blue.500" cursor="pointer" border="1px" borderColor="blue.500" pb={1} mb={2} onClick={() => updateHandler(item._id)}>Update</Text>
-                    <Text p={1} borderRadius={"10px"} fontWeight="bold" color="red.500" cursor="pointer" border="1px" borderColor="red.500" pb={1} onClick={() => deleteButtonHandler(item._id)}>Delete</Text>
+                  <Box>
+                    <Text
+                      p={1}
+                      borderRadius={'10px'}
+                      fontWeight="bold"
+                      color="blue.500"
+                      cursor="pointer"
+                      border="1px"
+                      borderColor="blue.500"
+                      pb={1}
+                      mb={2}
+                      onClick={() => updateHandler(item._id)}
+                    >
+                      Update
+                    </Text>
+                    <Text
+                      p={1}
+                      borderRadius={'10px'}
+                      fontWeight="bold"
+                      color="red.500"
+                      cursor="pointer"
+                      border="1px"
+                      borderColor="red.500"
+                      pb={1}
+                      onClick={() => deleteButtonHandler(item._id)}
+                    >
+                      Delete
+                    </Text>
                   </Box>
                 </Flex>
               ))}
-
             </Grid>
           )}
-
         </Box>
       </Box>
-
-
     </Box>
   );
 };

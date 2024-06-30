@@ -46,7 +46,6 @@ export const deleteCourse = id => async dispatch => {
 };
 
 export const addLecture = (id, formdata) => async dispatch => {
-
   try {
     const config = {
       headers: {

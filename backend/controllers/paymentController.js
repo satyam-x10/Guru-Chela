@@ -11,125 +11,110 @@ import dotenv from "dotenv";
 
 dotenv.config();
 export const createSubscription = catchAsyncError(async (req, res, next) => {
-    const user = await User.findById(req.user._id);
+  const user = await User.findById(req.user._id);
 
-    if(user.role === "admin"){
-        return next(new ErrorHandler("Admin Can Not Buy Subscription", 400));
-    }
+  if (user.role === "admin") {
+    return next(new ErrorHandler("Admin Can Not Buy Subscription", 400));
+  }
 
+  const plan_id = process.env.PLAN_ID || "plan_L4jiNrtKU5dL2W";
 
-
-    const plan_id = process.env.PLAN_ID || "plan_L4jiNrtKU5dL2W";
-
-    // console.log(plan_id);
-    const subscription = await instance.subscriptions.create({
-        plan_id,
-        customer_notify : 1,
-        total_count : 1,
-
-    })
-
-
-
-    user.subscription.id = subscription.id;
-
-    user.subscription.status = subscription.status;
-
-    await user.save();
-
-  
-    res.status(200).json({
-        success: true,
-        subscriptionId: subscription.id
-    })
-
+  // console.log(plan_id);
+  const subscription = await instance.subscriptions.create({
+    plan_id,
+    customer_notify: 1,
+    total_count: 1,
   });
 
+  user.subscription.id = subscription.id;
 
-  export const paymentVerification = catchAsyncError(async (req, res, next) => {
+  user.subscription.status = subscription.status;
 
-    const user = await User.findById(req.user._id);
+  await user.save();
 
-    const {razorpay_payment_id, razorpay_subscription_id, razorpay_signature} = req.body;
-    
-    // console.log(razorpay_payment_id, razorpay_subscription_id, razorpay_signature);
+  res.status(200).json({
+    success: true,
+    subscriptionId: subscription.id,
+  });
+});
 
-    const subscriptionId =  user.subscription.id;
+export const paymentVerification = catchAsyncError(async (req, res, next) => {
+  const user = await User.findById(req.user._id);
 
+  const { razorpay_payment_id, razorpay_subscription_id, razorpay_signature } =
+    req.body;
 
-    const generated_signature = crypto.createHmac("sha256" , process.env.RAZORPAY_API_SECRET).update(
-        razorpay_payment_id + "|" + subscriptionId, "utf-8"
-    ).digest("hex");
+  // console.log(razorpay_payment_id, razorpay_subscription_id, razorpay_signature);
 
-    const isAuthentic = generated_signature === razorpay_signature;
+  const subscriptionId = user.subscription.id;
 
-    // console.log(isAuthentic);
+  const generated_signature = crypto
+    .createHmac("sha256", process.env.RAZORPAY_API_SECRET)
+    .update(razorpay_payment_id + "|" + subscriptionId, "utf-8")
+    .digest("hex");
 
+  const isAuthentic = generated_signature === razorpay_signature;
 
-    if(!isAuthentic){
-        return res.redirect(`${process.env.FRONTEND_URL}/paymentfail`)
-    }
-    
-    await Payment.create({
-        razorpay_payment_id, 
-        razorpay_subscription_id, 
-        razorpay_signature
-    });
+  // console.log(isAuthentic);
 
+  if (!isAuthentic) {
+    return res.redirect(`${process.env.FRONTEND_URL}/paymentfail`);
+  }
 
-    user.subscription.status = "active";
-
-    await user.save();
-
-  
-    return res.redirect(`${process.env.FRONTEND_URL}/paymentSuccess?reference=${razorpay_payment_id}`)
-
+  await Payment.create({
+    razorpay_payment_id,
+    razorpay_subscription_id,
+    razorpay_signature,
   });
 
+  user.subscription.status = "active";
 
+  await user.save();
 
-  
-  export const getRazorPayKey = catchAsyncError(async (req, res, next) => {
-    res.status(200).json({
-      success: true,
-      key: process.env.RAZORPAY_API_KEY,
-    });
+  return res.redirect(
+    `${process.env.FRONTEND_URL}/paymentSuccess?reference=${razorpay_payment_id}`,
+  );
+});
+
+export const getRazorPayKey = catchAsyncError(async (req, res, next) => {
+  res.status(200).json({
+    success: true,
+    key: process.env.RAZORPAY_API_KEY,
   });
-  
-  export const cancelSubscription = catchAsyncError(async (req, res, next) => {
-    const user = await User.findById(req.user._id);
-  
-    const subscriptionId = user.subscription.id;
-    let refund = false;
-  
-    await instance.subscriptions.cancel(subscriptionId);
-  
-    const payment = await Payment.findOne({
-      razorpay_subscription_id: subscriptionId,
-    });
+});
 
-    // console.log(payment);
-  
-    const gap = Date.now() - payment.createdAt;
-  
-    const refundTime = process.env.REFUND_DAYS * 24 * 60 * 60 * 1000;
-  
-    if (refundTime > gap) {
-      await instance.payments.refund(payment.razorpay_payment_id);
-      refund = true;
-    }
-  
-    await payment.remove();
-    user.subscription.id = undefined;
-    user.subscription.status = undefined;
-    await user.save();
-  
-    res.status(200).json({
-      success: true,
-      message: refund
-        ? "Subscription cancelled, You will receive full refund within 7 days."
-        : "Subscription cancelled, Now refund initiated as subscription was cancelled after 7 days.",
-    });
+export const cancelSubscription = catchAsyncError(async (req, res, next) => {
+  const user = await User.findById(req.user._id);
+
+  const subscriptionId = user.subscription.id;
+  let refund = false;
+
+  await instance.subscriptions.cancel(subscriptionId);
+
+  const payment = await Payment.findOne({
+    razorpay_subscription_id: subscriptionId,
   });
-  
 
+  // console.log(payment);
+
+  const gap = Date.now() - payment.createdAt;
+
+  const refundTime = process.env.REFUND_DAYS * 24 * 60 * 60 * 1000;
+
+  if (refundTime > gap) {
+    await instance.payments.refund(payment.razorpay_payment_id);
+    refund = true;
+  }
+
+  await payment.remove();
+  user.subscription.id = undefined;
+  user.subscription.status = undefined;
+  await user.save();
+
+  res.status(200).json({
+    success: true,
+    message: refund
+      ? "Subscription cancelled, You will receive full refund within 7 days."
+      : "Subscription cancelled, Now refund initiated as subscription was cancelled after 7 days.",
+  });
+});

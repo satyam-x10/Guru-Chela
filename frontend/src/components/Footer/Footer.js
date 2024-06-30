@@ -7,13 +7,18 @@ import {
 import { DiGithub } from 'react-icons/di';
 import { FaLinkedin } from 'react-icons/fa';
 
-import { TiSocialLinkedinCircular } from "react-icons/ti";
+import { TiSocialLinkedinCircular } from 'react-icons/ti';
 const Footer = () => {
   return (
-    <div style={{ position: 'relative', bottom: '0' }} >
-      <Box padding={['1','4']} bg="blackAlpha.900" minH={'10vh'} >
-        <Stack direction={['row']} style={{alignItems:"center"}}>
-          <Heading children="No Rights Reserved"  color={'white'} fontSize={['20px','24px']} style={{width:"100%"}}  />
+    <div style={{ position: 'relative', bottom: '0' }}>
+      <Box padding={['1', '4']} bg="blackAlpha.900" minH={'10vh'}>
+        <Stack direction={['row']} style={{ alignItems: 'center' }}>
+          <Heading
+            children="No Rights Reserved"
+            color={'white'}
+            fontSize={['20px', '24px']}
+            style={{ width: '100%' }}
+          />
           <HStack
             spacing={['2', '2']}
             justifyContent="center"

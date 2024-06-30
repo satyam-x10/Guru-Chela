@@ -3,31 +3,28 @@ import axios from 'axios';
 
 export const getCourses =
   (category = '', keyword = '', pageNO = 1) =>
-    async dispatch => {
-      console.log('calling for ', pageNO);
-      try {
-        dispatch({ type: 'allCoursesRequest' });
+  async dispatch => {
+    console.log('calling for ', pageNO);
+    try {
+      dispatch({ type: 'allCoursesRequest' });
 
-        const config = {
-          withCredentials: true,
-        }
-        const { data } = await axios.get(
-          `${server}/courses?keyword=${keyword}&category=${category}&page=${pageNO}`, config
-        );
-        console.log('daadada', data);
+      const config = {
+        withCredentials: true,
+      };
+      const { data } = await axios.get(
+        `${server}/courses?keyword=${keyword}&category=${category}&page=${pageNO}`,
+        config
+      );
+      console.log('daadada', data);
 
-        dispatch({ type: 'allCoursesSuccess', payload: data });
-
-
-      } catch (error) {
-        dispatch({
-          type: 'allCoursesFail',
-          payload: error.response.data.message,
-        });
-      }
-    };
-
-
+      dispatch({ type: 'allCoursesSuccess', payload: data });
+    } catch (error) {
+      dispatch({
+        type: 'allCoursesFail',
+        payload: error.response.data.message,
+      });
+    }
+  };
 
 export const getCourseLectures = (id, pageNo) => async dispatch => {
   try {
@@ -35,9 +32,10 @@ export const getCourseLectures = (id, pageNo) => async dispatch => {
 
     const config = {
       withCredentials: true,
-    }
+    };
 
-    const { data } = await axios.get(`${server}/course/${id}?pageNo=${pageNo}`,
+    const { data } = await axios.get(
+      `${server}/course/${id}?pageNo=${pageNo}`,
 
       config
     );
@@ -51,7 +49,7 @@ export const getCourseLectures = (id, pageNo) => async dispatch => {
   }
 };
 
-export const getAdminCourse = async (id) => {
+export const getAdminCourse = async id => {
   console.log('trying admin course');
   try {
     const config = {
@@ -67,9 +65,10 @@ export const getAdminCourse = async (id) => {
 
     return {
       status: 'failed to get admin course',
-      error: error.response && error.response.data.message
-        ? error.response.data.message
-        : error.message,
+      error:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
     };
   }
 };

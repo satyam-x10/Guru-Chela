@@ -63,7 +63,6 @@ export const userReducer = createReducer(
       state.user = action.payload.user;
       state.admin = action.payload.admin;
     },
-    
 
     loadUserFail: (state, action) => {
       state.loading = false;
@@ -199,4 +198,3 @@ export const subscriptionReducer = createReducer(
     },
   }
 );
-

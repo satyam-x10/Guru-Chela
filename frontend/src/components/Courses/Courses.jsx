@@ -28,7 +28,7 @@ import {
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import {  getCourses } from '../../redux/actions/course';
+import { getCourses } from '../../redux/actions/course';
 import toast from 'react-hot-toast';
 import { addToPlaylist } from '../../redux/actions/profile';
 import { myProfile } from '../../redux/actions/user';
@@ -131,15 +131,15 @@ const Courses = admin => {
     dispatch(myProfile());
   };
 
-  const [categories, setCategories] = useState(admin?.admin[0]?.courseCategories||[]);
-
-  const { loading, courses,currentPage, totalPages, error, message } = useSelector(
-    state => state.course
+  const [categories, setCategories] = useState(
+    admin?.admin[0]?.courseCategories || []
   );
 
-  useEffect(() => {
+  const { loading, courses, currentPage, totalPages, error, message } =
+    useSelector(state => state.course);
 
-    dispatch(getCourses(category, keyword,pageNO));
+  useEffect(() => {
+    dispatch(getCourses(category, keyword, pageNO));
 
     if (error) {
       toast.error(error);
@@ -150,9 +150,9 @@ const Courses = admin => {
       toast.success(message);
       dispatch({ type: 'clearMessage' });
     }
-  }, [category, keyword, dispatch, error, message,pageNO]);
-  
-  console.log(currentPage,totalPages);
+  }, [category, keyword, dispatch, error, message, pageNO]);
+
+  console.log(currentPage, totalPages);
   return (
     <Container minH={'95vh'} maxW="container.lg" paddingY={'8'}>
       <Heading fontSize="2xl" mb="4">
@@ -211,19 +211,19 @@ const Courses = admin => {
           <DrawerContent>
             <DrawerHeader>Categories</DrawerHeader>
             <DrawerBody>
-              {  categories.map((item, index) => (
-                  <Button
-                    w="100%"
-                    margin="1"
-                    key={index}
-                    onClick={() => {
-                      setCategory(item.category);
-                      onClose();
-                    }}
-                  >
-                    {item.category}
-                  </Button>
-                ))}
+              {categories.map((item, index) => (
+                <Button
+                  w="100%"
+                  margin="1"
+                  key={index}
+                  onClick={() => {
+                    setCategory(item.category);
+                    onClose();
+                  }}
+                >
+                  {item.category}
+                </Button>
+              ))}
             </DrawerBody>
           </DrawerContent>
         </DrawerOverlay>
@@ -259,7 +259,7 @@ const Courses = admin => {
         </SimpleGrid>
       </Stack>
       <Box mt="8" display="flex" justifyContent="center">
-        {Array.from({ length:totalPages }, (_, i) => i + 1).map(page => (
+        {Array.from({ length: totalPages }, (_, i) => i + 1).map(page => (
           <Button
             key={page}
             onClick={() => setPageNO(page)}

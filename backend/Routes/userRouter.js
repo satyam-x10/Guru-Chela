@@ -1,8 +1,27 @@
-import express from 'express';
+import express from "express";
 
-import { login, register, logout, getMyProfile, changePassword, updateProfile,deleteMyProfile, updateProfilePicture, forgetPassword, resetPassword,removeFromPlaylist,  addToPlaylist, getUsers, changeUserRole, deleteUser } from '../controllers/UserController.js';
-import { authorizedAdmin, isAuthenticated } from '../Middlewares/isAuthenticated.js';
-import singleUpload from '../Middlewares/multer.js';
+import {
+  login,
+  register,
+  logout,
+  getMyProfile,
+  changePassword,
+  updateProfile,
+  deleteMyProfile,
+  updateProfilePicture,
+  forgetPassword,
+  resetPassword,
+  removeFromPlaylist,
+  addToPlaylist,
+  getUsers,
+  changeUserRole,
+  deleteUser,
+} from "../controllers/UserController.js";
+import {
+  authorizedAdmin,
+  isAuthenticated,
+} from "../Middlewares/isAuthenticated.js";
+import singleUpload from "../Middlewares/multer.js";
 
 const router = express.Router();
 
@@ -15,10 +34,8 @@ router.route("/login").post(login);
 // Logout
 router.route("/logout").get(logout);
 
-
 // Get  Profiles
 router.route("/myProfile").get(isAuthenticated, getMyProfile);
-
 
 // Delete My Profile
 router.route("/myProfile").delete(isAuthenticated, deleteMyProfile);
@@ -26,12 +43,13 @@ router.route("/myProfile").delete(isAuthenticated, deleteMyProfile);
 // Change Password
 router.route("/changePassword").put(isAuthenticated, changePassword);
 
-
 // Update Profile
 router.route("/updateProfile").put(isAuthenticated, updateProfile);
 
 // Update profile picture
-router.route("/updateProfilePicture").put(isAuthenticated, singleUpload , updateProfilePicture);
+router
+  .route("/updateProfilePicture")
+  .put(isAuthenticated, singleUpload, updateProfilePicture);
 
 // Forget Password
 router.route("/forgetPassword").post(forgetPassword);
@@ -49,8 +67,9 @@ router.route("/removefromplaylist").delete(isAuthenticated, removeFromPlaylist);
 // Admin Routes
 router.route("/admin/users").get(isAuthenticated, authorizedAdmin, getUsers);
 
-router.route("/admin/users/:id").put(isAuthenticated, authorizedAdmin, changeUserRole).delete(isAuthenticated, authorizedAdmin, deleteUser);
-
-
+router
+  .route("/admin/users/:id")
+  .put(isAuthenticated, authorizedAdmin, changeUserRole)
+  .delete(isAuthenticated, authorizedAdmin, deleteUser);
 
 export default router;

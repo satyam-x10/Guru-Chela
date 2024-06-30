@@ -19,7 +19,7 @@ import toast from 'react-hot-toast';
 import Sidebar from '../Sidebar';
 import { logDOM } from '@testing-library/react';
 
-const CreateCourse = (admin) => {
+const CreateCourse = admin => {
   console.log('adminnn ', admin);
   const fileUploadCss = {
     cursor: 'pointer',
@@ -41,7 +41,9 @@ const CreateCourse = (admin) => {
   const dispatch = useDispatch();
   const { loading, error, message } = useSelector(state => state.admin);
 
-  const [categories, setCategories] = useState(admin.admin[0].courseCategories || []);
+  const [categories, setCategories] = useState(
+    admin.admin[0].courseCategories || []
+  );
 
   const changeImageHandler = e => {
     const file = e.target.files[0];
@@ -55,7 +57,7 @@ const CreateCourse = (admin) => {
     };
   };
 
-  const submitHandler = async (e) => {
+  const submitHandler = async e => {
     e.preventDefault();
 
     const myForm = new FormData();
@@ -67,7 +69,7 @@ const CreateCourse = (admin) => {
 
     // Assuming dispatch returns a promise or you can await it
     await dispatch(createCourse(myForm));
-    window.location.reload()
+    window.location.reload();
     // Clear form fields and set default values
     // setTitle('');
     // setDescription('');
@@ -81,9 +83,7 @@ const CreateCourse = (admin) => {
     //   const newCategories = [...categories, category];
     //   setCategories(newCategories);
     // }
-    
   };
-
 
   useEffect(() => {
     if (error) {
@@ -98,11 +98,8 @@ const CreateCourse = (admin) => {
   }, [dispatch, error, message]);
 
   return (
-    <Box
-      minH={'100vh'}
-      templateColumns={['1fr', '5fr 1fr']}
-    >      
-    <Sidebar />
+    <Box minH={'100vh'} templateColumns={['1fr', '5fr 1fr']}>
+      <Sidebar />
 
       <Container py="16">
         <form onSubmit={submitHandler}>
@@ -112,7 +109,6 @@ const CreateCourse = (admin) => {
             my="16"
             textAlign={['center', 'left']}
           />
-
 
           <VStack m="auto" spacing={'8'}>
             <Input
@@ -136,7 +132,6 @@ const CreateCourse = (admin) => {
               type={'text'}
               focusBorderColor="purple.300"
             />
-
             <Select
               focusBorderColor="purple.300"
               value={category}
@@ -150,7 +145,6 @@ const CreateCourse = (admin) => {
                 </option>
               ))}
             </Select>
-
             <Input
               value={category}
               onChange={e => setCategory(e.target.value)}
@@ -167,13 +161,11 @@ const CreateCourse = (admin) => {
                 '&::file-selector-button': {
                   ...fileUploadCss,
                   color: 'purple',
-
                 },
               }}
               onChange={changeImageHandler}
             />
             {imagePrev && (
-
               <Image src={imagePrev} boxSize="64" objectFit="contain" />
             )}
             <Button
@@ -185,10 +177,8 @@ const CreateCourse = (admin) => {
               Create
             </Button>
           </VStack>
-
         </form>
       </Container>
-
     </Box>
   );
 };

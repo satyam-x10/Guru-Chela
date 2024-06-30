@@ -56,12 +56,16 @@ const Lecture = () => {
             <video
               controls
               style={{ width: '100%', height: 'auto' }}
-              src={lectureData.lecture.video.url||lectureData.lecture.thumbnail}
+              src={
+                lectureData.lecture.video.url || lectureData.lecture.thumbnail
+              }
             />
             <HStack justify="space-between" spacing={4} m={4}>
               {lectureData.previousLecture && (
                 <Button
-                  onClick={() => {window.location.href=`./${ lectureData.previousLecture.id}`}}
+                  onClick={() => {
+                    window.location.href = `./${lectureData.previousLecture.id}`;
+                  }}
                   colorScheme="teal"
                   leftIcon={<ArrowBackIcon />}
                 >
@@ -70,7 +74,9 @@ const Lecture = () => {
               )}
               {lectureData.nextLecture && (
                 <Button
-                  onClick={() => {window.location.href=`./${ lectureData.nextLecture.id}`}}
+                  onClick={() => {
+                    window.location.href = `./${lectureData.nextLecture.id}`;
+                  }}
                   colorScheme="teal"
                   rightIcon={<ArrowForwardIcon />}
                 >

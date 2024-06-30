@@ -14,15 +14,12 @@ import { RiSecurePaymentFill } from 'react-icons/ri';
 import { Link } from 'react-router-dom';
 import introVideo from '../../assets/videos/intro.mp4';
 import termsAndCondition from '../../assets/docs/termsAndCondition';
-import me from "../../assets/images/priyanshu2.jpeg";
+import me from '../../assets/images/priyanshu2.jpeg';
 
 const Founder = () => (
   <Stack direction={['column', 'row']} spacing={['4', '16']} padding={'8'}>
     <VStack>
-      <Avatar
-        src={me}
-        boxSize={['40', '48']}
-      />
+      <Avatar src={me} boxSize={['40', '48']} />
       <Text children="Co-Founder" opacity={0.7} />
     </VStack>
 

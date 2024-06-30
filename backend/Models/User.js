@@ -7,113 +7,113 @@ import dotenv from "dotenv";
 
 dotenv.config();
 const UserModel = new mongoose.Schema({
-    name:{
+  name: {
+    type: String,
+    required: [true, "Please Enter your name"],
+  },
+
+  email: {
+    type: String,
+    required: [true, "Please Enter your Email Address"],
+    unique: true,
+    validate: validator.isEmail,
+  },
+
+  password: {
+    type: String,
+    required: [true, "Please Enter your Password"],
+    minlength: [6, "Password Must Be Atleast 6 characters"],
+    select: false,
+    validate: validator.isAlphanumeric,
+  },
+  role: {
+    type: String,
+    enum: ["admin", "user", "moderator"],
+    default: "user",
+  },
+
+  subscription: {
+    id: {
+      type: String,
+      default: "",
+    },
+    status: {
+      type: String,
+      default: "",
+    },
+  },
+
+  avatar: {
+    public_id: {
+      type: String,
+      required: true,
+    },
+    url: {
+      type: String,
+      required: true,
+    },
+  },
+
+  playlist: [
+    {
+      course: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Course",
+      },
+
+      poster: String,
+      title: String,
+    },
+  ],
+  courseCategories: [
+    {
+      category: {
         type: String,
-        required : [true, "Please Enter your name"]
+      },
+
+      poster: String,
+      title: String,
     },
+  ],
 
-    email:{
-        type: String,
-        required : [true, "Please Enter your Email Address"],
-        unique : true,
-        validate : validator.isEmail,
-    },
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
 
-    password:{
-        type: String,
-        required : [true, "Please Enter your Password"],
-        minlength : [6, "Password Must Be Atleast 6 characters"],
-        select: false,
-        validate : validator.isAlphanumeric,
-    },
-    role:{
-        type: String,
-        enum: ["admin", "user","moderator"],
-        default: "user",
-    },
-
-    subscription: {
-        id: {
-            type: String,
-            default: "",   
-        },
-        status: {
-            type: String,
-            default: "",
-        },
-    },
-
-    avatar: {
-        public_id: {
-            type: String,
-            required : true,
-        },
-        url: {
-            type: String,
-            required : true,
-        }
-    },
-
-    playlist : [{
-        course: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "Course",
-        },
-
-        poster: String,
-        title:String
-    }],
-    courseCategories : [{
-        category: {
-            type: String,            
-        },
-
-        poster: String,
-        title:String
-    }],
-
-    createdAt: {
-        type:Date,
-        default: Date.now,
-    },
-
-
-    resetPasswordToken : String,
-    resetPasswordExpire: String,
-
+  resetPasswordToken: String,
+  resetPasswordExpire: String,
 });
 
 UserModel.pre("save", async function (next) {
-    if (!this.isModified("password")) return next();
-    this.password = await bcrypt.hash(this.password, 10);
-    next();
-  });
-  
+  if (!this.isModified("password")) return next();
+  this.password = await bcrypt.hash(this.password, 10);
+  next();
+});
 
 UserModel.methods.getJWTToken = function () {
+  const secret_key = process.env.JWT_SECRET_KEY;
+  console.log(secret_key);
 
-    const secret_key = process.env.JWT_SECRET_KEY;
-    console.log(secret_key);
-    
-    return jwt.sign({ _id: this._id }, secret_key, {
-      expiresIn: "15d",
-    });
-  };
-  
+  return jwt.sign({ _id: this._id }, secret_key, {
+    expiresIn: "15d",
+  });
+};
 
 UserModel.methods.comparePassword = async function (password) {
-    return await bcrypt.compare(password, this.password);
+  return await bcrypt.compare(password, this.password);
 };
 
 UserModel.methods.getResetToken = async function () {
-    const resetToken = crypto.randomBytes(20).toString("hex");
+  const resetToken = crypto.randomBytes(20).toString("hex");
 
-    this.resetPasswordToken =  crypto.createHash("sha256").update(resetToken).digest("hex");
-    this.resetPasswordExpire =  Date.now() + 15 * 60 * 1000;
+  this.resetPasswordToken = crypto
+    .createHash("sha256")
+    .update(resetToken)
+    .digest("hex");
+  this.resetPasswordExpire = Date.now() + 15 * 60 * 1000;
 
-
-    return resetToken;
+  return resetToken;
 };
 
-
-export const User = mongoose.model('User', UserModel);
+export const User = mongoose.model("User", UserModel);

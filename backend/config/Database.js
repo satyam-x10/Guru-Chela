@@ -3,18 +3,19 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-mongoose.set('strictQuery', false); // Set this to true if you want strict mode
+mongoose.set("strictQuery", false); // Set this to true if you want strict mode
 
 export const connectDB = async () => {
-    const MONGO_URI = process.env.MONGO_URI;
-    try {
-        const { connection } = await mongoose.connect(`${MONGO_URI}/Guru_Chela`, {
-            
-        });
+  const MONGO_URI = process.env.MONGO_URI;
+  try {
+    const { connection } = await mongoose.connect(
+      `${MONGO_URI}/Guru_Chela`,
+      {},
+    );
 
-        console.log(`MongoDB Connected to ${connection.host}`);
-    } catch (error) {
-        console.error("Error connecting to MongoDB:", error);
-        process.exit(1);
-    }
+    console.log(`MongoDB Connected to ${connection.host}`);
+  } catch (error) {
+    console.error("Error connecting to MongoDB:", error);
+    process.exit(1);
+  }
 };

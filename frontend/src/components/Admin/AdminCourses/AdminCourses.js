@@ -22,14 +22,17 @@ import { format } from 'date-fns';
 
 import React, { useState } from 'react';
 import { useEffect } from 'react';
-import { RiAddBoxLine, RiDeleteBin7Fill, RiFileAddFill, RiFolderSharedFill, RiOpenSourceFill } from 'react-icons/ri';
+import {
+  RiAddBoxLine,
+  RiDeleteBin7Fill,
+  RiFileAddFill,
+  RiFolderSharedFill,
+  RiOpenSourceFill,
+} from 'react-icons/ri';
 import { useDispatch, useSelector } from 'react-redux';
 import Sidebar from '../Sidebar';
 import CourseModal from './AddLecture.js';
-import {
-  getCourses,
-  getCourseLectures,
-} from '../../../redux/actions/course';
+import { getCourses, getCourseLectures } from '../../../redux/actions/course';
 import {
   addLecture,
   deleteCourse,
@@ -39,8 +42,9 @@ import {
 import toast from 'react-hot-toast';
 
 const AdminCourses = () => {
-
-  const { courses, totalPages, currentPage } = useSelector(state => state.course);
+  const { courses, totalPages, currentPage } = useSelector(
+    state => state.course
+  );
 
   const { loading, error, message } = useSelector(state => state.admin);
   const [pageNo, setPageNo] = useState(1);
@@ -51,7 +55,7 @@ const AdminCourses = () => {
   function scrollToTop() {
     window.scrollTo({
       top: 0,
-      behavior: 'smooth' // This makes the scrolling smooth
+      behavior: 'smooth', // This makes the scrolling smooth
     });
   }
 
@@ -59,8 +63,6 @@ const AdminCourses = () => {
     console.log(courseId);
     dispatch(deleteCourse(courseId));
   };
-
-
 
   useEffect(() => {
     if (error) {
@@ -77,7 +79,6 @@ const AdminCourses = () => {
   }, [dispatch, error, message, pageNo, SearchName, SearchCategory]);
 
   return (
-
     <div>
       <Sidebar />
       <Box p={['0', '8']} overflowX="auto">
@@ -133,11 +134,8 @@ const AdminCourses = () => {
                   />
                 </Box>
                 <Box flex="3" px={2}>
-                  <Text  fontWeight="bold">
-                    {item.title}
-                  </Text>
-                  <Box display={{ base: "none", md: "block" }}>
-
+                  <Text fontWeight="bold">{item.title}</Text>
+                  <Box display={{ base: 'none', md: 'block' }}>
                     <Text>Category:{item.category}</Text>
                     <Text>Creator: {item.createdBy}</Text>
                   </Box>
@@ -159,13 +157,17 @@ const AdminCourses = () => {
                   >
                     Add
                   </Button>
-
                 </HStack>
-                <Box display={{ base: "none", md: "block" }} flex="1" textAlign="right">
+                <Box
+                  display={{ base: 'none', md: 'block' }}
+                  flex="1"
+                  textAlign="right"
+                >
                   <Text>Views: {item.views}</Text>
                   <Text>Lectures: {item.numOfVideos}</Text>
-                  <Text>Created On: {format(new Date(item.createdAt), 'dd-MM-yyyy')}</Text>
-
+                  <Text>
+                    Created On: {format(new Date(item.createdAt), 'dd-MM-yyyy')}
+                  </Text>
                 </Box>
                 <Box flex="1" textAlign="right">
                   <Button
@@ -185,7 +187,10 @@ const AdminCourses = () => {
         {Array.from({ length: totalPages }, (_, i) => i + 1).map(page => (
           <Button
             key={page}
-            onClick={() => {setPageNo(page);scrollToTop()}}
+            onClick={() => {
+              setPageNo(page);
+              scrollToTop();
+            }}
             mx="2"
             colorScheme={page === currentPage ? 'teal' : 'gray'}
           >
@@ -196,6 +201,5 @@ const AdminCourses = () => {
     </div>
   );
 };
-
 
 export default AdminCourses;

@@ -1,9 +1,13 @@
 import express from "express";
-import { cancelSubscription, createSubscription, getRazorPayKey, paymentVerification } from "../controllers/paymentController.js";
+import {
+  cancelSubscription,
+  createSubscription,
+  getRazorPayKey,
+  paymentVerification,
+} from "../controllers/paymentController.js";
 import { isAuthenticated } from "../Middlewares/isAuthenticated.js";
 
 const router = express.Router();
-
 
 // Buy verification
 router.route("/subscribe").get(isAuthenticated, createSubscription);

@@ -1,5 +1,5 @@
 import { catchAsyncError } from "../Middlewares/catchAsyncError.js";
-import { Course } from "../Models/Course.js"
+import { Course } from "../Models/Course.js";
 import getDataUri from "../Utils/dataUri.js";
 import ErrorHandler from "../Utils/ErrorHandler.js";
 import cloudinary from "cloudinary";
@@ -7,11 +7,10 @@ import { Stats } from "../Models/Stats.js";
 import { User } from "../Models/User.js";
 
 export const getLecture = catchAsyncError(async (req, res, next) => {
-
   const courseId = req.params.courseId; // Course ID from the request parameters
   const lectureId = req.params.lectureId; // Lecture ID from the request parameters
 
-  console.log('Searching lecture for ', courseId, lectureId);
+  console.log("Searching lecture for ", courseId, lectureId);
 
   // Find the course by ID
   const course = await Course.findById(courseId);
@@ -20,7 +19,9 @@ export const getLecture = catchAsyncError(async (req, res, next) => {
   }
 
   // Find the index of the lecture within the course's lectures array
-  const lectureIndex = course.lectures.findIndex(lecture => lecture._id.toString() === lectureId);
+  const lectureIndex = course.lectures.findIndex(
+    (lecture) => lecture._id.toString() === lectureId,
+  );
   if (lectureIndex === -1) {
     return next(new ErrorHandler("Lecture does not exist", 404));
   }
@@ -29,8 +30,20 @@ export const getLecture = catchAsyncError(async (req, res, next) => {
   const lecture = course.lectures[lectureIndex];
 
   // Determine the previous and next lectures
-  const previousLecture = lectureIndex > 0 ? { id: course.lectures[lectureIndex - 1]._id, title: course.lectures[lectureIndex - 1].title } : null;
-  const nextLecture = lectureIndex < course.lectures.length - 1 ? { id: course.lectures[lectureIndex + 1]._id, title: course.lectures[lectureIndex + 1].title } : null;
+  const previousLecture =
+    lectureIndex > 0
+      ? {
+          id: course.lectures[lectureIndex - 1]._id,
+          title: course.lectures[lectureIndex - 1].title,
+        }
+      : null;
+  const nextLecture =
+    lectureIndex < course.lectures.length - 1
+      ? {
+          id: course.lectures[lectureIndex + 1]._id,
+          title: course.lectures[lectureIndex + 1].title,
+        }
+      : null;
 
   // Return the found lecture and titles of previous and next lectures
   res.status(200).json({
@@ -43,11 +56,10 @@ export const getLecture = catchAsyncError(async (req, res, next) => {
 
 // Max video size 100mb
 export const createLectures = catchAsyncError(async (req, res, next) => {
-
   const { id } = req.params;
   const { title, description } = req.body;
 
-  console.log('making lecture ', title, description);
+  console.log("making lecture ", title, description);
 
   const course = await Course.findById(id);
 
@@ -60,12 +72,12 @@ export const createLectures = catchAsyncError(async (req, res, next) => {
   const mycloud = await cloudinary.v2.uploader.upload(fileUri.content, {
     resource_type: "video",
     eager: [
-      { 
-        format: 'jpg', 
-        transformation: [{ width: 300, height: 200, crop: 'pad' }],
-        eager_async: true, 
-        eager_notification_url: "https://mysite.com/notify_endpoint", 
-      }
+      {
+        format: "jpg",
+        transformation: [{ width: 300, height: 200, crop: "pad" }],
+        eager_async: true,
+        eager_notification_url: "https://mysite.com/notify_endpoint",
+      },
     ],
   });
 
@@ -90,8 +102,6 @@ export const createLectures = catchAsyncError(async (req, res, next) => {
     message: "Lecture added in Course",
   });
 });
-
-
 
 export const deleteLecture = catchAsyncError(async (req, res, next) => {
   const { courseId, lectureId } = req.query;
@@ -121,7 +131,6 @@ export const deleteLecture = catchAsyncError(async (req, res, next) => {
 });
 
 export const getCourseLectures = catchAsyncError(async (req, res, next) => {
-
   const lecturesPerPage = 10;
   const page = parseInt(req.query.pageNo) || 1; // Get the page number from the query string, default to 1
   const skip = (page - 1) * lecturesPerPage;
@@ -133,11 +142,13 @@ export const getCourseLectures = catchAsyncError(async (req, res, next) => {
 
   const totalLectures = course.lectures.length;
   const maxPage = Math.ceil(totalLectures / lecturesPerPage);
-  const lectures = course.lectures.slice(skip, skip + lecturesPerPage).map(lecture => ({
-    _id: lecture._id,
-    title: lecture.title,
-    thumbnail:lecture.thumbnail
-  }));
+  const lectures = course.lectures
+    .slice(skip, skip + lecturesPerPage)
+    .map((lecture) => ({
+      _id: lecture._id,
+      title: lecture.title,
+      thumbnail: lecture.thumbnail,
+    }));
 
   course.views += 1;
   await course.save();
@@ -146,13 +157,9 @@ export const getCourseLectures = catchAsyncError(async (req, res, next) => {
     success: true,
     course: {
       ...course.toObject(),
-      lectures: lectures
+      lectures: lectures,
     },
     currentPage: page,
-    maxPage: maxPage
+    maxPage: maxPage,
   });
 });
-
-
-
-

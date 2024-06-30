@@ -11,9 +11,7 @@ import {
 } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
 
-
 const Doubts = () => {
- 
   return (
     <Container minH={'95vh'} maxW="container.lg" paddingY={'8'}>
       Doubts

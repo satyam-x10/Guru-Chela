@@ -15,7 +15,7 @@ export const ColorModeSwitcher = props => {
       variant="ghost"
       color="current"
       p={2}
-      bg='teal'
+      bg="teal"
       marginLeft="2"
       onClick={toggleColorMode}
       icon={<SwitchIcon size={30} />}

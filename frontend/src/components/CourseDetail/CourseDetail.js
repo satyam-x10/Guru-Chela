@@ -58,7 +58,12 @@ const CoursePage = ({ user }) => {
       >
         <GridItem>
           <Box>
-            <Image src={course.poster.url} alt={`${course.title} poster`} mb={4} borderRadius="md" />
+            <Image
+              src={course.poster.url}
+              alt={`${course.title} poster`}
+              mb={4}
+              borderRadius="md"
+            />
             <Heading as="h2" size="sm" mb={2}>
               {course.title}
             </Heading>
@@ -70,16 +75,15 @@ const CoursePage = ({ user }) => {
               <strong>Created by:</strong> {course.createdBy}
             </Text>
             <Text>
-              <strong>Created at:</strong> {new Date(course.createdAt).toLocaleDateString()}
+              <strong>Created at:</strong>{' '}
+              {new Date(course.createdAt).toLocaleDateString()}
             </Text>
           </Box>
-
         </GridItem>
 
         <GridItem>
           {lectures && lectures.length > 0 ? (
             <Box mb={4}>
-
               <Flex wrap="wrap" justify="flex-start" gap={4}>
                 {lectures.map((lecture, index) => (
                   <Box
@@ -88,7 +92,6 @@ const CoursePage = ({ user }) => {
                     p={4}
                     borderWidth={1}
                     borderRadius="md"
-
                     cursor="pointer"
                     bg={index === lectureNumber ? 'teal.500' : 'gray.200'}
                     color={index === lectureNumber ? 'white' : 'black'}
@@ -98,18 +101,26 @@ const CoursePage = ({ user }) => {
                       src={lecture.thumbnail || course.poster.url}
                       alt={`${lecture.title} poster`}
                       mb={2}
-                      onClick={() => {setLectureNumber(index);
-                        window.open(`/lecture/${course._id}/${lecture._id}`, '_blank');
+                      onClick={() => {
+                        setLectureNumber(index);
+                        window.open(
+                          `/lecture/${course._id}/${lecture._id}`,
+                          '_blank'
+                        );
                       }}
                       borderRadius="md"
                     />
                     <Heading as="h4" size="sm" mb={2}>
                       {(pageNo - 1) * 10 + index + 1}. {lecture.title}
                     </Heading>
-                    {user.role==='admin'&&                     <RiDeleteBin7Fill onClick={() => { deleteLectureButtonHandler(params.id, lecture._id) }} />
-                  }
+                    {user.role === 'admin' && (
+                      <RiDeleteBin7Fill
+                        onClick={() => {
+                          deleteLectureButtonHandler(params.id, lecture._id);
+                        }}
+                      />
+                    )}
                   </Box>
-
                 ))}
               </Flex>
             </Box>

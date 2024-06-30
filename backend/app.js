@@ -1,6 +1,6 @@
 import express from "express";
 import course from "./Routes/CourseRouter.js";
-import lecture from "./Routes/lectureRouter.js"
+import lecture from "./Routes/lectureRouter.js";
 import ErrorMiddleware from "./Middlewares/Error.js";
 import { config } from "dotenv";
 import users from "./Routes/userRouter.js";
@@ -10,7 +10,7 @@ import payment from "./Routes/paymentRouter.js";
 import cors from "cors";
 
 config({
-  path: "./config/config.env"
+  path: "./config/config.env",
 });
 
 import { connectDB } from "./config/Database.js";
@@ -19,12 +19,12 @@ connectDB();
 
 const app = express();
 // Using Middlewares
-app.use(express.json({ limit: '50mb' }));
+app.use(express.json({ limit: "50mb" }));
 app.use(
   express.urlencoded({
-    limit: '50mb',
+    limit: "50mb",
     extended: true,
-  })
+  }),
 );
 
 app.use(cookieParser());
@@ -33,7 +33,7 @@ app.use(
     origin: "http://localhost:3000",
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE"],
-  })
+  }),
 );
 
 app.use("/api", course);

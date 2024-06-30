@@ -1,7 +1,7 @@
 import { createReducer } from '@reduxjs/toolkit';
 
 export const courseReduce = createReducer(
-  { courses: [], lectures: [],currentPage: 0, totalPages: 0 },
+  { courses: [], lectures: [], currentPage: 0, totalPages: 0 },
   {
     allCoursesRequest: state => {
       state.loading = true;
@@ -9,8 +9,8 @@ export const courseReduce = createReducer(
     allCoursesSuccess: (state, action) => {
       state.loading = false;
       state.courses = action.payload.courses;
-      state.currentPage=action.payload.currentPage;
-      state.totalPages=action.payload.totalPages;
+      state.currentPage = action.payload.currentPage;
+      state.totalPages = action.payload.totalPages;
     },
     allCoursesFail: (state, action) => {
       state.loading = false;

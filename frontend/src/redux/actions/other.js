@@ -8,7 +8,7 @@ export const contactUs = (name, email, message) => async dispatch => {
         'Content-Type': 'application/json',
       },
       withCredentials: true,
-    }
+    };
 
     dispatch({ type: 'contactRequest' });
 
@@ -19,7 +19,6 @@ export const contactUs = (name, email, message) => async dispatch => {
     );
 
     dispatch({ type: 'contactSuccess', payload: data.message });
-
   } catch (error) {
     dispatch({
       type: 'contactFail',
@@ -35,7 +34,7 @@ export const courseRequest = (name, email, message) => async dispatch => {
         'Content-Type': 'application/json',
       },
       withCredentials: true,
-    }
+    };
 
     dispatch({ type: 'courseRequestRequest' });
 
