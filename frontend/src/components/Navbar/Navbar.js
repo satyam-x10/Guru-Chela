@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import "./Navbar.css";
 import { Box, Button, Heading, Image, Text } from "@chakra-ui/react";
 import { ColorModeSwitcher } from "../../ColorModeSwitcher";
@@ -10,7 +10,7 @@ import { logoutProfile } from '../../redux/actions/user';
 
 const Navbar = ({ isAuthenticated, user }) => {
   const [mobile, setMobile] = useState(false); // State to track mobile view
-
+  const location = useLocation()
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -49,13 +49,14 @@ const Navbar = ({ isAuthenticated, user }) => {
         {/* List Section */}
         <div className="list-sec">
           <ul className={mobile ? "list-mobile" : "list"}>
-            <Link to="/" className="link">
+            
+            <Link to="/" className={`link ${location.pathname === '/' ? 'active' : ''}`}>
               <li>Home</li>
             </Link>
-            <Link to="/courses" className="link">
+            <Link to="/courses" className={`link ${location.pathname === '/courses' ? 'active' : ''}`}>
               <li>Courses</li>
             </Link>
-            <Link to="/doubts" className="link">
+            <Link to="/doubts" className={`link ${location.pathname === '/doubts' ? 'active' : ''}`}>
               <li>Doubts</li>
             </Link>
             

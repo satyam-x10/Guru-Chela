@@ -29,13 +29,28 @@
   align-items: center;
   justify-content: space-between;
 }
-
 .link {
   list-style: none;
-  margin-right: 40px;
+  padding: 0 20px;
+  margin:0 5px;
   font-size: 20px;
+  position: relative; /* Ensure position context for absolute positioning of underline */
 }
 
+.active {
+  position: relative; /* Ensure position context for absolute positioning of underline */
+  text-decoration: none; /* Remove default underline */
+}
+
+.active::after {
+  content: ''; /* Create pseudo-element for underline */
+  position: absolute;
+  left: 0;
+  bottom: -4px; /* Adjust as needed */
+  width: 100%; /* Make the underline stretch the width of the parent */
+  height: 4px; /* Set the height of the underline */
+  background-color: teal; /* Color of the underline */
+}
 .hamburger {
   display: none;
 }

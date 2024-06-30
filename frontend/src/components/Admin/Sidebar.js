@@ -14,15 +14,15 @@ const Sidebar = () => {
 
   return (
 
-    <Box spacing={"8"} p="16px" boxShadow={"-2px 0 10px rgba(107, 70, 193, 0.5)"} alignItems={"flex-start"} >
+    <Box spacing={"8"} p="16px" style={{ borderTop: "4px solid teal" }} alignItems={"flex-start"} >
 
-      <IconBox title="dashboard" Icon={RiDashboardFill} url={"dashboard"} active={location.pathname === "/admin/dashboard"} />
+      <IconBox title="dashboard" Icon={RiDashboardFill} url={"admin/dashboard"} active={location.pathname === "/admin/dashboard"} />
 
-      <IconBox title="Create Courses" Icon={RiAddCircleFill} url={"createcourses"} active={location.pathname === "/admin/createcourses"} />
+      <IconBox title="Create Courses" Icon={RiAddCircleFill} url={"admin/createcourses"} active={location.pathname === "/admin/createcourses"} />
 
-      <IconBox title="Courses" Icon={RiEyeFill} url={"admincourses"} active={location.pathname === "/admin/admincourses"} />
+      <IconBox title="Courses" Icon={RiEyeFill} url={"admin/admincourses"} active={location.pathname === "/admin/admincourses"} />
 
-      <IconBox title="Users" Icon={RiUser3Fill} url={"users"} active={location.pathname === "/admin/users"} />
+      <IconBox title="Users" Icon={RiUser3Fill} url={"admin/users"} active={location.pathname === "/admin/users"} />
     </Box>
   )
 }

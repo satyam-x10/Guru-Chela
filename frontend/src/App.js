@@ -97,9 +97,9 @@ const App = () => {
 
               {/* Admin Routes */}
               {/* <Route path="/admin/admincourses" element={<ProtectedRoute isAuthenticated={isAuthenticated} adminRoute={true} isAdmin={user && user.role === "admin"}><AdminCourses /></ProtectedRoute>} /> */}
+              <Route path="/admin/addLecture/:id" element={<AddLecture />} />
               <Route path="/admin/admincourses" element={<AdminCourses />} />
               <Route path="/admin/createcourses" element={<CreateCourses admin={admin} />} />
-              <Route path="/admin/addLecture/:id" element={<AddLecture />} />
               <Route path="/admin/dashboard" element={<Dashboard />} />
               <Route path="/admin/users" element={<Users />} />
               {/* <Route path="/admin/admincourses" element={<ProtectedRoute isAuthenticated={isAuthenticated} adminRoute={true} isAdmin={user && user.role === "admin"}><AdminCourses /></ProtectedRoute>} />
