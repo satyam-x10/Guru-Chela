@@ -9,8 +9,7 @@ export const connectDB = async () => {
     const MONGO_URI = process.env.MONGO_URI;
     try {
         const { connection } = await mongoose.connect(`${MONGO_URI}/Guru_Chela`, {
-            useNewUrlParser: true,
-            useUnifiedTopology: true,
+            
         });
 
         console.log(`MongoDB Connected to ${connection.host}`);

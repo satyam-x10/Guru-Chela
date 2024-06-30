@@ -6,7 +6,7 @@ import cloudinary from "cloudinary";
 import { Stats } from "../Models/Stats.js";
 import { User } from "../Models/User.js";
 
-export const getAllCourses = catchAsyncError(async (req, res, next) => {
+export const getCourses = catchAsyncError(async (req, res, next) => {
   const keyword = req.query.keyword || "";
   const category = req.query.category || "";
 
@@ -108,77 +108,7 @@ export const createCourse = catchAsyncError(async (req, res, next) => {
 });
 
 
-// Max video size 100mb
-export const createLectures = catchAsyncError(async (req, res, next) => {
-  
-  
-  const { id } = req.params;
-  const { title, description } = req.body;
-  
-  console.log('making lecture ',title,description);
 
-  const course = await Course.findById(id);
-
-  if (!course) return next(new ErrorHandler("Course not found", 404));
-
-  const file = req.file;
-  const fileUri = getDataUri(file);
-
-  const mycloud = await cloudinary.v2.uploader.upload(fileUri.content, {
-    resource_type: "video",
-  });
-
-    course.lectures.push({
-      title,
-      description,
-      video: {
-        public_id: mycloud.public_id,
-        url: mycloud.secure_url,
-      },
-    });
-
-  course.numOfVideos = course.lectures.length;
-  console.log('dsdsd');
-  await course.save();
-
-  res.status(200).json({
-    success: true,
-    message: "Lecture added in Course",
-  });
-});
-
-
-export const getLectures = catchAsyncError(async (req, res, next) => {
-  
-  const lecturesPerPage = 10;
-  const page = parseInt(req.query.pageNo) || 1; // Get the page number from the query string, default to 1
-  const skip = (page - 1) * lecturesPerPage;
-
-  const course = await Course.findById(req.params.id);
-  if (!course) {
-    return next(new ErrorHandler("Course Does Not exist", 404));
-  }
-
-  const totalLectures = course.lectures.length;
-  const maxPage = Math.ceil(totalLectures / lecturesPerPage);
-  const lectures = course.lectures.slice(skip, skip + lecturesPerPage).map(lecture => ({
-    _id: lecture._id,
-    title: lecture.title
-  }));
-
-  course.views += 1;
-  await course.save();
-
-  res.status(200).json({
-    success: true,
-    course: {
-      ...course.toObject(),
-      lectures: lectures
-    },
-    currentPage: page,
-    maxPage: maxPage
-  });
-});
 export const getAdminCourse = catchAsyncError(async (req, res, next) => {
   console.log('getting admin course');
 
@@ -200,34 +130,6 @@ export const getAdminCourse = catchAsyncError(async (req, res, next) => {
       poster:course.poster,
       lectures: lectures
     }
-  });
-});
-
-
-export const deleteLecture = catchAsyncError(async (req, res, next) => {
-  const { courseId, lectureId } = req.query;
-
-  const course = await Course.findById(courseId);
-  if (!course) return next(new ErrorHandler("Course not found", 404));
-
-  const lecture = course.lectures.find((item) => {
-    if (item._id.toString() === lectureId.toString()) return item;
-  });
-  await cloudinary.v2.uploader.destroy(lecture.video.public_id, {
-    resource_type: "video",
-  });
-
-  course.lectures = course.lectures.filter((item) => {
-    if (item._id.toString() !== lectureId.toString()) return item;
-  });
-
-  course.numOfVideos = course.lectures.length;
-
-  await course.save();
-
-  res.status(200).json({
-    success: true,
-    message: "Lecture Deleted Successfully",
   });
 });
 
