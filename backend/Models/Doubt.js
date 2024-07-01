@@ -13,11 +13,7 @@ const ticketSchema = new mongoose.Schema({
     minLength: [10, "Description must be at least 10 characters"],
     maxLength: [300, "Description cannot exceed 300 characters"],
   },
-  createdBy: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
-    required: [true, "User ID required"],
-  },
+  
   createdAt: {
     type: Date,
     default: Date.now,
@@ -59,8 +55,8 @@ const ticketSchema = new mongoose.Schema({
   },
 });
 
-const DoubtModel = new mongoose.Schema({
-  user: {
+const DoubtSchema = new mongoose.Schema({
+  createdBy: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
     required: [true, "User ID required"],
@@ -68,4 +64,4 @@ const DoubtModel = new mongoose.Schema({
   tickets: [ticketSchema],
 });
 
-export const Doubt = mongoose.model("Doubt", DoubtModel);
+export const Doubt = mongoose.model("Doubt", DoubtSchema);

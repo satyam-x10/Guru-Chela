@@ -10,7 +10,8 @@ const Ticket = ({ ticket }) => {
       borderWidth="1px"
       borderRadius="lg"
       overflow="hidden"
-      p="6"
+      p="2"
+      m="1"
       bg="white"
       _dark={{ bg: "gray.800" }}
     >
@@ -32,7 +33,7 @@ const Ticket = ({ ticket }) => {
 
         <HStack>
           <Text fontSize="sm" color="gray.500" _dark={{ color: "gray.300" }}>
-            Created by: {ticket.createdBy.name}
+            Created by: {ticket.createdBy}
           </Text>
           <Text fontSize="sm" color="gray.500" _dark={{ color: "gray.300" }}>
             Created at: {new Date(ticket.createdAt).toLocaleString()}

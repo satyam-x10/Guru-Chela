@@ -37,6 +37,7 @@ const TicketForm = ({ onSubmit }) => {
       borderRadius="lg"
       overflow="hidden"
       p="6"
+      m="auto"
       bg="white"
       _dark={{ bg: "gray.800" }}
       w="100%"

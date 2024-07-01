@@ -100,7 +100,7 @@ const App = () => {
                 </ProtectedRoute>
               }
             />
-            <Route path="/doubts" element={<Doubts />} />
+            <Route path="/doubts" element={<Doubts user={user} />} />
             <Route
               path="/register"
               element={
