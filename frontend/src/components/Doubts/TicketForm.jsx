@@ -8,14 +8,18 @@ import {
   Select,
   Button,
   VStack,
+  Flex,
+  Spacer,
+  Heading,
 } from '@chakra-ui/react';
+import { FaTicketAlt } from 'react-icons/fa';
 
 const TicketForm = ({ onSubmit }) => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [resolutionType, setResolutionType] = useState('direct');
 
-  const handleSubmit = (e) => {
+  const handleSubmit = e => {
     e.preventDefault();
     const newTicket = {
       title,
@@ -32,25 +36,45 @@ const TicketForm = ({ onSubmit }) => {
   };
 
   return (
-    <Box
+    <Flex
       borderWidth="1px"
       borderRadius="lg"
       overflow="hidden"
-      p="6"
-      m="auto"
+      p="2"
+      m="2 0"
       bg="white"
-      _dark={{ bg: "gray.800" }}
+      _dark={{ bg: 'gray.800' }}
       w="100%"
       maxW="md"
+      direction="column"
     >
-      <form onSubmit={handleSubmit}>
+      <Button
+        float="right"
+        m={1}
+        p={1}
+        leftIcon={<FaTicketAlt />}
+        colorScheme="orange"
+        onClick={()=>window.open(`./doubts/pairup`)}
+      >
+        Check Others Ticket
+      </Button>
+      <Spacer />
+      <Heading
+        borderBottomWidth="2px"
+        borderBottomColor="orange"
+        borderBottomStyle="solid"
+        children="Or make ur own"
+        mb={2}
+      />
+      <form 
+        onSubmit={handleSubmit}>
         <VStack spacing={4} align="stretch">
           <FormControl id="title" isRequired>
             <FormLabel>Title</FormLabel>
             <Input
               type="text"
               value={title}
-              onChange={(e) => setTitle(e.target.value)}
+              onChange={e => setTitle(e.target.value)}
               minLength={4}
               maxLength={80}
             />
@@ -60,7 +84,7 @@ const TicketForm = ({ onSubmit }) => {
             <FormLabel>Description</FormLabel>
             <Textarea
               value={description}
-              onChange={(e) => setDescription(e.target.value)}
+              onChange={e => setDescription(e.target.value)}
               minLength={10}
               maxLength={300}
             />
@@ -70,7 +94,7 @@ const TicketForm = ({ onSubmit }) => {
             <FormLabel>Resolution Type</FormLabel>
             <Select
               value={resolutionType}
-              onChange={(e) => setResolutionType(e.target.value)}
+              onChange={e => setResolutionType(e.target.value)}
             >
               <option value="direct">Direct</option>
               <option value="reciprocal">Reciprocal</option>
@@ -82,7 +106,7 @@ const TicketForm = ({ onSubmit }) => {
           </Button>
         </VStack>
       </form>
-    </Box>
+    </Flex>
   );
 };
 

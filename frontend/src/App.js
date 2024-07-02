@@ -6,6 +6,7 @@ import Login from './components/Authentication/Login.js';
 import Courses from './components/Courses/Courses.jsx';
 import Lecture from './components/lecture/lecture.jsx';
 import Doubts from './components/Doubts/Doubts.jsx';
+import PairUp from './components/Doubts/PairUp.jsx';
 import Register from './components/Authentication/Register.js';
 import ForgotPassword from './components/Authentication/ForgotPassword.js';
 import ResetPassword from './components/Authentication/ResetPassword.js';
@@ -101,6 +102,7 @@ const App = () => {
               }
             />
             <Route path="/doubts" element={<Doubts user={user} />} />
+            <Route path="/doubts/pairup" element={<PairUp user={user} />} />
             <Route
               path="/register"
               element={

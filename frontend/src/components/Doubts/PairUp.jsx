@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import toast from 'react-hot-toast';
 import { FaTicketAlt } from 'react-icons/fa';
 
-const Doubts = user => {
+const PairUp = user => {
   const [userId, setuserId] = useState(user?.user?._id);
   
   const { message, myDoubts, error } = useSelector(state => state.doubt);
@@ -40,9 +40,7 @@ const Doubts = user => {
   return (
     <Box  p={0}>
       <Grid Flex={1}  templateColumns={['1fr', '1fr', '1fr 3fr']} gap={0}>
-        <GridItem m="auto" minWidth="400px" colSpan={[1, 1]}>
-          <TicketForm onSubmit={handleCreateTicket} />
-        </GridItem>
+        
         <GridItem >
           <Box
             style={{
@@ -66,4 +64,4 @@ const Doubts = user => {
   );
 };
 
-export default Doubts;
+export default PairUp;

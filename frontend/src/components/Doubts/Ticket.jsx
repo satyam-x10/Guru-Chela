@@ -1,6 +1,6 @@
 import React from 'react';
 import { Box, Text, Badge, VStack, HStack, Button } from '@chakra-ui/react';
-import { FaCheckCircle, FaTimesCircle } from 'react-icons/fa';
+import { FaCheckCircle, FaTimesCircle, FaTrash } from 'react-icons/fa';
 
 
 
@@ -60,6 +60,11 @@ const Ticket = ({ ticket }) => {
                 colorScheme="orange"
               >
                 Pair Up
+              </Button>
+              <Button
+                leftIcon={<FaTrash />}
+                colorScheme="orange"
+              >
               </Button>
             </>
           )}
