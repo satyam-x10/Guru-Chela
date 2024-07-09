@@ -27,7 +27,7 @@ export const instance = new Razorpay({
   key_secret: "afnTvWJhGSZQhxh7Mdpj45LC",
 });
 
-const PORT = 5000
+const PORT = 6001
 
 app.use(express.json());
 app.use(
