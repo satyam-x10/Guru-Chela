@@ -27,7 +27,7 @@ export const instance = new Razorpay({
   key_secret: "afnTvWJhGSZQhxh7Mdpj45LC",
 });
 
-const PORT = 5000;
+const PORT = 5000||6000||7000;
 
 app.use(express.json());
 app.use(
@@ -52,13 +52,6 @@ nodeCron.schedule("0 0 0 1 * *", async () => {
   }
 });
 
-// const temp = async () => {
-
-//     await Stats.create({});
-
-// }
-
-// temp();
 
 app.listen(PORT, () => {
   console.log("server listening on port " + PORT);
