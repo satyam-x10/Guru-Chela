@@ -131,9 +131,8 @@ const Courses = admin => {
     dispatch(myProfile());
   };
 
-  const [categories, setCategories] = useState(
-    admin?.admin[0]?.courseCategories || []
-  );
+  const [categories, setCategories] = useState(admin?.admin?.[0]?.courseCategories || []);
+
 
   const { loading, courses, currentPage, totalPages, error, message } =
     useSelector(state => state.course);
