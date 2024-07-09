@@ -32,8 +32,8 @@ const CoursePage = ({ user }) => {
   }, [dispatch, params.id, pageNo]);
 
   if (
-    user.role !== 'admin' &&
-    (!user.subscription || user.subscription.status !== 'active')
+    user?.role !== 'admin' &&
+    (!user?.subscription || user?.subscription.status !== 'active')
   ) {
     return <Navigate to={'/subscribe'} />;
   }
@@ -113,7 +113,7 @@ const CoursePage = ({ user }) => {
                     <Heading as="h4" size="sm" mb={2}>
                       {(pageNo - 1) * 10 + index + 1}. {lecture.title}
                     </Heading>
-                    {user.role === 'admin' && (
+                    {user?.role === 'admin' && (
                       <RiDeleteBin7Fill
                         onClick={() => {
                           deleteLectureButtonHandler(params.id, lecture._id);

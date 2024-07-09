@@ -12,7 +12,7 @@ import {
 import { Link } from 'react-router-dom';
 import './auth.css';
 import { useDispatch } from 'react-redux';
-import { loginAction } from '../../redux/actions/user.js';
+import { loginAction } from '../../redux/actions/user?.js';
 
 const Login = () => {
   const [email, setEmail] = useState('');

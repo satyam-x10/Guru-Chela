@@ -14,8 +14,8 @@ import { updateProfile } from '../../redux/actions/profile';
 import { myProfile } from '../../redux/actions/user';
 
 const UpdateProfile = ({ user }) => {
-  const [name, setName] = useState(user.name);
-  const [email, setEmail] = useState(user.email);
+  const [name, setName] = useState(user?.name);
+  const [email, setEmail] = useState(user?.email);
 
   const handleName = e => {
     setName(e.target.value);
