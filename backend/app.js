@@ -9,7 +9,6 @@ import others from "./Routes/OtherRouters.js";
 import cookieParser from "cookie-parser";
 import payment from "./Routes/paymentRouter.js";
 import cors from "cors";
-dotenv.config();
 config({
   path: "./config/config.env",
 });
