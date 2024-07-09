@@ -55,8 +55,8 @@ const Subscribe = ({ user }) => {
           subscription_id: subscriptionId,
           callback_url: `${server}/verifyPayment`,
           prefill: {
-            name: user.name,
-            email: user.email,
+            name: user?.name,
+            email: user?.email,
             contact: '',
           },
           notes: {
@@ -76,8 +76,8 @@ const Subscribe = ({ user }) => {
     dispatch,
     error,
     courseError,
-    user.name,
-    user.email,
+    user?.name,
+    user?.email,
     key,
     subscriptionId,
   ]);

@@ -102,7 +102,7 @@ const Navbar = ({ isAuthenticated, user }) => {
                   >
                     Profile
                   </NavLink>
-                  {user.role === 'admin' && (
+                  {user?.role === 'admin' && (
                     <NavLink
                       to="/admin/dashboard"
                       isActive={location.pathname === '/admin/dashboard'}
@@ -198,7 +198,7 @@ const Navbar = ({ isAuthenticated, user }) => {
                   >
                     Profile
                   </NavLink>
-                  {user.role === 'admin' && (
+                  {user?.role === 'admin' && (
                     <NavLink
                       to="/admin/dashboard"
                       isActive={location.pathname === '/admin/dashboard'}

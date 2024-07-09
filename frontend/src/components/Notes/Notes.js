@@ -8,7 +8,7 @@ const Notes = ({user}) => {
 
     useEffect(() => {
         if(user?.notes){
-            setNotes(user.notes)
+            setNotes(user?.notes)
         }
     }, []);
 
@@ -25,7 +25,7 @@ const Notes = ({user}) => {
             toast.error("No more than 3k letters")
         }
         else {
-          await saveNotes(notes,user._id);
+          await saveNotes(notes,user?._id);
           toast.success("Updated")
 
         }

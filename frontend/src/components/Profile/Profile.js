@@ -108,7 +108,7 @@ const Profile = ({ user }) => {
             padding={'8'}
           >
             <VStack spacing={'4'}>
-              <Avatar src={user.avatar.url} size="2xl" />
+              <Avatar src={user?.avatar.url} size="2xl" />
               <Button onClick={onOpen} colorScheme="teal" variant="solid">
                 Change Photo
               </Button>
@@ -117,27 +117,27 @@ const Profile = ({ user }) => {
             <VStack spacing={'4'} alignItems={['flex-start', 'flex-start']}>
               <HStack spacing={'3'}>
                 <Text fontWeight={'bold'}>Name</Text>
-                <Text>{user.name}</Text>
+                <Text>{user?.name}</Text>
               </HStack>
               <HStack spacing={'3'}>
                 <Text fontWeight={'bold'}>Email</Text>
-                <Text>{user.email}</Text>
+                <Text>{user?.email}</Text>
               </HStack>
               <HStack spacing={'3'}>
                 <Text fontWeight={'bold'}>Created At</Text>
-                <Text>{user.createdAt.split('T')[0]}</Text>
+                <Text>{user?.createdAt.split('T')[0]}</Text>
               </HStack>
               <HStack spacing={'3'}>
                 <Text fontWeight={'bold'}>Role</Text>
-                <Text>{user.role}</Text>
+                <Text>{user?.role}</Text>
               </HStack>
 
-              {user.role !== 'admin' ? (
+              {user?.role !== 'admin' ? (
                 <>
                   <HStack spacing={'3'}>
                     <Text fontWeight={'bold'}>Subscription</Text>
-                    {user.subscription &&
-                    user.subscription.status === 'active' ? (
+                    {user?.subscription &&
+                    user?.subscription.status === 'active' ? (
                       <>
                         <Button
                           colorScheme="teal"
@@ -200,8 +200,8 @@ const Profile = ({ user }) => {
           Ur Saved Playlists
         </span>
         <div style={{ display: 'flex', gap: '5px', flexWrap: 'wrap' }}>
-          {user.playlist.length ? (
-            user.playlist.map((playlist, index) => (
+          {user?.playlist.length ? (
+            user?.playlist.map((playlist, index) => (
               <div
                 key={index}
                 className="playlist-item"

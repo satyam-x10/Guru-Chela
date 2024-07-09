@@ -28,7 +28,7 @@ import AdminCourses from './components/Admin/AdminCourses/AdminCourses.js';
 import Dashboard from './components/Admin/Dashboard/Dashboard.js';
 import { useDispatch, useSelector } from 'react-redux';
 import toast, { Toaster } from 'react-hot-toast';
-import { myProfile, adminProfile } from './redux/actions/user.js';
+import { myProfile, adminProfile } from './redux/actions/user?.js';
 import { ProtectedRoute } from 'protected-route-react';
 import Loader from './components/Loader/Loader.js';
 import Footer from './components/Footer/Footer.js';
@@ -164,7 +164,7 @@ const App = () => {
             />
 
             {/* Admin Routes */}
-            {/* <Route path="/admin/admincourses" element={<ProtectedRoute isAuthenticated={isAuthenticated} adminRoute={true} isAdmin={user && user.role === "admin"}><AdminCourses /></ProtectedRoute>} /> */}
+            {/* <Route path="/admin/admincourses" element={<ProtectedRoute isAuthenticated={isAuthenticated} adminRoute={true} isAdmin={user && user?.role === "admin"}><AdminCourses /></ProtectedRoute>} /> */}
             <Route path="/admin/addLecture/:id" element={<AddLecture />} />
             {/* <Route path="/admin/admincourses" element={<AdminCourses />} />
               <Route path="/admin/createcourses" element={<CreateCourses admin={admin} />} />
@@ -176,7 +176,7 @@ const App = () => {
                 <ProtectedRoute
                   isAuthenticated={isAuthenticated}
                   adminRoute={true}
-                  isAdmin={user && user.role === 'admin'}
+                  isAdmin={user && user?.role === 'admin'}
                 >
                   <AdminCourses />
                 </ProtectedRoute>
@@ -188,7 +188,7 @@ const App = () => {
                 <ProtectedRoute
                   isAuthenticated={isAuthenticated}
                   adminRoute={true}
-                  isAdmin={user && user.role === 'admin'}
+                  isAdmin={user && user?.role === 'admin'}
                 >
                   <CreateCourses admin={admin} />
                 </ProtectedRoute>
@@ -200,7 +200,7 @@ const App = () => {
                 <ProtectedRoute
                   isAuthenticated={isAuthenticated}
                   adminRoute={true}
-                  isAdmin={user && user.role === 'admin'}
+                  isAdmin={user && user?.role === 'admin'}
                 >
                   <Dashboard />
                 </ProtectedRoute>
@@ -212,7 +212,7 @@ const App = () => {
                 <ProtectedRoute
                   isAuthenticated={isAuthenticated}
                   adminRoute={true}
-                  isAdmin={user && user.role === 'admin'}
+                  isAdmin={user && user?.role === 'admin'}
                 >
                   <Users />
                 </ProtectedRoute>
