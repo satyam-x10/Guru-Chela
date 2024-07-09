@@ -22,6 +22,4 @@ const store = configureStore({
 });
 
 export default store;
-
-console.log(process.env.SERVER_URL);
-export const server = 'http://localhost:5000/api';
+export const server = 'guru-chela-api.vercel.app/api';
