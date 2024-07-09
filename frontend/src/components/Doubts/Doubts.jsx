@@ -9,7 +9,7 @@ import { FaTicketAlt } from 'react-icons/fa';
 
 const Doubts = user => {
   const [userId, setuserId] = useState(user?.user?._id);
-  
+
   const { message, myDoubts, error } = useSelector(state => state.doubt);
   console.log('got it ', myDoubts);
   const dispatch = useDispatch();
@@ -38,7 +38,7 @@ const Doubts = user => {
   };
 
   return (
-    <Box  p={0}>
+    <Box minH={'100vh'} p={0}>
       <Grid Flex={1}  templateColumns={['1fr', '1fr', '1fr 3fr']} gap={0}>
         <GridItem m="auto" minWidth="400px" colSpan={[1, 1]}>
           <TicketForm onSubmit={handleCreateTicket} />
@@ -57,7 +57,7 @@ const Doubts = user => {
             
             {myDoubts &&
               myDoubts[0]?.tickets.map(ticket => (
-                <Ticket key={ticket._id} ticket={ticket} />
+                <Ticket key={ticket._id} ticket={ticket} self={true} userId={userId} />
               ))}
           </Box>
         </GridItem>

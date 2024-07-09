@@ -3,7 +3,7 @@ import { Stats } from "../Models/Stats.js";
 import ErrorHandler from "../Utils/ErrorHandler.js";
 import { sendEmail } from "../Utils/SendEmail.js";
 import dotenv from "dotenv";
-
+import { User } from "../Models/User.js";
 dotenv.config();
 export const contact = catchAsyncError(async (req, res, next) => {
   const { name, email, message } = req.body;
@@ -41,6 +41,38 @@ export const courseRequest = catchAsyncError(async (req, res, next) => {
     success: true,
     message: "Your Course Request received successfully",
   });
+});
+
+export const saveNotes = catchAsyncError(async (req, res, next) => {
+  const { notes, id } = req.body;
+
+  if (!notes || !id) {
+    return next(new ErrorHandler("Please fill all the fields", 400));
+  }
+  if (notes.length>3000) {
+    return next(new ErrorHandler("Letters limited to 3k", 400));
+  }
+  
+  try {
+    const user = await User.findById(id);
+    if (!user) {
+      return next(new ErrorHandler("User not found", 404));
+    }
+  
+    user.notes = notes;
+    await user.save();
+  
+    console.log('User saved:', user);
+    res.status(200).json({
+      success: true,
+      message: "Notes updated successfully",
+      user,
+    });
+    
+  } catch (error) {
+    console.error('Error updating notes:', error);
+    return next(new ErrorHandler("An error occurred while updating notes", 500));
+  }
 });
 
 export const getDashboardStats = catchAsyncError(async (req, res, next) => {

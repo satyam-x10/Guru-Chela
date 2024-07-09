@@ -53,6 +53,10 @@ const UserModel = new mongoose.Schema({
       required: true,
     },
   },
+  notes: {
+    type: String,
+    required: false,
+  },
 
   playlist: [
     {

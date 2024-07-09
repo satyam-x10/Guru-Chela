@@ -46,7 +46,6 @@ export const createDoubt = catchAsyncError(async (req, res, next) => {
 });
 
 
-
 export const getAllDoubts = catchAsyncError(async (req, res, next) => {
 
   const userId = req.params.id; // Assuming the userId is passed as a route parameter
@@ -65,5 +64,47 @@ export const getAllDoubts = catchAsyncError(async (req, res, next) => {
   } catch (error) {
     console.error("Error fetching doubts:", error);
     return next(new ErrorHandler("Failed to fetch doubts", 500));
+  }
+});
+
+export const deleteDoubtTicket = catchAsyncError(async (req, res, next) => {
+
+  const { userId, id } = req.body;
+  const ticketId=id;
+  console.log("Deleting ticket",userId, ticketId);
+
+  if (!userId || !ticketId) {
+    return next(new ErrorHandler("User ID and Ticket ID are required", 400));
+  }
+
+  try {
+    // Find the existing doubt for the user
+    console.log('findnig ticket');
+    let existingDoubt = await Doubt.findOne({ createdBy: userId });
+    if (!existingDoubt) {
+      console.log('no ticket');
+      return next(new ErrorHandler("No existing doubt found for the user", 404));
+    }
+    console.log('found ticket');
+
+    // Find the index of the ticket to delete
+    const ticketIndex = existingDoubt.tickets.findIndex(ticket => ticket._id.toString() === ticketId);
+
+    if (ticketIndex === -1) {
+      return next(new ErrorHandler("Ticket not found", 404));
+    }
+
+    // Remove the ticket from the tickets array
+    existingDoubt.tickets.splice(ticketIndex, 1);
+
+    await existingDoubt.save();
+
+    res.status(200).json({
+      success: true,
+      message: "Ticket deleted successfully",
+    });
+  } catch (error) {
+    console.error("Error deleting ticket:", error);
+    return next(new ErrorHandler("Failed to delete ticket", 500));
   }
 });

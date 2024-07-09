@@ -30,6 +30,7 @@ export const doubtReducer = createReducer(
       state.loading = false;
       state.error = action.payload;
     },
+    
   }
 
 );

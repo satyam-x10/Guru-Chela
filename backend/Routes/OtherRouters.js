@@ -3,9 +3,11 @@ import {
   contact,
   courseRequest,
   getDashboardStats,
+  saveNotes,
 } from "../controllers/OtherController.js";
 import {
   authorizedAdmin,
+  authorizedSubscriber,
   isAuthenticated,
 } from "../Middlewares/isAuthenticated.js";
 
@@ -16,6 +18,7 @@ router.route("/contact").post(contact);
 
 // Request Form
 router.route("/requestCourse").post(courseRequest);
+router.route("/notes").post(isAuthenticated,authorizedSubscriber, saveNotes);
 
 // Admin Dashboard Stats
 router

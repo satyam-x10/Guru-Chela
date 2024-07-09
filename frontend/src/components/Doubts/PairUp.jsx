@@ -38,7 +38,7 @@ const PairUp = user => {
   };
 
   return (
-    <Box  p={0}>
+    <Box minH={'100vh'} p={0}>
       <Grid Flex={1}  templateColumns={['1fr', '1fr', '1fr 3fr']} gap={0}>
         
         <GridItem >
@@ -55,7 +55,7 @@ const PairUp = user => {
             
             {myDoubts &&
               myDoubts[0]?.tickets.map(ticket => (
-                <Ticket key={ticket._id} ticket={ticket} />
+                <Ticket key={ticket._id} ticket={ticket} self={false} />
               ))}
           </Box>
         </GridItem>

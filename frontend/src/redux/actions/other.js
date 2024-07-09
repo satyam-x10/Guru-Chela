@@ -52,3 +52,30 @@ export const courseRequest = (name, email, message) => async dispatch => {
     });
   }
 };
+
+export const saveNotes =async  (notes,id)  => {
+  console.log('saving');
+
+  try {
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      withCredentials: true,
+    };
+
+    // dispatch({ type: 'saveNotes' });
+    const { data } = await axios.post(
+      `${server}/notes`,
+      { notes,id },
+      config
+    );
+
+    // dispatch({ type: 'courseRequestSuccess', payload: data.message });
+  } catch (error) {
+    // dispatch({
+    //   type: 'courseRequestFail',
+    //   payload: error.response.data.message,
+    // });
+  }
+};

@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { server } from '../Store.js';
+import toast from 'react-hot-toast';
 
 export const createDoubt = (formData) => async (dispatch) => {
   try {
@@ -17,12 +18,35 @@ export const createDoubt = (formData) => async (dispatch) => {
     console.log('Created a ticket');
 
     dispatch({ type: 'createDoubtSuccess', payload: data.message });
-    // window.location.reload();
+    window.location.reload();
   } catch (error) {
     dispatch({
       type: 'createDoubtFail',
       payload: error.response?.data?.message || 'Something went wrong',
     });
+  }
+};
+
+export const deleteDoubtTicket = async (userId, id) => {
+  try {
+    console.log('Trying to ');
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      withCredentials: true,
+      data: {
+        userId, id
+      },
+    };
+    console.log('Trying to delete a ticket', userId, id);
+
+    const { data } = await axios.delete(`${server}/doubts`, config);
+    console.log('Deleted a ticket');
+    // toast.success('deleted');
+    window.location.reload();
+  } catch (error) {
+
   }
 };
 
@@ -35,7 +59,7 @@ export const getAllDoubts = (userId) => async (dispatch) => {
       },
       withCredentials: true,
     };
-    
+
     dispatch({ type: 'getDoubtsRequest' });
     console.log('Fetching doubts');
 

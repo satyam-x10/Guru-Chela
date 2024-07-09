@@ -35,6 +35,7 @@ const ticketSchema = new mongoose.Schema({
       return this.resolved;
     },
   },
+  
   pairedWith: [
     {
       type: mongoose.Schema.Types.ObjectId,

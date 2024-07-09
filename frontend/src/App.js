@@ -34,6 +34,8 @@ import Loader from './components/Loader/Loader.js';
 import Footer from './components/Footer/Footer.js';
 import History from './components/History/history.jsx';
 import AddLecture from './components/Admin/AdminCourses/AddLecture.js';
+import Notes from './components/Notes/Notes.js';
+import Contribute from './components/Doubts/Contribute.jsx';
 
 const App = () => {
   const { isAuthenticated, user, error, message, loading, admin } = useSelector(
@@ -103,6 +105,7 @@ const App = () => {
             />
             <Route path="/doubts" element={<Doubts user={user} />} />
             <Route path="/doubts/pairup" element={<PairUp user={user} />} />
+            <Route path="/doubts/:id" element={<Contribute user={user} />} />
             <Route
               path="/register"
               element={
@@ -121,6 +124,14 @@ const App = () => {
               element={
                 <ProtectedRoute isAuthenticated={isAuthenticated}>
                   <Subscribe user={user} />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/notes"
+              element={
+                <ProtectedRoute redirect='.' isAuthenticated={isAuthenticated}>
+                  <Notes user={user} />
                 </ProtectedRoute>
               }
             />

@@ -91,6 +91,12 @@ const Navbar = ({ isAuthenticated, user }) => {
                     Doubts
                   </NavLink>
                   <NavLink
+                    to="/notes"
+                    isActive={location.pathname === '/notes'}
+                  >
+                    Notes
+                  </NavLink>
+                  <NavLink
                     to="/profile"
                     isActive={location.pathname === '/profile'}
                   >
