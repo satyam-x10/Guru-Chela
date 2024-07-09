@@ -22,4 +22,5 @@ const store = configureStore({
 });
 
 export default store;
-export const server = 'guru-chela-api.vercel.app/api';
+// export const server = 'guru-chela-api.vercel.app/api';
+export const server = 'https://guru-chela.onrender.com/api';
