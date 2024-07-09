@@ -3,18 +3,24 @@ import { adminReducer } from './reducers/adminReducer.js';
 import { courseReduce } from './reducers/courseReducer.js';
 import { doubtReducer } from './reducers/doubtReducer.js';
 import { otherReducer } from './reducers/otherReducer.js';
+import { config } from "dotenv";
+
 import {
   profileReducer,
   subscriptionReducer,
   userReducer,
 } from './reducers/userReducer.js';
 
+config({
+  path: "./config/config.env",
+});
+
 const store = configureStore({
   reducer: {
     user: userReducer,
     profile: profileReducer,
     course: courseReduce,
-    doubt:doubtReducer,
+    doubt: doubtReducer,
     subscription: subscriptionReducer,
     admin: adminReducer,
     other: otherReducer,
@@ -23,6 +29,5 @@ const store = configureStore({
 
 export default store;
 
-// export const server= "https://Guru-Chela-backend-2e2b.onrender.com/api/v1";
-
-export const server = 'http://localhost:5000/api';
+// Use the SERVER_URL from the .env file
+export const server = process.env.SERVER_URL ;

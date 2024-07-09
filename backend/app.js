@@ -9,7 +9,7 @@ import others from "./Routes/OtherRouters.js";
 import cookieParser from "cookie-parser";
 import payment from "./Routes/paymentRouter.js";
 import cors from "cors";
-
+dotenv.config();
 config({
   path: "./config/config.env",
 });
@@ -31,7 +31,7 @@ app.use(
 app.use(cookieParser());
 app.use(
   cors({
-    origin: "http://localhost:3000",
+    origin: process.env.FRONTEND_URL,
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE"],
   }),
