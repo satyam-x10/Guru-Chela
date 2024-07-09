@@ -11,6 +11,8 @@ import {
   HStack,
 } from '@chakra-ui/react';
 import { ArrowBackIcon, ArrowForwardIcon } from '@chakra-ui/icons';
+import { transcribeAudio } from '../../redux/actions/assemblyAI';
+// import { sendMultiModalPromptWithVideo } from '../../redux/actions/gemini';
 
 const Lecture = () => {
   const { courseId, lectureId } = useParams();
@@ -19,6 +21,8 @@ const Lecture = () => {
   const [error, setError] = useState(null);
   console.log(courseId, lectureId);
 
+  // sendMultiModalPromptWithVideo();
+  
   useEffect(() => {
     const fetchLectureData = async () => {
       try {
