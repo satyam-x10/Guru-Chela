@@ -8,6 +8,14 @@ import {
   VStack,
   Button,
   Flex,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
+  useDisclosure,
 } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -16,23 +24,45 @@ import { getCourseLectures } from '../../redux/actions/course';
 import Loader from '../Loader/Loader';
 import { RiDeleteBin7Fill } from 'react-icons/ri';
 import { deleteLecture } from '../../redux/actions/admin';
-import headphoneIcon from '../../assets/images/audioIcon.png'
-import VideoIcon from '../../assets/images/videoIcon.png'
-
+import headphoneIcon from '../../assets/images/audioIcon.png';
+import VideoIcon from '../../assets/images/videoIcon.png';
+import { askGemini } from '../../redux/actions/gemini';
 
 const CoursePage = ({ user }) => {
   const [lectureNumber, setLectureNumber] = useState(0);
   const [pageNo, setPageNo] = useState(1);
   const { course, loading, currentPage, maxPage } = useSelector(
-    state => state.course
+    (state) => state.course
   );
   const lectures = course?.lectures;
   const dispatch = useDispatch();
   const params = useParams();
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   useEffect(() => {
     dispatch(getCourseLectures(params.id, pageNo));
   }, [dispatch, params.id, pageNo]);
+
+  const [Roadmap, setRoadmap] = useState('Loading...');
+  const [isRoadmap, setIsRoadmap] = useState(false);
+
+  const getRoadmap = async () => {
+    onOpen();
+    const prompt = { title: course?.title || '', description: course?.description || '' };
+    setIsRoadmap(true);
+    const res = await askGemini(prompt, 'roadmap');
+    console.log(res);
+    setRoadmap(res);
+  };
+
+  const downloadRoadmap = () => {
+    const element = document.createElement('a');
+    const file = new Blob([Roadmap], { type: 'text/plain' });
+    element.href = URL.createObjectURL(file);
+    element.download = 'roadmap.txt';
+    document.body.appendChild(element);
+    element.click();
+  };
 
   if (
     user?.role !== 'admin' &&
@@ -53,12 +83,7 @@ const CoursePage = ({ user }) => {
   };
   return (
     <div>
-      <Grid
-        templateColumns={{ base: '1fr', md: '1fr 2fr' }}
-        gap={4}
-        minH="90vh"
-        p={4}
-      >
+      <Grid templateColumns={{ base: '1fr', md: '1fr 2fr' }} gap={4} minH="90vh" p={4}>
         <GridItem>
           <Box>
             <Image
@@ -67,7 +92,10 @@ const CoursePage = ({ user }) => {
               mb={4}
               borderRadius="md"
             />
-            <Heading as="h2" size="sm" mb={2}>
+            <Button m={2} onClick={getRoadmap} colorScheme="orange">
+              Get Roadmap to study this course
+            </Button>
+            <Heading as="h1" size="md" mb={2}>
               {course.title}
             </Heading>
             <Text mb={2}>{course.description}</Text>
@@ -78,8 +106,7 @@ const CoursePage = ({ user }) => {
               <strong>Created by:</strong> {course.createdBy}
             </Text>
             <Text>
-              <strong>Created at:</strong>{' '}
-              {new Date(course.createdAt).toLocaleDateString()}
+              <strong>Created at:</strong> {new Date(course.createdAt).toLocaleDateString()}
             </Text>
           </Box>
         </GridItem>
@@ -101,24 +128,12 @@ const CoursePage = ({ user }) => {
                     _hover={{ bg: 'teal.400', color: 'white' }}
                   >
                     <Image
-                      src={lecture?.url?.endsWith('.mp3') ? (
-                        headphoneIcon
-                      ) : (
-                        lecture?.thumbnail ? (
-                          lecture.thumbnail
-                        ) : (
-                          VideoIcon
-                        ))
-                      }
-                      
+                      src={lecture?.url?.endsWith('.mp3') ? headphoneIcon : lecture?.thumbnail ? lecture.thumbnail : VideoIcon}
                       alt={`${lecture.title} poster`}
                       mb={2}
                       onClick={() => {
                         setLectureNumber(index);
-                        window.open(
-                          `/lecture/${course._id}/${lecture._id}`,
-                          '_blank'
-                        );
+                        window.open(`/lecture/${course._id}/${lecture._id}`, '_blank');
                       }}
                       borderRadius="md"
                     />
@@ -144,7 +159,7 @@ const CoursePage = ({ user }) => {
         </GridItem>
       </Grid>
       <Box my="8" display="flex" justifyContent="center">
-        {Array.from({ length: maxPage }, (_, i) => i + 1).map(page => (
+        {Array.from({ length: maxPage }, (_, i) => i + 1).map((page) => (
           <Button
             key={page}
             onClick={() => setPageNo(page)}
@@ -156,6 +171,25 @@ const CoursePage = ({ user }) => {
           </Button>
         ))}
       </Box>
+
+      <Modal isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Roadmap for {course.title}</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <Text>{Roadmap}</Text>
+          </ModalBody>
+          <ModalFooter>
+            <Button colorScheme="blue" mr={3} onClick={downloadRoadmap}>
+              Download
+            </Button>
+            <Button variant="ghost" onClick={onClose}>
+              Close
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
     </div>
   );
 };

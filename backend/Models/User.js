@@ -24,7 +24,7 @@ const UserModel = new mongoose.Schema({
     required: [true, "Please Enter your Password"],
     minlength: [6, "Password Must Be Atleast 6 characters"],
     select: false,
-    validate: validator.isAlphanumeric,
+    // validate: validator.isAlphanumeric,
   },
   role: {
     type: String,
