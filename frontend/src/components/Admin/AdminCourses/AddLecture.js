@@ -26,11 +26,11 @@ import { useState } from 'react';
 import { RiDeleteBin7Fill } from 'react-icons/ri';
 import { useColorMode } from '@chakra-ui/react';
 import { addLecture, deleteLecture } from '../../../redux/actions/admin';
+import headphoneIcon from '../../../assets/images/audioIcon.png'
+import VideoIcon from '../../../assets/images/videoIcon.png'
 
 import {
   getAdminCourse,
-  getCourseLectures,
-  getCourses,
 } from '../../../redux/actions/course';
 import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
@@ -149,7 +149,7 @@ const AddLecture = () => {
                 />
 
                 <Input
-                  accept="video/mp4"
+                  accept="video/mp4,audio/mp3"
                   required
                   type="file"
                   focusBorderColor="purple.300"
@@ -196,7 +196,15 @@ const AddLecture = () => {
             <VideoCard
               key={i}
               title={item.title}
-              thumbnail={item.thumbnail}
+              thumbnail={item.url.endsWith('.mp3') ? (
+                headphoneIcon
+              ) : (
+                item.thumbnail ? (
+                  item?.thumbnail
+                ) : (
+                 VideoIcon
+                ))
+              }
               courseId={id}
               lectureId={item._id}
             />
@@ -211,7 +219,6 @@ export default AddLecture;
 
 function VideoCard({ title, thumbnail, courseId, lectureId }) {
   const { colorMode } = useColorMode();
-
   const bgColor = {
     light: '#ffffffff', // Light mode background color
     dark: '#1a202c', // Dark mode background color
@@ -223,6 +230,7 @@ function VideoCard({ title, thumbnail, courseId, lectureId }) {
   };
   return (
     <div
+    onClick={()=>{window.open(`/lecture/${courseId}/${lectureId}`)}}
       style={{
         display: 'flex',
         justifyContent: 'space-between',
@@ -244,16 +252,17 @@ function VideoCard({ title, thumbnail, courseId, lectureId }) {
           flexDirection: 'column',
           justifyContent: 'space-around',
           height: '100%',
+
         }}
       >
-        <Image src={thumbnail}></Image>
+        <Image maxHeight="150px" objectFit='contain' src={thumbnail}></Image>
         <Heading
           size={'sm'}
           children={`${title}`}
           // mb="15px"
           fontWeight="bold"
           fontSize="20px"
-          // flex={1}
+        // flex={1}
         />
       </div>
 

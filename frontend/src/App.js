@@ -36,6 +36,7 @@ import History from './components/History/history.jsx';
 import AddLecture from './components/Admin/AdminCourses/AddLecture.js';
 import Notes from './components/Notes/Notes.js';
 import Contribute from './components/Doubts/Contribute.jsx';
+import AiGuruji from './components/aiGuruji/aiGuruji.jsx';
 
 const App = () => {
   const { isAuthenticated, user, error, message, loading, admin } = useSelector(
@@ -93,6 +94,7 @@ const App = () => {
                   <CourseDetail user={user} />
                 </ProtectedRoute>
               }
+              redirect='.'
             />
             {/* <Route path="/history/" element={<ProtectedRoute isAuthenticated={isAuthenticated} redirect="."><Lecture /></ProtectedRoute>} /> */}
             <Route
@@ -132,6 +134,14 @@ const App = () => {
               element={
                 <ProtectedRoute redirect='.' isAuthenticated={isAuthenticated}>
                   <Notes user={user} />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/aiGuruji"
+              element={
+                <ProtectedRoute redirect='.' isAuthenticated={isAuthenticated}>
+                  <AiGuruji/>
                 </ProtectedRoute>
               }
             />

@@ -74,3 +74,30 @@ export const getAllDoubts = (userId) => async (dispatch) => {
     });
   }
 };
+
+export const getDoubtById = async(doubtId) => {
+  const ticketId=doubtId;
+  try {
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      withCredentials: true,
+    };
+
+    // dispatch({ type: 'getDoubtRequest' });
+    console.log('Fetching doubt',doubtId);
+
+    const { data } = await axios.get(`${server}/doubt/${ticketId}`, config);
+    console.log('Fetched doubt', data);
+
+    return data;
+
+    // dispatch({ type: 'getDoubtSuccess', payload: data.doubt });
+  } catch (error) {
+    // dispatch({
+    //   type: 'getDoubtFail',
+    //   payload: error.response?.data?.message || 'Something went wrong',
+    // });
+  }
+};

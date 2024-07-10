@@ -1,7 +1,7 @@
 import { catchAsyncError } from '../Middlewares/catchAsyncError.js';
 import ErrorHandler from '../Utils/ErrorHandler.js';
 import { Doubt } from '../Models/Doubt.js';
-
+import mongoose from 'mongoose';
 export const createDoubt = catchAsyncError(async (req, res, next) => {
   const { title, description, resolutionType, userId } = req.body;
 
@@ -48,7 +48,7 @@ export const createDoubt = catchAsyncError(async (req, res, next) => {
 
 export const getAllDoubts = catchAsyncError(async (req, res, next) => {
 
-  const userId = req.params.id; // Assuming the userId is passed as a route parameter
+  const userId = req.params.userId; // Assuming the userId is passed as a route parameter
   console.log('fetching all doubts');
   try {
     const doubts = await Doubt.find({ createdBy: userId });
@@ -106,5 +106,36 @@ export const deleteDoubtTicket = catchAsyncError(async (req, res, next) => {
   } catch (error) {
     console.error("Error deleting ticket:", error);
     return next(new ErrorHandler("Failed to delete ticket", 500));
+  }
+});
+
+export const getTicketById = catchAsyncError(async (req, res, next) => {
+  const ticketId = req.params.ticketId; // Assuming the ticketId is passed as a route parameter
+  console.log('Fetching ticket by ID', ticketId);
+
+  try {
+    // Use aggregate to search for the ticket in the tickets array of all doubts
+    const result = await Doubt.aggregate([
+      { $unwind: "$tickets" },
+      { $match: { "tickets._id": new mongoose.Types.ObjectId(ticketId) } },
+      { $replaceRoot: { newRoot: "$tickets" } }
+    ]);
+
+    if (!result.length) {
+      console.log('no ticket');
+
+      return next(new ErrorHandler(`No ticket found with ID ${ticketId}`, 404));
+    }
+
+    const ticket = result[0];
+    console.log('yes ticket',ticket);
+
+    res.status(200).json({
+      success: true,
+      ticket,
+    });
+  } catch (error) {
+    console.error("Error fetching ticket:", error);
+    return next(new ErrorHandler("Failed to fetch ticket", 500));
   }
 });

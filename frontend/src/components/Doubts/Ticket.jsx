@@ -53,7 +53,7 @@ const Ticket = ({ ticket, self, userId }) => {
         <HStack spacing={4} mt={4} gap={2}>
           {!ticket.resolved && (
             <div>
-              {self ? (
+              {self && (
                 <Button
                   onClick={() => {
                     deleteDoubtTicket(userId, ticket._id);
@@ -61,11 +61,17 @@ const Ticket = ({ ticket, self, userId }) => {
                   leftIcon={<FaTrash />}
                   colorScheme="orange"
                 ></Button>
-              ) : (
-                <Button onClick={()=>{window.open(`./${ticket?._id}`)}} leftIcon={<FaBoxOpen />} colorScheme="orange">
-                  Contribute
-                </Button>
               )}
+              <Button
+                m={1}
+                onClick={() => {
+                  window.open(`/doubts/${ticket?._id}`);
+                }}
+                leftIcon={<FaBoxOpen />}
+                colorScheme="orange"
+              >
+                {!self?(<>Contribute</>):(<>check</>)}
+              </Button>
             </div>
           )}
         </HStack>
