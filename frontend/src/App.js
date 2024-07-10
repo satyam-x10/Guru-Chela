@@ -94,6 +94,7 @@ const App = () => {
                   <CourseDetail user={user} />
                 </ProtectedRoute>
               }
+              redirect='.'
             />
             {/* <Route path="/history/" element={<ProtectedRoute isAuthenticated={isAuthenticated} redirect="."><Lecture /></ProtectedRoute>} /> */}
             <Route

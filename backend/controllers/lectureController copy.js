@@ -148,6 +148,7 @@ export const getCourseLectures = catchAsyncError(async (req, res, next) => {
       _id: lecture._id,
       title: lecture.title,
       thumbnail: lecture.thumbnail,
+      url:lecture.video.url
     }));
 
   course.views += 1;
