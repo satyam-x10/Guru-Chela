@@ -8,13 +8,13 @@ import {
   subscriptionReducer,
   userReducer,
 } from './reducers/userReducer.js';
-
+require('dotenv').config();
 const store = configureStore({
   reducer: {
     user: userReducer,
     profile: profileReducer,
     course: courseReduce,
-    doubt:doubtReducer,
+    doubt: doubtReducer,
     subscription: subscriptionReducer,
     admin: adminReducer,
     other: otherReducer,
@@ -22,5 +22,5 @@ const store = configureStore({
 });
 
 export default store;
-
-export const server = 'http://localhost:5000/api';
+console.log(process.env.SERVER_URL);
+export const server = process.env.SERVER_URL;
