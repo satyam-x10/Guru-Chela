@@ -16,6 +16,9 @@ import { getCourseLectures } from '../../redux/actions/course';
 import Loader from '../Loader/Loader';
 import { RiDeleteBin7Fill } from 'react-icons/ri';
 import { deleteLecture } from '../../redux/actions/admin';
+import headphoneIcon from '../../assets/images/audioIcon.png'
+import VideoIcon from '../../assets/images/videoIcon.png'
+
 
 const CoursePage = ({ user }) => {
   const [lectureNumber, setLectureNumber] = useState(0);
@@ -98,7 +101,16 @@ const CoursePage = ({ user }) => {
                     _hover={{ bg: 'teal.400', color: 'white' }}
                   >
                     <Image
-                      src={lecture.thumbnail || course.poster.url}
+                      src={lecture?.url?.endsWith('.mp3') ? (
+                        headphoneIcon
+                      ) : (
+                        lecture?.thumbnail ? (
+                          lecture.thumbnail
+                        ) : (
+                          VideoIcon
+                        ))
+                      }
+                      
                       alt={`${lecture.title} poster`}
                       mb={2}
                       onClick={() => {

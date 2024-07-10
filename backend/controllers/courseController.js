@@ -123,6 +123,7 @@ export const getAdminCourse = catchAsyncError(async (req, res, next) => {
     _id: lecture._id,
     title: lecture.title,
     thumbnail: lecture.thumbnail,
+    url:lecture.video.url
   }));
 
   res.status(200).json({

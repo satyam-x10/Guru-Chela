@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Button, Grid, GridItem, VStack } from '@chakra-ui/react';
+import { Box, Button, Grid, GridItem, Image, VStack } from '@chakra-ui/react';
 import Ticket from './Ticket';
 import TicketForm from './TicketForm';
 import { createDoubt, getAllDoubts } from '../../redux/actions/doubt';
 import { useDispatch, useSelector } from 'react-redux';
 import toast from 'react-hot-toast';
 import { FaTicketAlt } from 'react-icons/fa';
+import AiGurujiBtn from '../aiGuruji/aiGurujiBtn';
 
 const Doubts = user => {
   const [userId, setuserId] = useState(user?.user?._id);
@@ -39,25 +40,29 @@ const Doubts = user => {
 
   return (
     <Box minH={'100vh'} p={0}>
-      <Grid Flex={1}  templateColumns={['1fr', '1fr', '1fr 3fr']} gap={0}>
+      <Grid Flex={1} templateColumns={['1fr', '1fr', '1fr 3fr']} gap={0}>
         <GridItem m="auto" minWidth="400px" colSpan={[1, 1]}>
+          <AiGurujiBtn />
           <TicketForm onSubmit={handleCreateTicket} />
         </GridItem>
-        <GridItem >
+        <GridItem>
           <Box
             style={{
               display: 'flex',
               flexWrap: 'wrap',
               justifyContent: 'start',
               alignItems: 'start',
-              
             }}
             spacing={6}
           >
-            
             {myDoubts &&
               myDoubts[0]?.tickets.map(ticket => (
-                <Ticket key={ticket._id} ticket={ticket} self={true} userId={userId} />
+                <Ticket
+                  key={ticket._id}
+                  ticket={ticket}
+                  self={true}
+                  userId={userId}
+                />
               ))}
           </Box>
         </GridItem>
