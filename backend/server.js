@@ -23,8 +23,8 @@ cloudinary.v2.config({
 });
 
 export const instance = new Razorpay({
-  key_id: "rzp_test_BIgASo2xD1fQYZ",
-  key_secret: "afnTvWJhGSZQhxh7Mdpj45LC",
+  key_id: process.env.RAZORPAY_API_KEY,
+  key_secret: process.env.RAZORPAY_API_SECRET,
 });
 
 const PORT = 5000
