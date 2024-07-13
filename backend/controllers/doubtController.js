@@ -49,7 +49,7 @@ export const createDoubt = catchAsyncError(async (req, res, next) => {
 export const addCommentToTicket = catchAsyncError(async (req, res, next) => {
   const { userId, ticketID, message } = req.body;
 
-  console.log("Adding comment", userId, ticketID, message);
+  console.log("mongo comment", userId, ticketID, message);
 
   if (!userId || !ticketID || !message) {
     return next(new ErrorHandler("User ID, ticket ID, and message are required", 400));
