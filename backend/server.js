@@ -75,6 +75,7 @@ io.on("connection", (socket) => {
 
   // Join the specific doubt room
   socket.on("joinRoom", (ticketID) => {
+    console.log('joiniing room');
     socket.join(ticketID);
     console.log(`User joined room ${ticketID}`);
   });
