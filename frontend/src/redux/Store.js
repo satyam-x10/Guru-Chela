@@ -3,7 +3,6 @@ import { adminReducer } from './reducers/adminReducer.js';
 import { courseReduce } from './reducers/courseReducer.js';
 import { doubtReducer } from './reducers/doubtReducer.js';
 import { otherReducer } from './reducers/otherReducer.js';
-
 import {
   profileReducer,
   subscriptionReducer,
@@ -23,5 +22,5 @@ const store = configureStore({
 });
 
 export default store;
-// export const server = 'https://guru-chela.onrender.com/api';
-export const server = 'http://localhost:5000/api';
+export const server = 'https://guru-chela.onrender.com/api';
+// export const server = 'http://localhost:5000/api';
