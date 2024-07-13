@@ -23,6 +23,9 @@ router
 router
   .route("/doubt/:ticketId")
   .get(isAuthenticated, authorizedSubscriber, getTicketById);
+router
+  .route("/doubt/:ticketId")
+  .get(isAuthenticated, authorizedSubscriber, getTicketById);
 
 router
   .route("/doubts/")
