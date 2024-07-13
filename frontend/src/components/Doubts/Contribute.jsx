@@ -15,8 +15,10 @@ import {
   Textarea,
 } from '@chakra-ui/react';
 import { getDoubtById, addCommentToTicket } from '../../redux/actions/doubt'; // Adjust the path to where your action is defined
+import { askGemini } from '../../redux/actions/gemini';
+import { server } from '../../redux/Store';
 
-const SOCKET_SERVER_URL = 'http://localhost:5000'; // Your backend server URL
+const SOCKET_SERVER_URL = server; // Your backend server URL
 
 const Contribute = ({ user }) => {
   const { id: ticketID } = useParams(); // Get the doubtID from the route parameters
@@ -25,6 +27,9 @@ const Contribute = ({ user }) => {
   const [error, setError] = useState(null);
   const [newComment, setNewComment] = useState('');
   const [submitting, setSubmitting] = useState(false);
+  const [aiResult, setAiResult] = useState(''); // State to store AI result
+  const [aiLoading, setAiLoading] = useState(false); // State to manage AI response loading
+  const [aiError, setAiError] = useState(null); // State to manage AI response error
 
   useEffect(() => {
     const socket = io(SOCKET_SERVER_URL);
@@ -86,6 +91,20 @@ const Contribute = ({ user }) => {
     fetchData();
   }, [ticketID]);
 
+  const handleAskAI = async () => {
+    setAiLoading(true);
+    setAiError(null);
+    setAiResult(''); // Reset AI result before new request
+    try {
+      const res = await askGemini(doubt, 'doubt');
+      setAiResult(res);
+    } catch (error) {
+      setAiError(error.message);
+    } finally {
+      setAiLoading(false);
+    }
+  };
+
   if (loading) {
     return (
       <Box minH="100vh" display="flex" alignItems="center" justifyContent="center">
@@ -112,6 +131,29 @@ const Contribute = ({ user }) => {
         {doubt?.title}
       </Text>
       <Text>{doubt?.description}</Text>
+      <Text>{new Date(doubt?.createdAt).toLocaleString()}</Text>
+    <div>
+    <Button mt={4} onClick={handleAskAI} isLoading={aiLoading}>
+        Ask AI
+      </Button>
+
+      {aiResult && (
+        <Box mt={4}>
+          <Text fontWeight="bold">AI Response:</Text>
+          <Text>{aiResult}</Text>
+        </Box>
+      )}
+
+      {aiError && (
+        <Box mt={4}>
+          <Alert status="error">
+            <AlertIcon />
+            <AlertTitle>Error!</AlertTitle>
+            <AlertDescription>{aiError}</AlertDescription>
+          </Alert>
+        </Box>
+      )}
+    </div>
       <Box mt={6} maxH="100vh" overflowY="auto">
         <Text fontSize="2xl" fontWeight="bold" mb={4}>
           Conversation
@@ -146,6 +188,8 @@ const Contribute = ({ user }) => {
           </Button>
         </Box>
       </Box>
+
+      
     </Box>
   );
 };
