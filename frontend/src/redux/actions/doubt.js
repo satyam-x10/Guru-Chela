@@ -27,6 +27,27 @@ export const createDoubt = (formData) => async (dispatch) => {
   }
 };
 
+export const addCommentToTicket = async(formData) =>   {
+  try {
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      withCredentials: true,
+    };
+    console.log('Trying to add a comment');
+    console.log(formData);
+
+    const  res   = await axios.post(`${server}/doubts/comment`, formData, config);
+    console.log('Added a comment');
+    const data = await res.json();
+    return data;
+    // window.location.reload();
+  } catch (error) {
+    
+  }
+};
+
 export const deleteDoubtTicket = async (userId, id) => {
   try {
     console.log('Trying to ');
@@ -75,8 +96,8 @@ export const getAllDoubts = (userId) => async (dispatch) => {
   }
 };
 
-export const getDoubtById = async(doubtId) => {
-  const ticketId=doubtId;
+export const getDoubtById = async (doubtId) => {
+  const ticketId = doubtId;
   try {
     const config = {
       headers: {
@@ -86,7 +107,7 @@ export const getDoubtById = async(doubtId) => {
     };
 
     // dispatch({ type: 'getDoubtRequest' });
-    console.log('Fetching doubt',doubtId);
+    console.log('Fetching doubt', doubtId);
 
     const { data } = await axios.get(`${server}/doubt/${ticketId}`, config);
     console.log('Fetched doubt', data);

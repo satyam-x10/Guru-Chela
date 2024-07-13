@@ -5,7 +5,7 @@ import {
   isAuthenticated,
 } from "../Middlewares/isAuthenticated.js";
 import singleUpload from "../Middlewares/multer.js";
-import { createDoubt, deleteDoubtTicket, getAllDoubts,  getTicketById } from "../controllers/doubtController.js";
+import { addCommentToTicket, createDoubt, deleteDoubtTicket, getAllDoubts,  getTicketById } from "../controllers/doubtController.js";
 
 const router = express.Router();
 
@@ -14,8 +14,15 @@ router
   .post(isAuthenticated, authorizedSubscriber, singleUpload, createDoubt);
 
 router
+  .route("/doubts/comment")
+  .post(isAuthenticated, authorizedSubscriber, singleUpload, addCommentToTicket);
+
+router
   .route("/doubts/:userId")
   .get(isAuthenticated, authorizedSubscriber, getAllDoubts);
+router
+  .route("/doubt/:ticketId")
+  .get(isAuthenticated, authorizedSubscriber, getTicketById);
 router
   .route("/doubt/:ticketId")
   .get(isAuthenticated, authorizedSubscriber, getTicketById);

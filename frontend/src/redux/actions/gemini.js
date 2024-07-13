@@ -12,6 +12,10 @@ export const askGemini = async (doubt, type) => {
         if (type === 'ai') {
             prompt = `${doubt}`;
         }
+        else if (type==='roadmap') {
+            prompt = `Give me a roadmap . i want to learn the topic ${doubt?.title}. Brief description of the topic is ${doubt?.description}. also make sure that it is well formatted .`;
+
+        } 
         else {
             prompt = `I have a doubt. The topic is ${doubt?.title}. The description of the doubt is ${doubt?.description}`;
         }

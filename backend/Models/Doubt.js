@@ -13,7 +13,7 @@ const ticketSchema = new mongoose.Schema({
     minLength: [10, "Description must be at least 10 characters"],
     maxLength: [300, "Description cannot exceed 300 characters"],
   },
-  
+
   createdAt: {
     type: Date,
     default: Date.now,
@@ -35,7 +35,20 @@ const ticketSchema = new mongoose.Schema({
       return this.resolved;
     },
   },
-  
+  chats: [
+    {
+      sender: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+        required: true
+      },
+      message: {
+        type: String,
+        required: true
+      }
+    }
+  ],
+
   pairedWith: [
     {
       type: mongoose.Schema.Types.ObjectId,

@@ -2,6 +2,7 @@ import { catchAsyncError } from '../Middlewares/catchAsyncError.js';
 import ErrorHandler from '../Utils/ErrorHandler.js';
 import { Doubt } from '../Models/Doubt.js';
 import mongoose from 'mongoose';
+
 export const createDoubt = catchAsyncError(async (req, res, next) => {
   const { title, description, resolutionType, userId } = req.body;
 
@@ -45,6 +46,44 @@ export const createDoubt = catchAsyncError(async (req, res, next) => {
   }
 });
 
+export const addCommentToTicket = catchAsyncError(async (req, res, next) => {
+  const { userId, ticketID, message } = req.body;
+
+  console.log("Adding comment", userId, ticketID, message);
+
+  if (!userId || !ticketID || !message) {
+    return next(new ErrorHandler("User ID, ticket ID, and message are required", 400));
+  }
+
+  try {
+    // Find the doubt that contains the ticket
+    let doubt = await Doubt.findOne({ "tickets._id": ticketID });
+
+    if (!doubt) {
+      return next(new ErrorHandler("Ticket not found", 404));
+    }
+
+    // Find the ticket within the doubt
+    let ticket = doubt.tickets.id(ticketID);
+
+    // Add the new comment to the ticket's chats
+    ticket.chats.push({
+      sender: userId,
+      message,
+      ticket:ticket
+    });
+
+    await doubt.save();
+
+    res.status(201).json({
+      success: true,
+      message: "Comment added successfully",
+    });
+  } catch (error) {
+    console.error("Error adding comment:", error);
+    return next(new ErrorHandler("Failed to add comment", 500));
+  }
+});
 
 export const getAllDoubts = catchAsyncError(async (req, res, next) => {
 
