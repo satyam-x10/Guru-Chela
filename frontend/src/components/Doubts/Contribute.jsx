@@ -32,9 +32,12 @@ const Contribute = ({ user }) => {
   const [aiError, setAiError] = useState(null); // State to manage AI response error
 
   useEffect(() => {
+    if(!ticketID) return
     const socket = io(SOCKET_SERVER_URL, {
-      transports: ['websocket', 'polling'], // Add this line
+      transports: ['websocket', 'polling'],
+      withCredentials: true,
     });
+    
 
     socket.on('connect', () => {
       console.log('Connected to Socket.IO server');

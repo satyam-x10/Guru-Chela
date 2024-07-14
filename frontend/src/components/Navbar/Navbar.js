@@ -24,6 +24,7 @@ import { logoutProfile } from '../../redux/actions/user';
 import { ColorModeSwitcher } from '../../ColorModeSwitcher';
 import logo from '../../assets/images/guru.png';
 import { FaMoon, FaSignInAlt, FaSignOutAlt, FaSun } from 'react-icons/fa';
+import NotificationIcon from '../Notification/NotificationIcon';
 
 const Navbar = ({ isAuthenticated, user }) => {
   const dispatch = useDispatch();
@@ -111,6 +112,7 @@ const Navbar = ({ isAuthenticated, user }) => {
                     </NavLink>
                   )}
                 </ul>
+
                 <Box
                   p={2}
                   cursor="pointer"
@@ -133,6 +135,16 @@ const Navbar = ({ isAuthenticated, user }) => {
           </Flex>
 
           <Flex align="center">
+          <Box
+                  p={2}
+                  cursor="pointer"
+                  borderRadius={6}
+                  bg="teal"
+                  mx={2}
+                  onClick={()=>window.location.href='/notifications'}
+                >
+          <NotificationIcon />
+          </Box>
             <Box
               p={2}
               cursor="pointer"

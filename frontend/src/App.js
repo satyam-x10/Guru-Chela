@@ -37,6 +37,7 @@ import AddLecture from './components/Admin/AdminCourses/AddLecture.js';
 import Notes from './components/Notes/Notes.js';
 import Contribute from './components/Doubts/Contribute.jsx';
 import AiGuruji from './components/aiGuruji/aiGuruji.jsx';
+import Notification from './components/Notification/Notification.js';
 
 const App = () => {
   const { isAuthenticated, user, error, message, loading, admin } = useSelector(
@@ -105,6 +106,8 @@ const App = () => {
                 </ProtectedRoute>
               }
             />
+            <Route path="/notifications" element={<Notification user={user} />} />
+
             <Route path="/doubts" element={<Doubts user={user} />} />
             <Route path="/doubts/pairup" element={<PairUp user={user} />} />
             <Route path="/doubts/:id" element={<Contribute user={user} />} />

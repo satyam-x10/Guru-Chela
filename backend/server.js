@@ -51,7 +51,6 @@ app.use("/api", others);
 app.use(ErrorMiddleware);
 
 // Socket.IO setup
-// Socket.IO setup
 io.on("connection", (socket) => {
   console.log("A user connected");
 
@@ -67,7 +66,7 @@ io.on("connection", (socket) => {
       console.log(`New comment added by user ${userId} to ticket ${ticketID}: ${message}`);
 
       // Emit the comment to all clients in the same room
-      io.to(ticketID).emit("newComment", { userId, message });
+      io.to(ticketID).emit("newComment", { userId, ticketID,message });
     } catch (error) {
       console.error("Error adding comment:", error);
     }
@@ -75,7 +74,6 @@ io.on("connection", (socket) => {
 
   // Join the specific doubt room
   socket.on("joinRoom", (ticketID) => {
-    console.log('joiniing room');
     socket.join(ticketID);
     console.log(`User joined room ${ticketID}`);
   });
@@ -86,7 +84,6 @@ io.on("connection", (socket) => {
     console.log(`User left room ${ticketID}`);
   });
 });
-
 
 // Cloudinary configuration
 import cloudinary from "cloudinary";

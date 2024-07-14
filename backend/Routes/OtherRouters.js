@@ -2,7 +2,9 @@ import express from "express";
 import {
   contact,
   courseRequest,
+  deleteNotification,
   getDashboardStats,
+  getNotifications,
   saveNotes,
 } from "../controllers/OtherController.js";
 import {
@@ -18,11 +20,25 @@ router.route("/contact").post(contact);
 
 // Request Form
 router.route("/requestCourse").post(courseRequest);
-router.route("/notes").post(isAuthenticated,authorizedSubscriber, saveNotes);
+router.route("/notes").post(isAuthenticated, authorizedSubscriber, saveNotes);
 
 // Admin Dashboard Stats
 router
   .route("/admin/stats")
   .get(isAuthenticated, authorizedAdmin, getDashboardStats);
+
+
+// notification
+
+router
+  .route("/notification/:userId")
+  .get(isAuthenticated, authorizedSubscriber, getNotifications);
+
+
+router
+  .route("/notification/:notificationID")
+  .delete(isAuthenticated, authorizedSubscriber, deleteNotification);
+
+
 
 export default router;
