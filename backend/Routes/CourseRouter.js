@@ -4,6 +4,7 @@ import {
   createCourse,
   deleteCourse,
   getAdminCourse,
+  followCourse,
 } from "../controllers/courseController.js";
 import {
   authorizedAdmin,
@@ -21,6 +22,10 @@ router.route("/courses").get(getCourses);
 router
   .route("/createCourse")
   .post(isAuthenticated, authorizedAdmin, singleUpload, createCourse);
+
+router
+  .route("/followCourse")
+  .put( followCourse );
 
 // Add Lectures, Delete Course, Get Course Details - Only Admin
 router

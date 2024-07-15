@@ -9,6 +9,7 @@ const notificationSchema = new mongoose.Schema({
   lastRead: {
     type: Date,
     default: Date.now,
+    required: false
   },
   notifications: [
     {

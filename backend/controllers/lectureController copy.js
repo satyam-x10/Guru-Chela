@@ -1,5 +1,6 @@
 import { catchAsyncError } from "../Middlewares/catchAsyncError.js";
 import { Course } from "../Models/Course.js";
+import { Notification } from "../Models/Notification.js"
 import getDataUri from "../Utils/dataUri.js";
 import ErrorHandler from "../Utils/ErrorHandler.js";
 import cloudinary from "cloudinary";
@@ -33,16 +34,16 @@ export const getLecture = catchAsyncError(async (req, res, next) => {
   const previousLecture =
     lectureIndex > 0
       ? {
-          id: course.lectures[lectureIndex - 1]._id,
-          title: course.lectures[lectureIndex - 1].title,
-        }
+        id: course.lectures[lectureIndex - 1]._id,
+        title: course.lectures[lectureIndex - 1].title,
+      }
       : null;
   const nextLecture =
     lectureIndex < course.lectures.length - 1
       ? {
-          id: course.lectures[lectureIndex + 1]._id,
-          title: course.lectures[lectureIndex + 1].title,
-        }
+        id: course.lectures[lectureIndex + 1]._id,
+        title: course.lectures[lectureIndex + 1].title,
+      }
       : null;
 
   // Return the found lecture and titles of previous and next lectures
@@ -55,14 +56,12 @@ export const getLecture = catchAsyncError(async (req, res, next) => {
 });
 
 // Max video size 100mb
+
 export const createLectures = catchAsyncError(async (req, res, next) => {
   const { id } = req.params;
   const { title, description } = req.body;
 
-  //console.log("making lecture ", title, description);
-
   const course = await Course.findById(id);
-
   if (!course) return next(new ErrorHandler("Course not found", 404));
 
   const file = req.file;
@@ -87,7 +86,7 @@ export const createLectures = catchAsyncError(async (req, res, next) => {
   course.lectures.push({
     title,
     description,
-    thumbnail: thumbnailUrl, // Use the generated thumbnail URL
+    thumbnail: thumbnailUrl,
     video: {
       public_id: mycloud.public_id,
       url: mycloud.secure_url,
@@ -97,11 +96,39 @@ export const createLectures = catchAsyncError(async (req, res, next) => {
   course.numOfVideos = course.lectures.length;
   await course.save();
 
+  // Fetch followers of the course (assuming 'followedBy' contains user IDs)
+  const followers = course.followedBy; // Adjust this based on your actual schema
+  // Create notifications for each follower
+  const notificationsUpdate = followers.map(async (followerId) => {
+    // Find existing notification document for the user
+    let notification = await Notification.findOne({ userID: followerId });
+
+    if (!notification) {
+      // Create new notification if none exists
+      notification = new Notification({
+        userID: followerId,
+      });
+    }
+    console.log('found it ', notification);
+    // Push new lecture notification into notifications array
+    notification.notifications.push({
+      type: "lecture",
+      notification: `New lecture added: ${title}`,
+      redirect: `/lecture/${id}/${course.lectures[course.lectures.length - 1]._id}`, // Redirect URL
+      time: Date.now(),
+    });
+    console.log('saved it ');
+
+    // Save updated notification
+    await notification.save();
+  });
+
   res.status(200).json({
     success: true,
     message: "Lecture added in Course",
   });
 });
+
 
 export const deleteLecture = catchAsyncError(async (req, res, next) => {
   const { courseId, lectureId } = req.query;
@@ -148,7 +175,7 @@ export const getCourseLectures = catchAsyncError(async (req, res, next) => {
       _id: lecture._id,
       title: lecture.title,
       thumbnail: lecture.thumbnail,
-      url:lecture.video.url
+      url: lecture.video.url
     }));
 
   course.views += 1;

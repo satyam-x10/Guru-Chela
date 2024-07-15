@@ -123,7 +123,7 @@ export const getAdminCourse = catchAsyncError(async (req, res, next) => {
     _id: lecture._id,
     title: lecture.title,
     thumbnail: lecture.thumbnail,
-    url:lecture.video.url
+    url: lecture.video.url
   }));
 
   res.status(200).json({
@@ -161,3 +161,31 @@ export const deleteCourse = catchAsyncError(async (req, res, next) => {
   });
 });
 
+export const followCourse = async (req, res) => {
+  const { courseId, userId } = req.body;
+
+  try {
+    const course = await Course.findById(courseId);
+
+    if (!course) {
+      return res.status(404).json({ success: false, message: "Course not found" });
+    }
+
+    // Check if userId is already following the course
+    const isFollowing = course.followedBy?.includes(userId);
+    if (!isFollowing) {
+      // Add userId to followers if it doesn't exist
+      course.followedBy.push(userId);
+    } else {
+      // Remove userId from followers if it exists
+      course.followedBy = course.followedBy.filter(id => id.toString() !== userId.toString());
+    }
+
+    // Save the course
+    await course.save();
+    return res.status(200).json({ success: true, message: "Course followed or unfollowed successfully" });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ success: false, message: "Server error" });
+  }
+};

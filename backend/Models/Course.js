@@ -74,6 +74,13 @@ const CourseModel = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+  followedBy: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User"
+    }
+  ],
+
 });
 
 export const Course = mongoose.model("Course", CourseModel);
