@@ -54,7 +54,7 @@ export const courseRequest = (name, email, message) => async dispatch => {
 };
 
 export const saveNotes = async (notes, id) => {
-  console.log('saving');
+  // console.log('saving');
 
   try {
     const config = {
@@ -91,7 +91,7 @@ export const getNotifications = async (userId) => {
       withCredentials: true, // Adjust this according to your authentication setup
     };
 
-    console.log('getting notifications', userId);
+    // console.log('getting notifications', userId);
     const res = await axios.get(`${server}/notification/${userId}`,
       config);
 

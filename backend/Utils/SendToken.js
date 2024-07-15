@@ -7,7 +7,7 @@ export const sendToken = (res, user, message, statusCode = 200) => {
     secure: true,
     sameSite: "none",
   };
-  console.log("heheh", token, options);
+  //console.log("heheh", token, options);
   res.status(statusCode).cookie("token", token, options).json({
     success: true,
     message,

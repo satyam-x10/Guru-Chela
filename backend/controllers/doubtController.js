@@ -6,7 +6,7 @@ import mongoose from 'mongoose';
 export const createDoubt = catchAsyncError(async (req, res, next) => {
   const { title, description, resolutionType, userId } = req.body;
 
-  console.log("Creating ticket", title, description, resolutionType, userId);
+  //console.log("Creating ticket", title, description, resolutionType, userId);
 
   if (!title || !description) {
     return next(new ErrorHandler("Title and description are required", 400));
@@ -49,7 +49,7 @@ export const createDoubt = catchAsyncError(async (req, res, next) => {
 export const addCommentToTicket = catchAsyncError(async (req, res, next) => {
   const { userId, ticketID, message } = req.body;
 
-  console.log("mongo comment", userId, ticketID, message);
+  //console.log("mongo comment", userId, ticketID, message);
 
   if (!userId || !ticketID || !message) {
     return next(new ErrorHandler("User ID, ticket ID, and message are required", 400));
@@ -88,7 +88,7 @@ export const addCommentToTicket = catchAsyncError(async (req, res, next) => {
 export const getAllDoubts = catchAsyncError(async (req, res, next) => {
 
   const userId = req.params.userId; // Assuming the userId is passed as a route parameter
-  console.log('fetching all doubts');
+  //console.log('fetching all doubts');
   try {
     const doubts = await Doubt.find({ createdBy: userId });
 
@@ -110,7 +110,7 @@ export const deleteDoubtTicket = catchAsyncError(async (req, res, next) => {
 
   const { userId, id } = req.body;
   const ticketId=id;
-  console.log("Deleting ticket",userId, ticketId);
+  //console.log("Deleting ticket",userId, ticketId);
 
   if (!userId || !ticketId) {
     return next(new ErrorHandler("User ID and Ticket ID are required", 400));
@@ -118,13 +118,13 @@ export const deleteDoubtTicket = catchAsyncError(async (req, res, next) => {
 
   try {
     // Find the existing doubt for the user
-    console.log('findnig ticket');
+    //console.log('findnig ticket');
     let existingDoubt = await Doubt.findOne({ createdBy: userId });
     if (!existingDoubt) {
-      console.log('no ticket');
+      //console.log('no ticket');
       return next(new ErrorHandler("No existing doubt found for the user", 404));
     }
-    console.log('found ticket');
+    //console.log('found ticket');
 
     // Find the index of the ticket to delete
     const ticketIndex = existingDoubt.tickets.findIndex(ticket => ticket._id.toString() === ticketId);
@@ -150,7 +150,7 @@ export const deleteDoubtTicket = catchAsyncError(async (req, res, next) => {
 
 export const getTicketById = catchAsyncError(async (req, res, next) => {
   const ticketId = req.params.ticketId; // Assuming the ticketId is passed as a route parameter
-  console.log('Fetching ticket by ID', ticketId);
+  //console.log('Fetching ticket by ID', ticketId);
 
   try {
     // Use aggregate to search for the ticket in the tickets array of all doubts
@@ -161,13 +161,13 @@ export const getTicketById = catchAsyncError(async (req, res, next) => {
     ]);
 
     if (!result.length) {
-      console.log('no ticket');
+      //console.log('no ticket');
 
       return next(new ErrorHandler(`No ticket found with ID ${ticketId}`, 404));
     }
 
     const ticket = result[0];
-    console.log('yes ticket',ticket);
+    //console.log('yes ticket',ticket);
 
     res.status(200).json({
       success: true,

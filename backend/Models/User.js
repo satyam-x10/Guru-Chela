@@ -97,7 +97,7 @@ UserModel.pre("save", async function (next) {
 
 UserModel.methods.getJWTToken = function () {
   const secret_key = process.env.JWT_SECRET_KEY;
-  console.log(secret_key);
+  //console.log(secret_key);
 
   return jwt.sign({ _id: this._id }, secret_key, {
     expiresIn: "15d",

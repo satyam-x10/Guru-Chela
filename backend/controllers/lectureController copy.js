@@ -10,7 +10,7 @@ export const getLecture = catchAsyncError(async (req, res, next) => {
   const courseId = req.params.courseId; // Course ID from the request parameters
   const lectureId = req.params.lectureId; // Lecture ID from the request parameters
 
-  console.log("Searching lecture for ", courseId, lectureId);
+  //console.log("Searching lecture for ", courseId, lectureId);
 
   // Find the course by ID
   const course = await Course.findById(courseId);
@@ -59,7 +59,7 @@ export const createLectures = catchAsyncError(async (req, res, next) => {
   const { id } = req.params;
   const { title, description } = req.body;
 
-  console.log("making lecture ", title, description);
+  //console.log("making lecture ", title, description);
 
   const course = await Course.findById(id);
 

@@ -11,7 +11,7 @@ export const updateProfile = (name, email) => async dispatch => {
       },
       withCredentials: true,
     };
-    console.log(name, email, 'gggggggggggggggggg');
+    // console.log(name, email, 'gggggggggggggggggg');
 
     const { data } = await axios.put(
       `${server}/updateProfile`,
@@ -39,7 +39,7 @@ export const updateProfilePicture = formdata => async dispatch => {
       withCredentials: true,
     };
 
-    // console.log(formdata);
+    // // console.log(formdata);
 
     const { data } = await axios.put(
       `${server}/updateProfilePicture`,
@@ -60,7 +60,7 @@ export const changePassword = (oldPassword, newPassword) => async dispatch => {
   try {
     dispatch({ type: 'changePasswordRequest' });
 
-    // console.log(oldPassword, newPassword);
+    // // console.log(oldPassword, newPassword);
 
     const config = {
       headers: {
@@ -89,7 +89,7 @@ export const forgetPassword = email => async dispatch => {
   try {
     dispatch({ type: 'forgetPasswordRequest' });
 
-    // console.log(email);
+    // // console.log(email);
 
     const config = {
       headers: {
@@ -142,7 +142,7 @@ export const addToPlaylist = (id, courseTitle) => async dispatch => {
   try {
     dispatch({ type: 'addToPlaylistRequest' });
 
-    console.log(id);
+    // console.log(id);
     const config = {
       headers: {
         'Content-Type': 'application/json',
@@ -167,7 +167,7 @@ export const addToPlaylist = (id, courseTitle) => async dispatch => {
 
 export const removeFromPlaylist = id => async dispatch => {
   try {
-    console.log('remviong ', id);
+    // console.log('remviong ', id);
     dispatch({ type: 'removeFromPlaylistRequest' });
 
     const config = {

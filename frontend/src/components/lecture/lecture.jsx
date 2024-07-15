@@ -31,14 +31,14 @@ const Lecture = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [transcript, setTranscript] = useState('');
-  console.log(courseId, lectureId);
+  // console.log(courseId, lectureId);
 
   useEffect(() => {
     const fetchLectureData = async () => {
       try {
         const response = await getLecture(courseId, lectureId);
         const data = await response;
-        console.log('data', data);
+        // console.log('data', data);
         setLectureData(data);
       } catch (error) {
         console.error('Error fetching lecture data:', error);
@@ -56,7 +56,7 @@ const Lecture = () => {
 
     onOpen(); // Open modal after fetching transcript
     const transcribe = await transcribeAudio(lectureData?.lecture?.video?.url);
-    console.log('audio', transcribe);
+    // console.log('audio', transcribe);
     setTranscript(transcribe);
 
   };

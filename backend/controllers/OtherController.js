@@ -66,7 +66,7 @@ export const saveNotes = catchAsyncError(async (req, res, next) => {
     user.notes = notes;
     await user.save();
 
-    console.log('User saved:', user);
+    //console.log('User saved:', user);
     res.status(200).json({
       success: true,
       message: "Notes updated successfully",
@@ -148,7 +148,7 @@ export const getDashboardStats = catchAsyncError(async (req, res, next) => {
 export const getNotifications = catchAsyncError(async (req, res, next) => {
   const userId = req.params.userId; // Assuming req.params.userId is populated from authentication middleware
 
-  console.log('Backend: Getting notifications for userId', userId);
+  //console.log('Backend: Getting notifications for userId', userId);
 
   try {
     // Find the notification document for the given userId
@@ -219,7 +219,7 @@ export const deleteNotification = catchAsyncError(async (req, res, next) => {
 
 export const clearNotifications = catchAsyncError(async (req, res, next) => {
   const userId = req.params.userId;
-  console.log('clearing nots for ', req.params);
+  //console.log('clearing nots for ', req.params);
   const notificationDoc = await Notification.findOneAndUpdate(
     { userID: userId },
     { lastRead: Date.now() },

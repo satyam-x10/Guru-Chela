@@ -42,7 +42,7 @@ const AddLecture = () => {
   const [videoPrev, setVideoPrev] = useState('');
 
   const id = useParams().id;
-  console.log(id);
+  // console.log(id);
 
   const [CourseData, setCourseData] = useState();
 
@@ -51,7 +51,7 @@ const AddLecture = () => {
       try {
         const response = await getAdminCourse(id);
         const data = await response;
-        console.log('lll', data);
+        // console.log('lll', data);
         setCourseData(data.course);
       } catch (error) {
         console.error('Failed to fetch course data', error);

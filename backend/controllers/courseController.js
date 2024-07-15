@@ -13,7 +13,7 @@ export const getCourses = catchAsyncError(async (req, res, next) => {
   let pageNo = parseInt(req.query.page, 10) || 1;
   const pageSize = 10;
 
-  console.log(req.query, "was called");
+  //console.log(req.query, "was called");
 
   const totalCourses = await Course.countDocuments({
     title: {
@@ -57,16 +57,16 @@ export const getCourses = catchAsyncError(async (req, res, next) => {
 });
 
 export const createCourse = catchAsyncError(async (req, res, next) => {
-  console.log("creating backend course");
+  //console.log("creating backend course");
   const { title, description, category, createdBy } = req.body;
-  // console.log(title, description, category);
+  // //console.log(title, description, category);
 
   if (!title || !description || !category || !createdBy) {
     return next(new ErrorHandler("Please Add all Fields", 400));
   }
 
   const file = req.file;
-  // console.log(file);
+  // //console.log(file);
 
   const fileUri = getDataUri(file);
 
@@ -112,7 +112,7 @@ export const createCourse = catchAsyncError(async (req, res, next) => {
 });
 
 export const getAdminCourse = catchAsyncError(async (req, res, next) => {
-  console.log("getting admin course");
+  //console.log("getting admin course");
 
   const course = await Course.findById(req.params.id);
   if (!course) {

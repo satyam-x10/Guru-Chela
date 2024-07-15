@@ -56,14 +56,14 @@ const Register = () => {
 
   const imageHandler = e => {
     const file = e.target.files[0];
-    // console.log(file)
+    // // console.log(file)
     const reader = new FileReader();
 
     reader.readAsDataURL(file);
 
     reader.onloadend = () => {
       setImgPrev(reader.result);
-      // console.log(imgPrev);
+      // // console.log(imgPrev);
       setImg(file);
     };
   };
@@ -72,7 +72,7 @@ const Register = () => {
 
   const handleSubmit = async e => {
     e.preventDefault();
-    console.log('click');
+    // console.log('click');
     const myForm = new FormData();
 
     myForm.append('name', name);

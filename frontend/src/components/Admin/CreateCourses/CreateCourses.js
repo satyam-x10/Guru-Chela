@@ -20,7 +20,7 @@ import Sidebar from '../Sidebar';
 import { logDOM } from '@testing-library/react';
 
 const CreateCourse = admin => {
-  console.log('adminnn ', admin);
+  // console.log('adminnn ', admin);
   const fileUploadCss = {
     cursor: 'pointer',
     marginLeft: '-5%',

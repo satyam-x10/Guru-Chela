@@ -29,7 +29,7 @@ const Subscribe = ({ user }) => {
     } = await axios.get(`${server}/razorpayKey`);
 
     setKey(key);
-    console.log(key);
+    // console.log(key);
 
     dispatch(buySubscription());
   };
@@ -44,7 +44,7 @@ const Subscribe = ({ user }) => {
       dispatch({ type: 'clearError' });
     }
 
-    console.log(subscriptionId);
+    // console.log(subscriptionId);
 
     if (subscriptionId) {
       const openPopUp = () => {

@@ -35,7 +35,7 @@ const Navbar = ({ isAuthenticated, user }) => {
 
   const logoutHandler = e => {
     e.preventDefault();
-    console.log('Logging out..');
+    // console.log('Logging out..');
     dispatch(logoutProfile());
   };
 

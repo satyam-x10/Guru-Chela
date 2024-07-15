@@ -19,7 +19,7 @@ import { askGemini } from '../../redux/actions/gemini';
 import { server } from '../../redux/Store';
 
 const SOCKET_SERVER_URL = server.slice(0, -4); // Your backend server URL
-console.log(SOCKET_SERVER_URL);
+// console.log(SOCKET_SERVER_URL);
 const Contribute = ({ user }) => {
   const { id: ticketID } = useParams(); // Get the doubtID from the route parameters
   const [doubt, setDoubt] = useState(null);
@@ -40,7 +40,7 @@ const Contribute = ({ user }) => {
     
 
     socket.on('connect', () => {
-      console.log('Connected to Socket.IO server');
+      // console.log('Connected to Socket.IO server');
     });
 
     socket.on('connect_error', (err) => {
@@ -48,7 +48,7 @@ const Contribute = ({ user }) => {
     });
 
     socket.on('disconnect', () => {
-      console.log('Disconnected from Socket.IO server');
+      // console.log('Disconnected from Socket.IO server');
     });
 
     // Join the specific doubt room
@@ -56,7 +56,7 @@ const Contribute = ({ user }) => {
 
     // Listen for new comments
     socket.on('newComment', (comment) => {
-      console.log('New comment received:', comment);
+      // console.log('New comment received:', comment);
       setDoubt((prevDoubt) => ({
         ...prevDoubt,
         chats: [...prevDoubt.chats, comment],

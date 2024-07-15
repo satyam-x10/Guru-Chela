@@ -60,7 +60,7 @@ const AdminCourses = () => {
   }
 
   const deleteButtonHandler = courseId => {
-    console.log(courseId);
+    // console.log(courseId);
     dispatch(deleteCourse(courseId));
   };
 

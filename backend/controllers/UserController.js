@@ -16,7 +16,7 @@ export const register = catchAsyncError(async (req, res, next) => {
   const { name, email, password } = req.body;
   const file = req.file;
   // const file = req.file;
-  // console.log(name, email, password);
+  // //console.log(name, email, password);
 
   if (!name || !email || !password) {
     return next(new ErrorHandler("Please Enter All Fields", 400));
@@ -44,26 +44,26 @@ export const register = catchAsyncError(async (req, res, next) => {
     },
   });
 
-  // console.log(user);
+  // //console.log(user);
 
   sendToken(res, user, "Registered Successfully", 201);
-  console.log("user created succesfully");
+  //console.log("user created succesfully");
 });
 
 export const login = catchAsyncError(async (req, res, next) => {
   const { email, password } = req.body;
-  console.log("baclend loggin with ", email, password);
+  //console.log("baclend loggin with ", email, password);
 
   if (!email || !password)
     return next(new ErrorHandler("Please enter all field", 400));
 
   const user = await User.findOne({ email }).select("+password");
-  console.log("user found for loggin ", user);
+  //console.log("user found for loggin ", user);
   if (!user) return next(new ErrorHandler("Incorrect Email or Password", 401));
 
   const isMatch = await user.comparePassword(password);
 
-  console.log("is match ", isMatch);
+  //console.log("is match ", isMatch);
   if (!isMatch) {
     return next(new ErrorHandler("Incorrect Email or Password", 401));
   }
@@ -88,7 +88,7 @@ export const logout = catchAsyncError(async (req, res, next) => {
 export const getMyProfile = catchAsyncError(async (req, res, next) => {
   const user = await User.findById(req.user._id);
   const admin = await User.find({ role: "admin" });
-  // console.log(user);
+  // //console.log(user);
 
   res.status(200).json({
     success: true,
@@ -148,7 +148,7 @@ export const changePassword = catchAsyncError(async (req, res, next) => {
 export const updateProfile = catchAsyncError(async (req, res, next) => {
   const { name, email } = req.body;
 
-  console.log("updating profile", name, email);
+  //console.log("updating profile", name, email);
   const user = await User.findById(req.user._id);
 
   if (email) user.email = email;
@@ -165,11 +165,11 @@ export const updateProfile = catchAsyncError(async (req, res, next) => {
 export const updateProfilePicture = catchAsyncError(async (req, res, next) => {
   const file = req.file;
 
-  // console.log(file);
+  // //console.log(file);
 
   const fileUri = getDataUri(file);
 
-  console.log("avatar-id", req.user.avatar.public_id);
+  //console.log("avatar-id", req.user.avatar.public_id);
 
   await cloudinary.v2.uploader.destroy(req.user.avatar.public_id);
 
@@ -190,17 +190,17 @@ export const updateProfilePicture = catchAsyncError(async (req, res, next) => {
 
 export const forgetPassword = catchAsyncError(async (req, res, next) => {
   const { email } = req.body;
-  console.log("reset password for ", email);
+  //console.log("reset password for ", email);
   const user = await User.findOne({ email });
 
-  // console.log(user);
+  // //console.log(user);
 
   if (!user) {
     return next(new ErrorHandler("User Does Not exist", 401));
   }
 
   const resetToken = await user.getResetToken();
-  console.log("resetToken", resetToken);
+  //console.log("resetToken", resetToken);
 
   await user.save();
 
@@ -208,7 +208,7 @@ export const forgetPassword = catchAsyncError(async (req, res, next) => {
 
   const message = `Click on the Link to reset your password. ${url}. if you have not requested then please ignore.`;
 
-  console.log("message sending", message);
+  //console.log("message sending", message);
   await sendEmail(user.email, "Guru-Chela Reset Password", message);
 
   res.status(200).json({
@@ -219,7 +219,7 @@ export const forgetPassword = catchAsyncError(async (req, res, next) => {
 
 export const resetPassword = catchAsyncError(async (req, res, next) => {
   const token = req.params.token;
-  // console.log(token);
+  // //console.log(token);
 
   const resetPasswordToken = crypto
     .createHash("sha256")
@@ -252,7 +252,7 @@ export const resetPassword = catchAsyncError(async (req, res, next) => {
 
 export const addToPlaylist = catchAsyncError(async (req, res, next) => {
   const user = await User.findById(req.user._id);
-  console.log("adding to plalyist", req.body);
+  //console.log("adding to plalyist", req.body);
 
   const course = await Course.findById(req.body.id);
   const title = req.body.courseTitle;
@@ -260,7 +260,7 @@ export const addToPlaylist = catchAsyncError(async (req, res, next) => {
   if (!course) {
     return next(new ErrorHandler("Invalid Course Id", 401));
   }
-  console.log(" course found ");
+  //console.log(" course found ");
 
   const itemExit = user.playlist.find((item) => {
     if (item.course.toString() === course._id.toString()) {
@@ -268,19 +268,19 @@ export const addToPlaylist = catchAsyncError(async (req, res, next) => {
     }
   });
 
-  console.log(" doesnt pre-exists ");
+  //console.log(" doesnt pre-exists ");
 
   if (itemExit) {
     return next(new ErrorHandler("Item Already Exist", 409));
   }
-  console.log(" pushing ");
+  //console.log(" pushing ");
 
   user.playlist.push({
     course: course._id,
     title: title,
     poster: course.poster.url,
   });
-  console.log("saving user");
+  //console.log("saving user");
   await user.save();
 
   res.status(200).json({
@@ -290,7 +290,7 @@ export const addToPlaylist = catchAsyncError(async (req, res, next) => {
 });
 
 export const removeFromPlaylist = catchAsyncError(async (req, res, next) => {
-  console.log("deleting playlist from backedn ");
+  //console.log("deleting playlist from backedn ");
   const user = await User.findById(req.user._id);
 
   const course = await Course.findById(req.query.id);
@@ -365,7 +365,7 @@ export const changeUserRole = catchAsyncError(async (req, res, next) => {
 
   await user.save();
 
-  // console.log(user.role);
+  // //console.log(user.role);
 
   res.status(200).json({
     success: true,

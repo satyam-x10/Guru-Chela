@@ -51,7 +51,7 @@ const CoursePage = ({ user }) => {
     const prompt = { title: course?.title || '', description: course?.description || '' };
     setIsRoadmap(true);
     const res = await askGemini(prompt, 'roadmap');
-    console.log(res);
+    // console.log(res);
     setRoadmap(res);
   };
 

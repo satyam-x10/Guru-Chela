@@ -26,9 +26,9 @@ const Notification = ({ user }) => {
 
 
   useEffect(() => {
-    console.log((lastRead));
-    console.log((notifications[3]?.time));
-    // console.log(lastRead<notifications[3]?.time);
+    // console.log((lastRead));
+    // console.log((notifications[3]?.time));
+    // // console.log(lastRead<notifications[3]?.time);
   }, [lastRead, notifications])
 
   const handleDeleteNotification = async (notificationID) => {

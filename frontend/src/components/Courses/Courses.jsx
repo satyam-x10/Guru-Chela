@@ -151,7 +151,7 @@ const Courses = admin => {
     }
   }, [category, keyword, dispatch, error, message, pageNO]);
 
-  console.log(currentPage, totalPages);
+  // console.log(currentPage, totalPages);
   return (
     <Container minH={'95vh'} maxW="container.lg" paddingY={'8'}>
       <Heading fontSize="2xl" mb="4">
