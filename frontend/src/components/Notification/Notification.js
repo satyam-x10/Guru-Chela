@@ -51,7 +51,7 @@ const Notification = ({ user }) => {
         Notifications
       </Text>
       <Flex justifyContent="flex-end" width="100%">
-        <Button onClick={() => { clearNotifications(user?._id); setLastRead(Date.now()) }} colorScheme="teal">Mark all as Read</Button>
+        <Button onClick={() => { clearNotifications(user?._id); setLastRead(Date.now());window.location.reload() }} colorScheme="teal">Mark all as Read</Button>
       </Flex>
       <VStack spacing="4" align="stretch">
         {notifications.sort((a, b) => new Date(b.time) - new Date(a.time)).map((notification) => {

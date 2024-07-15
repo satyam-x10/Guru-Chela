@@ -181,6 +181,42 @@ export const getNotifications = catchAsyncError(async (req, res, next) => {
   }
 });
 
+export const newNotification = catchAsyncError(async (req, res, next) => {
+  const userId = req.params.userId; // Assuming req.params.userId is populated from authentication middleware
+
+  try {
+    // Find the notification document for the given userId
+    const notificationDoc = await Notification.findOne({ userID: userId });
+
+    // If no notification document is found, return a 404 response
+    if (!notificationDoc) {
+      return res.status(404).json({
+        success: false,
+        message: "No notifications found",
+      });
+    }
+
+    // Filter notifications based on time being after lastRead
+    const newNotifications = notificationDoc.notifications.filter(
+      (notification) => new Date(notification.time) > new Date(notificationDoc.lastRead)
+    );
+
+    // Return success response with the count of new notifications
+    res.status(200).json({
+      success: true,
+      newNotificationsCount: newNotifications.length,
+    });
+  } catch (error) {
+    // Handle any errors
+    console.error('Error fetching notifications:', error);
+    res.status(500).json({
+      success: false,
+      message: "Failed to fetch notifications",
+      error: error.message,
+    });
+  }
+});
+
 
 
 // Delete Notification

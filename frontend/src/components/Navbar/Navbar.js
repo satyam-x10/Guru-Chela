@@ -32,7 +32,6 @@ const Navbar = ({ isAuthenticated, user }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const SwitchIcon = useColorModeValue(FaMoon, FaSun);
   const { toggleColorMode } = useColorMode();
-
   const logoutHandler = e => {
     e.preventDefault();
     // console.log('Logging out..');
@@ -143,7 +142,7 @@ const Navbar = ({ isAuthenticated, user }) => {
               mx={2}
               onClick={() => window.location.href = '/notifications'}
             >
-              <NotificationIcon />
+              <NotificationIcon  userId={user?._id}/>
             </Box>
             <Box
               p={2}

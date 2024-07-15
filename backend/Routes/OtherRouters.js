@@ -6,6 +6,7 @@ import {
   deleteNotification,
   getDashboardStats,
   getNotifications,
+  newNotification,
   saveNotes,
 } from "../controllers/OtherController.js";
 import {
@@ -34,6 +35,10 @@ router
 router
   .route("/notification/:userId")
   .get(isAuthenticated, authorizedSubscriber, getNotifications);
+
+router
+  .route("/newNotification/:userId")
+  .get(newNotification);
 
 
 router
