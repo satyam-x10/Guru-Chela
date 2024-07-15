@@ -53,26 +53,26 @@ export const saveNotes = catchAsyncError(async (req, res, next) => {
   if (!notes || !id) {
     return next(new ErrorHandler("Please fill all the fields", 400));
   }
-  if (notes.length>3000) {
+  if (notes.length > 3000) {
     return next(new ErrorHandler("Letters limited to 3k", 400));
   }
-  
+
   try {
     const user = await User.findById(id);
     if (!user) {
       return next(new ErrorHandler("User not found", 404));
     }
-  
+
     user.notes = notes;
     await user.save();
-  
+
     console.log('User saved:', user);
     res.status(200).json({
       success: true,
       message: "Notes updated successfully",
       user,
     });
-    
+
   } catch (error) {
     console.error('Error updating notes:', error);
     return next(new ErrorHandler("An error occurred while updating notes", 500));
@@ -145,7 +145,6 @@ export const getDashboardStats = catchAsyncError(async (req, res, next) => {
 });
 
 
-
 export const getNotifications = catchAsyncError(async (req, res, next) => {
   const userId = req.params.userId; // Assuming req.params.userId is populated from authentication middleware
 
@@ -154,8 +153,7 @@ export const getNotifications = catchAsyncError(async (req, res, next) => {
   try {
     // Find the notification document for the given userId
     const notificationDoc = await Notification.findOneAndUpdate(
-      { userID: userId },       
-      { lastRead: Date.now() },
+      { userID: userId },
       { new: false } // Return the updated document
     );
 
@@ -211,6 +209,21 @@ export const deleteNotification = catchAsyncError(async (req, res, next) => {
   }
 
   notificationDoc.notifications.splice(notificationIndex, 1);
+  await notificationDoc.save();
+
+  res.status(200).json({
+    success: true,
+    message: "Notification deleted successfully",
+  });
+});
+
+export const clearNotifications = catchAsyncError(async (req, res, next) => {
+  const userId = req.params.userId;
+  console.log('clearing nots for ', req.params);
+  const notificationDoc = await Notification.findOneAndUpdate(
+    { userID: userId },
+    { lastRead: Date.now() },
+  );
   await notificationDoc.save();
 
   res.status(200).json({

@@ -92,19 +92,14 @@ export const getNotifications = async (userId) => {
     };
 
     console.log('getting notifications', userId);
-    const res = await axios.get(`${server}/notification/${userId}`, {
-      ...config,
-      data: { userId }, // Pass userId in the request body
-    });
+    const res = await axios.get(`${server}/notification/${userId}`,
+      config);
 
     return res.data.notifications; // Return the notifications data directly
   } catch (error) {
     throw error.response.data.message || 'Failed to get notifications';
   }
 };
-
-
-
 
 export const deleteNotification = async (notificationID) => {
   try {
@@ -120,5 +115,22 @@ export const deleteNotification = async (notificationID) => {
     return notificationID; // Return the deleted notification ID
   } catch (error) {
     throw error.response.data.message || 'Failed to delete notification';
+  }
+};
+
+export const clearNotifications = async (userId) => {
+  try {
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      withCredentials: true, // Adjust this according to your authentication setup
+    };
+
+    await axios.put(`${server}/notification/${userId}`,
+      config); // Adjust the API endpoint as per your backend route
+
+  } catch (error) {
+    throw error.response.data.message || 'Failed to clear notification';
   }
 };

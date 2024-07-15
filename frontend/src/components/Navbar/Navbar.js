@@ -32,7 +32,7 @@ const Navbar = ({ isAuthenticated, user }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const SwitchIcon = useColorModeValue(FaMoon, FaSun);
   const { toggleColorMode } = useColorMode();
-  const text = useColorModeValue('dark', 'light');
+
   const logoutHandler = e => {
     e.preventDefault();
     console.log('Logging out..');
@@ -135,16 +135,16 @@ const Navbar = ({ isAuthenticated, user }) => {
           </Flex>
 
           <Flex align="center">
-          <Box
-                  p={2}
-                  cursor="pointer"
-                  borderRadius={6}
-                  bg="teal"
-                  mx={2}
-                  onClick={()=>window.location.href='/notifications'}
-                >
-          <NotificationIcon />
-          </Box>
+            <Box
+              p={2}
+              cursor="pointer"
+              borderRadius={6}
+              bg="teal"
+              mx={2}
+              onClick={() => window.location.href = '/notifications'}
+            >
+              <NotificationIcon />
+            </Box>
             <Box
               p={2}
               cursor="pointer"

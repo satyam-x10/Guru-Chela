@@ -1,5 +1,6 @@
 import express from "express";
 import {
+  clearNotifications,
   contact,
   courseRequest,
   deleteNotification,
@@ -39,6 +40,9 @@ router
   .route("/notification/:notificationID")
   .delete(isAuthenticated, authorizedSubscriber, deleteNotification);
 
+router
+  .route("/notification/:userId")
+  .put(clearNotifications);
 
 
 export default router;

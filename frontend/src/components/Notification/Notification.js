@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Box, Button, Flex, Text, VStack } from '@chakra-ui/react';
-import { getNotifications, deleteNotification } from '../../redux/actions/other'; // Adjust path as necessary
-
+import { getNotifications, deleteNotification, clearNotifications } from '../../redux/actions/other'; // Adjust path as necessary
+import {
+  FaTrash,
+} from 'react-icons/fa';
 const Notification = ({ user }) => {
   const [notifications, setNotifications] = useState([]);
   const [lastRead, setLastRead] = useState(null);
@@ -11,7 +13,7 @@ const Notification = ({ user }) => {
       try {
         const fetchedNotifications = await getNotifications(user?._id);
         setNotifications(fetchedNotifications?.notifications);
-        setLastRead(new Date(fetchedNotifications?.lastRead)); // Convert lastRead to Date object
+        setLastRead((fetchedNotifications?.lastRead)); // Convert lastRead to Date object
       } catch (error) {
         console.error('Error fetching notifications:', error);
         // Handle error (e.g., show error message)
@@ -21,10 +23,13 @@ const Notification = ({ user }) => {
     fetchNotifications();
   }, [user]);
 
-  useEffect(()=>{
-    console.log(new Date(lastRead));
-    console.log(new Date(notifications[0]?.time));
-  },[lastRead,notifications])
+
+
+  useEffect(() => {
+    console.log((lastRead));
+    console.log((notifications[3]?.time));
+    // console.log(lastRead<notifications[3]?.time);
+  }, [lastRead, notifications])
 
   const handleDeleteNotification = async (notificationID) => {
     try {
@@ -39,35 +44,48 @@ const Notification = ({ user }) => {
     }
   };
 
+
   return (
     <Box minH="100vh" p="4">
       <Text fontSize="2xl" fontWeight="bold" mb="4">
         Notifications
       </Text>
+      <Flex justifyContent="flex-end" width="100%">
+        <Button onClick={() => { clearNotifications(user?._id); setLastRead(Date.now()) }} colorScheme="teal">Mark all as Read</Button>
+      </Flex>
       <VStack spacing="4" align="stretch">
         {notifications.sort((a, b) => new Date(b.time) - new Date(a.time)).map((notification) => {
           const notificationTime = new Date(notification.time);
-          const isNewNotification = notificationTime.getTime() > lastRead.getTime();
+          const isNewNotification = notification.time > lastRead;
 
           return (
             <Flex
               key={notification._id}
               bg={isNewNotification ? "blue.100" : "gray.100"}
-              p="4"
+              p="1"
               borderRadius="md"
               alignItems="center"
-              my="2"
+              my="1"
             >
-              <Box flex="1">
+              <Box onClick={() => { window.location.href = `${notification?.redirect}` }}
+                flex="1"
+                 cursor="pointer"
+                >
                 <Text fontSize="lg" fontWeight="semibold">
                   {notification.notification}
                 </Text>
                 <Text fontSize="sm" color="gray.500">
-                  {notificationTime.toLocaleString()}
+                  {notificationTime.toLocaleString('en-US', {
+                    day: '2-digit',
+                    month: 'short',
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    hour12: true
+                  })}
                 </Text>
               </Box>
               <Button colorScheme="red" onClick={() => handleDeleteNotification(notification._id)}>
-                Delete
+                <FaTrash />
               </Button>
             </Flex>
           );
@@ -75,7 +93,7 @@ const Notification = ({ user }) => {
 
         {notifications.length === 0 && (
           <Text fontSize="lg" color="gray.500">
-            No notifications found
+            No more notifications found
           </Text>
         )}
       </VStack>
