@@ -22,5 +22,5 @@ const store = configureStore({
 });
 
 export default store;
-// export const server = 'https://guru-chela.onrender.com/api';
-export const server = 'http://localhost:5000/api';
+export const server = 'https://guru-chela.onrender.com/api';
+// export const server = 'http://localhost:5000/api';
