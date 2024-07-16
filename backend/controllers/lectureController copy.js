@@ -99,7 +99,7 @@ export const createLectures = catchAsyncError(async (req, res, next) => {
   // Fetch followers of the course (assuming 'followedBy' contains user IDs)
   const followers = course.followedBy; // Adjust this based on your actual schema
   // Create notifications for each follower
-  const notificationsUpdate = followers.map(async (followerId) => {
+  followers.map(async (followerId) => {
     // Find existing notification document for the user
     let notification = await Notification.findOne({ userID: followerId });
 
@@ -109,7 +109,6 @@ export const createLectures = catchAsyncError(async (req, res, next) => {
         userID: followerId,
       });
     }
-    console.log('found it ', notification);
     // Push new lecture notification into notifications array
     notification.notifications.push({
       type: "lecture",
@@ -117,7 +116,6 @@ export const createLectures = catchAsyncError(async (req, res, next) => {
       redirect: `/lecture/${id}/${course.lectures[course.lectures.length - 1]._id}`, // Redirect URL
       time: Date.now(),
     });
-    console.log('saved it ');
 
     // Save updated notification
     await notification.save();
