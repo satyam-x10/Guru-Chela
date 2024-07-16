@@ -47,7 +47,7 @@ const Profile = ({ user }) => {
     e.preventDefault();
     const myForm = new FormData();
 
-    console.log(image);
+    // console.log(image);
     myForm.append('file', image);
     await dispatch(updateProfilePicture(myForm));
 
@@ -91,7 +91,7 @@ const Profile = ({ user }) => {
     color: '#ECC94B',
     backgroundColor: 'white',
   };
-  console.log('user ', user);
+  // console.log('user ', user);
 
   return (
     <>
@@ -246,7 +246,7 @@ const Profile = ({ user }) => {
                 <button
                   onClick={e => {
                     e.stopPropagation();
-                    console.log(playlist.course);
+                    // console.log(playlist.course);
                     removeFromPlaylistHandler(playlist.course);
                   }}
                   style={{

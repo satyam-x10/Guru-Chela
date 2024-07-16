@@ -12,7 +12,7 @@ import ForgotPassword from './components/Authentication/ForgotPassword.js';
 import ResetPassword from './components/Authentication/ResetPassword.js';
 import Contact from './components/Contact/Contact.js';
 import Request from './components/RequestCourse/Request.js';
-import About from './components/About/About.js';
+
 import Subscribe from './components/Payment/Subscribe.js';
 import PaymentFail from './components/Payment/PaymentFail.js';
 import PaymentSuccess from './components/Payment/PaymentSuccess.js';
@@ -37,6 +37,7 @@ import AddLecture from './components/Admin/AdminCourses/AddLecture.js';
 import Notes from './components/Notes/Notes.js';
 import Contribute from './components/Doubts/Contribute.jsx';
 import AiGuruji from './components/aiGuruji/aiGuruji.jsx';
+import Notification from './components/Notification/Notification.js';
 
 const App = () => {
   const { isAuthenticated, user, error, message, loading, admin } = useSelector(
@@ -105,6 +106,8 @@ const App = () => {
                 </ProtectedRoute>
               }
             />
+            <Route path="/notifications" element={<Notification user={user} />} />
+
             <Route path="/doubts" element={<Doubts user={user} />} />
             <Route path="/doubts/pairup" element={<PairUp user={user} />} />
             <Route path="/doubts/:id" element={<Contribute user={user} />} />
@@ -120,7 +123,6 @@ const App = () => {
             <Route path="/resetPassword/:token" element={<ResetPassword />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/request" element={<Request />} />
-            <Route path="/about" element={<About />} />
             <Route
               path="/subscribe"
               element={

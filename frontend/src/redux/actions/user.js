@@ -5,7 +5,7 @@ export const loginAction = (email, password) => async dispatch => {
   try {
     dispatch({ type: 'loginRequest' });
 
-    console.log('trying to login with ');
+    // console.log('trying to login with ');
 
     const config = {
       headers: {
@@ -30,7 +30,7 @@ export const registerAction = formData => async dispatch => {
   try {
     dispatch({ type: 'registerRequest' });
 
-    //   console.log(email, password);
+    //   // console.log(email, password);
 
     const config = {
       headers: {
@@ -90,7 +90,7 @@ export const buySubscription = () => async dispatch => {
       withCredentials: true,
     });
 
-    console.log(data);
+    // console.log(data);
 
     dispatch({ type: 'buySubscriptionSuccess', payload: data.subscriptionId });
   } catch (error) {
@@ -108,7 +108,7 @@ export const cancelSubscription = () => async dispatch => {
     const { data } = await axios.delete(`${server}/subscribe/cancel`, {
       withCredentials: true,
     });
-    // console.log(data);
+    // // console.log(data);
     dispatch({ type: 'cancelSubscriptionSuccess', payload: data.message });
   } catch (error) {
     dispatch({

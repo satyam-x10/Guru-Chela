@@ -27,6 +27,8 @@ import { deleteLecture } from '../../redux/actions/admin';
 import headphoneIcon from '../../assets/images/audioIcon.png';
 import VideoIcon from '../../assets/images/videoIcon.png';
 import { askGemini } from '../../redux/actions/gemini';
+import axios from 'axios';
+import { server } from '../../redux/Store';
 
 const CoursePage = ({ user }) => {
   const [lectureNumber, setLectureNumber] = useState(0);
@@ -35,9 +37,17 @@ const CoursePage = ({ user }) => {
     (state) => state.course
   );
   const lectures = course?.lectures;
+  console.log(course);
   const dispatch = useDispatch();
   const params = useParams();
   const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const [following, setFollowing] = useState()
+
+  useEffect(() => {
+    setFollowing((course?.followedBy?.includes(user?._id)) ? true : false)
+  }, [course])
+
 
   useEffect(() => {
     dispatch(getCourseLectures(params.id, pageNo));
@@ -51,7 +61,7 @@ const CoursePage = ({ user }) => {
     const prompt = { title: course?.title || '', description: course?.description || '' };
     setIsRoadmap(true);
     const res = await askGemini(prompt, 'roadmap');
-    console.log(res);
+    // console.log(res);
     setRoadmap(res);
   };
 
@@ -63,6 +73,23 @@ const CoursePage = ({ user }) => {
     document.body.appendChild(element);
     element.click();
   };
+
+
+  const followCourse = async () => {
+    try {
+      const response = await axios.put(`${server}/followCourse`, {
+        userId: user?._id,
+        courseId: params.id
+      });
+      const data = response.data;
+      setFollowing(!following)
+      return data;
+    } catch (error) {
+      console.error("Error following course:", error.response ? error.response.data : error.message);
+      throw error;
+    }
+  };
+
 
   if (
     user?.role !== 'admin' &&
@@ -94,6 +121,9 @@ const CoursePage = ({ user }) => {
             />
             <Button m={2} onClick={getRoadmap} colorScheme="orange">
               Get Roadmap to study this course
+            </Button>
+            <Button m={2} onClick={followCourse} colorScheme="teal">
+              {following ? "UnFollow" : "Follow"}
             </Button>
             <Heading as="h1" size="md" mb={2}>
               {course.title}

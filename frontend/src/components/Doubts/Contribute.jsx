@@ -19,7 +19,7 @@ import { askGemini } from '../../redux/actions/gemini';
 import { server } from '../../redux/Store';
 
 const SOCKET_SERVER_URL = server.slice(0, -4); // Your backend server URL
-console.log(SOCKET_SERVER_URL);
+// console.log(SOCKET_SERVER_URL);
 const Contribute = ({ user }) => {
   const { id: ticketID } = useParams(); // Get the doubtID from the route parameters
   const [doubt, setDoubt] = useState(null);
@@ -32,12 +32,15 @@ const Contribute = ({ user }) => {
   const [aiError, setAiError] = useState(null); // State to manage AI response error
 
   useEffect(() => {
+    if(!ticketID) return
     const socket = io(SOCKET_SERVER_URL, {
-      transports: ['websocket', 'polling'], // Add this line
+      transports: ['websocket', 'polling'],
+      withCredentials: true,
     });
+    
 
     socket.on('connect', () => {
-      console.log('Connected to Socket.IO server');
+      // console.log('Connected to Socket.IO server');
     });
 
     socket.on('connect_error', (err) => {
@@ -45,7 +48,7 @@ const Contribute = ({ user }) => {
     });
 
     socket.on('disconnect', () => {
-      console.log('Disconnected from Socket.IO server');
+      // console.log('Disconnected from Socket.IO server');
     });
 
     // Join the specific doubt room
@@ -53,7 +56,7 @@ const Contribute = ({ user }) => {
 
     // Listen for new comments
     socket.on('newComment', (comment) => {
-      console.log('New comment received:', comment);
+      // console.log('New comment received:', comment);
       setDoubt((prevDoubt) => ({
         ...prevDoubt,
         chats: [...prevDoubt.chats, comment],
@@ -153,8 +156,15 @@ const Contribute = ({ user }) => {
 
       {aiResult && (
         <Box mt={4}>
-          <Text fontWeight="bold">AI Response:</Text>
-          <Text>{aiResult}</Text>
+          <Textarea
+            value={newComment}
+            onChange={(e) => setNewComment(e.target.value)}
+            placeholder="Type your comment here..."
+            isDisabled={submitting}
+          />
+          <Button mt={2} onClick={handleCommentSubmit} isLoading={submitting} isDisabled={!newComment.trim()}>
+            Add Comment
+          </Button>
         </Box>
       )}
 

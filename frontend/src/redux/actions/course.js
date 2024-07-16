@@ -4,7 +4,7 @@ import axios from 'axios';
 export const getCourses =
   (category = '', keyword = '', pageNO = 1) =>
   async dispatch => {
-    console.log('calling for ', pageNO);
+    // console.log('calling for ', pageNO);
     try {
       dispatch({ type: 'allCoursesRequest' });
 
@@ -15,7 +15,7 @@ export const getCourses =
         `${server}/courses?keyword=${keyword}&category=${category}&page=${pageNO}`,
         config
       );
-      console.log('daadada', data);
+      // console.log('daadada', data);
 
       dispatch({ type: 'allCoursesSuccess', payload: data });
     } catch (error) {
@@ -39,7 +39,7 @@ export const getCourseLectures = (id, pageNo) => async dispatch => {
 
       config
     );
-    console.log('receiced', data);
+    // console.log('receiced', data);
     dispatch({ type: 'getCourseSuccess', payload: data });
   } catch (error) {
     dispatch({
@@ -50,14 +50,14 @@ export const getCourseLectures = (id, pageNo) => async dispatch => {
 };
 
 export const getAdminCourse = async id => {
-  console.log('trying admin course');
+  // console.log('trying admin course');
   try {
     const config = {
       withCredentials: true,
     };
 
     const { data } = await axios.get(`${server}/admin/course/${id}`, config);
-    console.log('received admin course', data);
+    // console.log('received admin course', data);
 
     return data;
   } catch (error) {

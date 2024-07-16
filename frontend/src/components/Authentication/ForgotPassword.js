@@ -18,7 +18,7 @@ const ForgotPassword = () => {
   const [email, setEmail] = useState('');
 
   const params = useParams();
-  console.log(params.token);
+  // console.log(params.token);
 
   const handleEmail = e => {
     setEmail(e.target.value);

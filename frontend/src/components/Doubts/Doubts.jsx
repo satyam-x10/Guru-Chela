@@ -12,7 +12,7 @@ const Doubts = user => {
   const [userId, setuserId] = useState(user?.user?._id);
 
   const { message, myDoubts, error } = useSelector(state => state.doubt);
-  console.log('got it ', myDoubts);
+  // console.log('got it ', myDoubts);
   const dispatch = useDispatch();
 
   useEffect(() => {

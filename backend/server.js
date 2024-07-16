@@ -51,12 +51,11 @@ app.use("/api", others);
 app.use(ErrorMiddleware);
 
 // Socket.IO setup
-// Socket.IO setup
 io.on("connection", (socket) => {
-  console.log("A user connected");
+  //console.log("A user connected");
 
   socket.on("disconnect", () => {
-    console.log("A user disconnected");
+    //console.log("A user disconnected");
   });
 
   // Handle new comment added event
@@ -64,10 +63,10 @@ io.on("connection", (socket) => {
     try {
       // Save the comment to the database or perform necessary actions
       // For demonstration purposes, we'll log it and emit it back to clients
-      console.log(`New comment added by user ${userId} to ticket ${ticketID}: ${message}`);
+      //console.log(`New comment added by user ${userId} to ticket ${ticketID}: ${message}`);
 
       // Emit the comment to all clients in the same room
-      io.to(ticketID).emit("newComment", { userId, message });
+      io.to(ticketID).emit("newComment", { userId, ticketID,message });
     } catch (error) {
       console.error("Error adding comment:", error);
     }
@@ -75,18 +74,16 @@ io.on("connection", (socket) => {
 
   // Join the specific doubt room
   socket.on("joinRoom", (ticketID) => {
-    console.log('joiniing room');
     socket.join(ticketID);
-    console.log(`User joined room ${ticketID}`);
+    //console.log(`User joined room ${ticketID}`);
   });
 
   // Leave the specific doubt room
   socket.on("leaveRoom", (ticketID) => {
     socket.leave(ticketID);
-    console.log(`User left room ${ticketID}`);
+    //console.log(`User left room ${ticketID}`);
   });
 });
-
 
 // Cloudinary configuration
 import cloudinary from "cloudinary";

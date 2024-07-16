@@ -10,6 +10,6 @@ export const sendEmail = async (to, subject, text) => {
     },
   });
 
-  console.log("sending the mail smtp");
+  //console.log("sending the mail smtp");
   await transporter.sendMail({ to, subject, text });
 };
