@@ -157,14 +157,12 @@ const Contribute = ({ user }) => {
       {aiResult && (
         <Box mt={4}>
           <Textarea
-            value={newComment}
-            onChange={(e) => setNewComment(e.target.value)}
-            placeholder="Type your comment here..."
-            isDisabled={submitting}
+            value={aiResult}
+            isReadOnly
+            placeholder="AI response..."
+            rows={10}
+            resize="none"
           />
-          <Button mt={2} onClick={handleCommentSubmit} isLoading={submitting} isDisabled={!newComment.trim()}>
-            Add Comment
-          </Button>
         </Box>
       )}
 

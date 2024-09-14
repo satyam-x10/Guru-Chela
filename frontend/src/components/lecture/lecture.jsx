@@ -95,11 +95,11 @@ const Lecture = () => {
   };
 
   if (loading) {
-    return <Spinner size="xl" />;
+    return <Spinner minH='90vh' size="xl" />;
   }
 
   if (error) {
-    return <Text color="red.500">Error: {error}</Text>;
+    return <Text minH='90vh' color="red.500">Error: {error}</Text>;
   }
 
   return (
