@@ -95,11 +95,19 @@ const Login = () => {
             </Box>
 
             {/* Button for logging in as dummy user */}
-            <Box my={'4'}>
+            <Box
+              my={'4'}
+              style={{
+                background: 'linear-gradient(135deg, purple, blue)', // Diagonal gradient
+                padding: '20px', // Add padding to ensure the gradient is visible
+                borderRadius: '8px', // Optional: Rounded corners for a softer look
+              }}
+            >
               <Button
                 colorScheme="teal"
                 variant="solid"
                 size="lg"
+                color="white"
                 onClick={loginAsDummyUser}
                 fontWeight="bold"
                 _hover={{ bg: 'teal.600' }}
@@ -110,28 +118,20 @@ const Login = () => {
               </Button>
             </Box>
 
-            <Box
-  my={'4'}
-  style={{
-    background: 'linear-gradient(135deg, purple, blue)', // diagonal gradient
-    padding: '20px', // Add padding to make the gradient more visible
-    borderRadius: '8px' // Optional for rounded corners
-  }}
->
-  <span>New User? </span>
-  <Link to="/register">
-    <Button
-      variant="link"
-      color={'teal'}
-      className="registerTxt"
-      style={{ textDecoration: 'none' }}
-    >
-      Signup
-    </Button>
-  </Link>{' '}
-  here
-</Box>
-
+            <Box my={'4'}>
+              <span>New User? </span>
+              <Link to="/register">
+                <Button
+                  variant="link"
+                  color={'teal'}
+                  className="registerTxt"
+                  style={{ textDecoration: 'none' }}
+                >
+                  Signup
+                </Button>
+              </Link>{' '}
+              here
+            </Box>
           </form>
         </VStack>
       </Container>
