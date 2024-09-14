@@ -107,7 +107,7 @@ const Login = () => {
               boxShadow="lg"
               bgGradient="linear(to-br, purple, blue)" // Apply gradient directly to the button
             >
-              Login as a Dummy User
+              Login as a Dummy User for Demo (No Credentials needed)
             </Button>
 
             <Box my={'4'}>
