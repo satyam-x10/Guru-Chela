@@ -111,7 +111,7 @@ const Login = () => {
               py={{ base: 2, md: 4 }} // Vertical padding adjustments
               width={{ base: 'full', sm: 'auto' }} // Full width on smaller screens, auto on larger screens
             >
-              Login as a Dummy User for Demo (No Credentials needed)
+              Login as a Dummy User for Demo <br/> (No Credentials needed)
             </Button>
 
             <Box my={'4'}>
