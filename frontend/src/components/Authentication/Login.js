@@ -95,28 +95,20 @@ const Login = () => {
             </Box>
 
             {/* Button for logging in as dummy user */}
-            <Box
-              my={'4'}
-              style={{
-                background: 'linear-gradient(135deg, purple, blue)', // Diagonal gradient
-                padding: '20px', // Add padding to ensure the gradient is visible
-                borderRadius: '8px', // Optional: Rounded corners for a softer look
-              }}
+            <Button
+              colorScheme="teal"
+              variant="solid"
+              size="lg"
+              color="white"
+              onClick={loginAsDummyUser}
+              fontWeight="bold"
+              _hover={{ bg: 'teal.600' }}
+              _active={{ bg: 'teal.700', transform: 'scale(0.98)' }}
+              boxShadow="lg"
+              bgGradient="linear(to-br, purple, blue)" // Apply gradient directly to the button
             >
-              <Button
-                colorScheme="teal"
-                variant="solid"
-                size="lg"
-                color="white"
-                onClick={loginAsDummyUser}
-                fontWeight="bold"
-                _hover={{ bg: 'teal.600' }}
-                _active={{ bg: 'teal.700', transform: 'scale(0.98)' }}
-                boxShadow="lg"
-              >
-                Login as a Dummy User
-              </Button>
-            </Box>
+              Login as a Dummy User
+            </Button>
 
             <Box my={'4'}>
               <span>New User? </span>
