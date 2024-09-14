@@ -98,14 +98,18 @@ const Login = () => {
             <Button
               colorScheme="teal"
               variant="solid"
-              size="lg"
+              size={{ base: 'md', md: 'lg' }} // Adjust size for different screen sizes
               color="white"
               onClick={loginAsDummyUser}
               fontWeight="bold"
               _hover={{ bg: 'teal.600' }}
               _active={{ bg: 'teal.700', transform: 'scale(0.98)' }}
               boxShadow="lg"
-              bgGradient="linear(to-br, purple, blue)" // Apply gradient directly to the button
+              bgGradient="linear(to-br, purple, blue)"
+              mx={{ base: 2, md: 4 }} // Horizontal margin adjustments
+              px={{ base: 4, md: 6 }} // Horizontal padding adjustments
+              py={{ base: 2, md: 4 }} // Vertical padding adjustments
+              width={{ base: 'full', sm: 'auto' }} // Full width on smaller screens, auto on larger screens
             >
               Login as a Dummy User for Demo (No Credentials needed)
             </Button>
