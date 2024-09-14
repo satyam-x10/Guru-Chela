@@ -96,7 +96,7 @@ cloudinary.v2.config({
 // Razorpay configuration
 import Razorpay from "razorpay";
 export const instance = new Razorpay({
-  key_id: process.env.RAZORPAY_API_KEY,
+  key_id: process.env.RAZORPAY_API_KEY||'dummy',
   key_secret: process.env.RAZORPAY_API_SECRET,
 });
 
