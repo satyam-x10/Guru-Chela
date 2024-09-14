@@ -66,22 +66,6 @@ const App = () => {
       {loading ? (
         <>
         <Loader />
-        <p
-          style={{
-            fontSize: '1.2rem',
-            color: '#333',
-            position:'fixed',
-            justifyContent: 'center',
-            top: '0',
-            marginTop: '20px',
-            marginLeft: '50px',
-            textAlign: 'center',
-            fontWeight: 'bold',
-            fontFamily: 'Arial, sans-serif'
-          }}
-        >
-          Please wait a minute or two, we might be restarting the inactive server...
-        </p>
       </>
       
       ) : (
