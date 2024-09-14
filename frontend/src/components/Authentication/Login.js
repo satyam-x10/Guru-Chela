@@ -17,8 +17,6 @@ import { loginAction } from '../../redux/actions/user?.js';
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  // const [loading, setLoading] = useState(false);
-  // const [error, setError] = useState(null);
   const dispatch = useDispatch();
 
   const handleEmail = e => {
@@ -31,8 +29,16 @@ const Login = () => {
 
   const submitHandler = e => {
     e.preventDefault();
-
     dispatch(loginAction(email, password));
+  };
+
+  const loginAsDummyUser = () => {
+    // Set dummy user credentials
+    setEmail('user@gmail.com');
+    setPassword('12345678');
+
+    // Automatically submit the form after setting the credentials
+    dispatch(loginAction('user@gmail.com', '12345678'));
   };
 
   return (
@@ -87,6 +93,24 @@ const Login = () => {
                 Login
               </Button>
             </Box>
+
+            {/* Button for logging in as dummy user */}
+            <Box my={'4'}>
+  <Button
+    colorScheme="teal"
+    variant="solid"
+    size="lg"
+    onClick={loginAsDummyUser}
+    fontWeight="bold"
+    _hover={{ bg: 'teal.600' }}
+    _active={{ bg: 'teal.700', transform: 'scale(0.98)' }}
+    boxShadow="lg"
+  >
+    Login as a Dummy User
+  </Button>
+</Box>
+
+
             <Box my={'4'}>
               <span>New User? </span>
               <Link to="/register">
