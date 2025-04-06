@@ -1,7 +1,7 @@
 // Access your API key as an environment variable (see "Set up your API key" above)
 const { GoogleGenerativeAI } = require('@google/generative-ai');
 const genAI = new GoogleGenerativeAI(
-    'AIzaSyDpjZeYXK_uh74AH4e2fwBOD0Q0X5WpvP4'
+    'AIzaSyCMiMoxUqaL5Ew9omhVYPmhmW7UDX600xw'
 );
 
 const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
